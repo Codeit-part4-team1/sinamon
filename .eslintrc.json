@@ -1,3 +1,36 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    // 코드가 실행될 환경 설정
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser", // ESLint가 코드를 분석하는 데 사용할 파서를 지정
+  "parserOptions": {
+    // 파서 옵션 지정
+    "ecmaVersion": "latest", // ECMAScript 버전을 최신
+    "sourceType": "module" // ES 모듈
+  },
+  "plugins": ["@typescript-eslint"], // @typescript-eslint 플러그인 사용
+  "extends": [
+    // 다른 ESLint 구성을 확장하여 사용
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-var": "error", // var 사용 금지
+    "no-multiple-empty-lines": "error", // 여러 줄 공백 금지
+    "eqeqeq": "error", // 일치 연산자 사용 필수
+    "arrow-body-style": ["error", "always"], // 화살표 함수 사용 시 중괄호 필수
+    "jsx/no-array-index-key": "error", // key값 index 사용 금지
+    "@typescript-eslint/no-explicit-any": "off" // any 타입 허용
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]] // 절대 경로 사용
+      }
+    }
+  }
 }
