@@ -55,33 +55,37 @@ const config = {
         main: "#553311",
         sub: "#E6E2DE",
         black: "#1B1B1B",
+        white: {
+          ffffff: "#FFFFFF",
+          f9f9f9: "F9F9F9"
+        },
         gray: {
-          "4B4B4B": "#4B4B4B",
-          "79747E": "#79747E",
-          A4A1AA: "#A4A1AA",
-          ADAEB8: "#ADAEB8",
-          CBC9CF: "#CBC9CF",
-          DDDDDD: "#DDDDDD",
-          EEEEEE: "#EEEEEE"
+          "4b4b4b": "#4B4B4B",
+          "79747e": "#79747E",
+          a4a1aa: "#A4A1AA",
+          adaeb8: "#ADAEB8",
+          cbc9cf: "#CBC9CF",
+          dddddd: "#DDDDDD",
+          eeeeee: "#EEEEEE"
         },
         red: {
-          FF472E: "#FF472E",
-          FFE4E0: "#FFE4E0"
+          ff472e: "#FF472E",
+          ffe4e0: "#FFE4E0"
         },
         green: {
-          "00AC07": "#00AC07"
+          "00ac07": "#00AC07"
         },
         orange: {
-          FF7C1D: "#FF7C1D",
-          FFF4E8: "#FFF4E8"
+          ff7c1d: "#FF7C1D",
+          fff4e8: "#FFF4E8"
         },
         yellow: {
-          FFC23D: "#FFC23D"
+          ffc23d: "#FFC23D"
         },
         blue: {
-          "0085FF": "#0085FF",
-          "2EB4FF": "#2EB4FF",
-          E5F3FF: "#E5F3FF"
+          "0085ff": "#0085FF",
+          "2eb4ff": "#2EB4FF",
+          e5f3ff: "#E5F3FF"
         }
       },
       borderRadius: {
