@@ -9,25 +9,25 @@ type UserCookieType = {
   updatedAt: string | null;
 };
 
-type JoinResponse = {
-  id: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-};
+// type JoinResponse = {
+//   id: number;
+//   email: string;
+//   nickname: string;
+//   profileImageUrl: string;
+//   createdAt: string;
+//   updatedAt: string;
+// };
 
-type LoginResponse = {
-  id: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  refreshToken: string;
-  accessToken: string;
-};
+// type LoginResponse = {
+//   id: number;
+//   email: string;
+//   nickname: string;
+//   profileImageUrl: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   refreshToken: string;
+//   accessToken: string;
+// };
 
 type JoinInfo = {
   email: string;
@@ -56,8 +56,8 @@ type cookieCollection = {
 
 export type {
   UserCookieType,
-  JoinResponse,
-  LoginResponse,
+  // JoinResponse,
+  // LoginResponse,
   JoinInfo,
   LoginInfo,
   UserInfoToUpdate,
