@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthProvider";
 
 type EmailInputProps = {
@@ -27,11 +27,11 @@ export default function EmailInput({
 
   function onchange(e: React.ChangeEvent<HTMLInputElement>) {
     handlerOnChange(e);
-    e.target.value = email;
+    const value = e.target.value;
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
-    email.length === 0 || (email.length >= 8 && emailRegex.test(email))
+    value.length === 0 || emailRegex.test(value)
       ? setInspection((prev: InspectionType) => ({ ...prev, email: true }))
       : setInspection((prev: InspectionType) => ({ ...prev, email: false }));
   }
@@ -45,7 +45,9 @@ export default function EmailInput({
         onChange={onchange}
         value={whatFor === "updateUserInfo" ? userCookie.email : email}
       />
-      {email.length === 0 || inspection ? undefined : <small>잘못된 이메일입니다</small>}
+      {email.length === 0 || inspection ? undefined : (
+        <small>잘못된 이메일입니다</small>
+      )}
     </div>
   );
 }
