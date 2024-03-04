@@ -1,9 +1,10 @@
 interface ButtonProps {
   text: string;
   size: "full" | "lg" | "md" | "sm";
-  type?: "default" | "inactive" | "second";
+  type: "button" | "submit";
+  status?: "default" | "inactive" | "second";
 }
-const Button = ({ text, size, type = "default" }: ButtonProps) => {
+const Button = ({ text, size, type, status = "default" }: ButtonProps) => {
   const sizeClass: { [key in ButtonProps["size"]]: string } = {
     full: "w-full h-12 text-base",
     lg: "h-12 px-8 text-base",
@@ -11,7 +12,7 @@ const Button = ({ text, size, type = "default" }: ButtonProps) => {
     sm: "h-8 px-4 text-sm"
   };
 
-  const typeClass: { [key in NonNullable<ButtonProps["type"]>]: string } = {
+  const statusClass: { [key in NonNullable<ButtonProps["status"]>]: string } = {
     default:
       "bg-main border border-main text-white-ffffff hover:bg-sub hover:text-main",
     inactive: "bg-gray-a4a1aa text-white-ffffff",
@@ -20,7 +21,8 @@ const Button = ({ text, size, type = "default" }: ButtonProps) => {
 
   return (
     <button
-      className={`${sizeClass[size]} ${typeClass[type]} rounded-md font-medium`}
+      className={`${sizeClass[size]} ${statusClass[status]} rounded-md font-medium border border-transparent`}
+      type={type}
     >
       {text}
     </button>
