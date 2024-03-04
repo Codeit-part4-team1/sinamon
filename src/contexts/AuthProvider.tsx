@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import {
   UserCookieType,
-  JoinResponse,
-  LoginResponse,
+  // JoinResponse,
+  // LoginResponse,
   JoinInfo,
   LoginInfo,
   UserInfoToUpdate,
@@ -15,10 +15,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 type AuthContextType = {
   userCookie: UserCookieType;
-  join: (joinInfo: JoinInfo) => Promise<JoinResponse>;
-  login: (loginInfo: LoginInfo) => Promise<LoginResponse>;
+  join: (joinInfo: JoinInfo) => Promise<any>;
+  login: (loginInfo: LoginInfo) => Promise<any>;
   logout: () => Promise<void>;
-  updateUserInfo: (userInfoToEdit: UserInfoToUpdate) => Promise<void>;
+  updateUserInfo: (userInfoToEdit: UserInfoToUpdate) => Promise<any>;
   getCookie: () => cookieCollection;
 };
 
@@ -51,7 +51,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     router.push("/signIn");
 
-    return res.data;
+    return res;
   }
 
   //로그인, 성공 시 쿠키, useCookie객체에 리스폰스 데이터 저장 후 메인 페이지 이동
@@ -86,7 +86,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     // router.push("/");
 
-    return res.data;
+    return res;
   }
 
   //로그아웃, 쿠키 값 삭제
@@ -139,6 +139,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       profileImageUrl: res.data.profileImageUrl,
       updatedAt: res.data.updatedAt
     }));
+
+    return res;
   }
 
   //useEffect안에서만 사용
@@ -188,3 +190,4 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 }
 
 export { AuthContext };
+
