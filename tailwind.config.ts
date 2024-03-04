@@ -10,12 +10,14 @@ const config = {
   ],
   prefix: "",
   theme: {
+    screens: {
+      sm: "375px",
+      md: "768px",
+      lg: "1280px"
+    },
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px"
-      }
+      padding: "2rem"
     },
     extend: {
       colors: {
@@ -57,7 +59,7 @@ const config = {
         black: "#1B1B1B",
         white: {
           ffffff: "#FFFFFF",
-          f9f9f9: "F9F9F9"
+          f9f9f9: "#F9F9F9"
         },
         gray: {
           "4b4b4b": "#4B4B4B",
