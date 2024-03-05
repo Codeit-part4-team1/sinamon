@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 
 type CheckPasswordInputProps = {
@@ -7,7 +7,7 @@ type CheckPasswordInputProps = {
   checkPassword: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inspection: boolean;
-  setInspection: any;
+  setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
