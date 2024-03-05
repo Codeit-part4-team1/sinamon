@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState, useContext } from "react";
 import Image from "next/image";
+import { AuthContext } from "@/contexts/AuthProvider";
 
 type PasswordInputProps = {
   whatFor: "login" | "signUp" | "updateUserInfo";
   password: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inspection: boolean;
-  setInspection: any;
+  setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
@@ -38,7 +39,7 @@ export default function PasswordInput({
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <label htmlFor="password">비밀번호</label>
       <input
         name="password"
