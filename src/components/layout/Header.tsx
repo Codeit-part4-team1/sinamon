@@ -2,6 +2,10 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import { IoNotificationsOutline } from "react-icons/io5";
 
+interface ButtonsProps {
+  children: React.ReactNode;
+}
+
 interface HeaderProps {
   user?: {
     id: number;
@@ -12,6 +16,14 @@ interface HeaderProps {
     updatedAt: string;
   } | null;
 }
+
+const MobileButtons = ({ children }: ButtonsProps) => {
+  return <div className="flex md:hidden gap-2 items-center">{children}</div>;
+};
+
+const DesktopButtons = ({ children }: ButtonsProps) => {
+  return <div className="hidden md:flex gap-4 items-center">{children}</div>;
+};
 
 const Header = ({ user }: HeaderProps) => {
   return (
@@ -52,14 +64,14 @@ const Header = ({ user }: HeaderProps) => {
           </div>
         ) : (
           <>
-            <div className="flex gap-2 items-center md:hidden">
+            <MobileButtons>
               <Button text="로그인" size="sm" type="button" status="second" />
               <Button text="회원가입" type="button" size="sm" />
-            </div>
-            <div className="hidden md:flex gap-4 items-center">
+            </MobileButtons>
+            <DesktopButtons>
               <Button text="로그인" size="md" type="button" status="second" />
               <Button text="회원가입" type="button" size="md" />
-            </div>
+            </DesktopButtons>
           </>
         )}
       </header>
