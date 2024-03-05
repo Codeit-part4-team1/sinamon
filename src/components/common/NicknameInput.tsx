@@ -1,12 +1,12 @@
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { AuthContext } from "@/contexts/AuthProvider";
-import React, { useContext } from "react";
 
 type NicknameInputProps = {
   whatFor: "signUp" | "updateUserInfo";
   nickname: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inspection: boolean;
-  setInspection: any;
+  setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
