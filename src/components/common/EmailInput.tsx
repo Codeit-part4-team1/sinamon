@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {  Dispatch, SetStateAction, useContext } from "react";
 import { AuthContext } from "@/contexts/AuthProvider";
 
 type EmailInputProps = {
@@ -6,7 +6,7 @@ type EmailInputProps = {
   email: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inspection: boolean;
-  setInspection: any;
+  setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
@@ -37,7 +37,7 @@ export default function EmailInput({
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <label htmlFor="email">이메일</label>
       <input
         name="email"
