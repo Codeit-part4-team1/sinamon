@@ -2,21 +2,23 @@ import { ReactNode, useState, useEffect, createContext } from "react";
 import axios from "axios";
 import {
   UserCookieType,
+  // JoinResponse,
+  // LoginResponse,
   JoinInfo,
   LoginInfo,
   UserInfoToUpdate,
-  cookieCollection
+  // cookieCollection
 } from "@/types/apiTypes";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 type AuthContextType = {
+  isLoggedIn: boolean;
   userCookie: UserCookieType;
   join: (joinInfo: JoinInfo) => Promise<any>;
   login: (loginInfo: LoginInfo) => Promise<any>;
   logout: () => Promise<void>;
   updateUserInfo: (userInfoToEdit: UserInfoToUpdate) => Promise<any>;
-  getCookie: () => cookieCollection;
 };
 
 type AuthProviderProps = {
@@ -182,7 +184,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         login,
         logout,
         updateUserInfo,
-        getCookie
       }}
     >
       {children}
