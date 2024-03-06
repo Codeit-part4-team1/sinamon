@@ -1,4 +1,4 @@
-import React, {  Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { AuthContext } from "@/contexts/AuthProvider";
 
 type EmailInputProps = {
@@ -37,17 +37,22 @@ export default function EmailInput({
   }
 
   return (
-    <div className="flex flex-col">
-      <label htmlFor="email">이메일</label>
+    <div className="relative flex flex-col gap-2">
+      <label htmlFor="email" className="text-md font-medium">
+        이메일
+      </label>
       <input
         name="email"
         placeholder="이메일을 입력해 주세요"
         onChange={onchange}
         value={whatFor === "updateUserInfo" ? userCookie.email : email}
+        className="border border-gray-79747e rounded-md h-12 p-5"
       />
-      {email.length === 0 || inspection ? undefined : (
-        <small>잘못된 이메일입니다</small>
-      )}
+      <div className="h-4">
+        {email.length === 0 || inspection ? undefined : (
+          <small className="pl-3 text-red-500">잘못된 이메일입니다</small>
+        )}
+      </div>
     </div>
   );
 }
