@@ -152,9 +152,15 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       const cookies = Object.fromEntries(
         document.cookie.split(";").map((cookie) => cookie.trim().split("="))
       );
-
       for (let item in cookies) {
-        setUserCookie((prev: UserCookieType) => ({...prev, [item]: cookies[item]}))
+        if (item === "") {
+          continue;
+        } else {
+          setUserCookie((prev: UserCookieType) => ({
+            ...prev,
+            [item]: cookies[item]
+          }));
+        }
       }
     }
 
