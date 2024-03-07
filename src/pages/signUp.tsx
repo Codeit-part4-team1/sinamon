@@ -1,10 +1,10 @@
 import { useState, useContext, FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AuthContext } from "../contexts/AuthProvider";
-import EmailInput from "../../src/components/common/EmailInput";
-import NicknameInput from "../../src/components/common/NicknameInput";
-import PasswordInput from "../../src/components/common/PasswordInput";
+import { AuthContext } from "@/contexts/AuthProvider";
+import EmailInput from "@/components/common/EmailInput";
+import NicknameInput from "@/components/common/NicknameInput";
+import PasswordInput from "@/components/common/PasswordInput";
 import CheckPasswordInput from "@/components/common/CheckPasswordInput";
 import Button from "@/components/common/Button";
 
