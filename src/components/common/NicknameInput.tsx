@@ -35,7 +35,7 @@ export default function NicknameInput({
   }
 
   return (
-    <div className="relative flex flex-col gap-2" v>
+    <div className="relative flex flex-col gap-2">
       <label htmlFor="nickname" className="text-md font-medium">
         닉네임
       </label>
