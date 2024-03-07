@@ -6,15 +6,16 @@ type CheckPasswordInputProps = {
   password: string;
   checkPassword: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inspection: boolean;
+  inspection: boolean | undefined;
   setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
-  email: boolean;
-  nickname: boolean;
-  password: boolean;
-  checkPassword: boolean;
+  email?: boolean;
+  nickname?: boolean;
+  profileImageUrl?: boolean;
+  password?: boolean;
+  checkPassword?: boolean;
 };
 
 export default function CheckPasswordInput({
@@ -46,8 +47,8 @@ export default function CheckPasswordInput({
   }
 
   return (
-    <div>
-      <label htmlFor="checkPassword">
+    <div className="relative flex flex-col gap-2">
+      <label htmlFor="checkPassword" className="text-md font-medium">
         {whatFor === "signUp" ? "비밀번호 확인" : "비밀번호 재입력"}
       </label>
       <input
@@ -55,20 +56,27 @@ export default function CheckPasswordInput({
         type={showEyesIcon ? "text" : "password"}
         placeholder="비밀번호를 한번 더 입력해 주세요"
         onChange={onChange}
+        className="border border-gray-79747e rounded-md h-12 p-5"
       />
-      <div onClick={toggleShowEyesIcon}>
+      <div onClick={toggleShowEyesIcon} className="absolute right-5 bottom-9">
         <Image
           src={
             showEyesIcon
-              ? "/image/opendEyesIcon.svg"
-              : "/image/closedEyesIcon.svg"
+              ? "/images/opendEyesIcon.png"
+              : "/images/closedEyesIcon.png"
           }
           alt="closedEyesIcon"
           width={20}
           height={20}
         />
       </div>
-      {checkPassword.length === 0 || inspection ? undefined : <small>비밀번호가 일치하지 않습니다</small>}
+      <div className="h-4">
+        {checkPassword.length === 0 || inspection ? undefined : (
+          <small className="pl-3 text-red-500">
+            비밀번호가 일치하지 않습니다
+          </small>
+        )}
+      </div>
     </div>
   );
 }
