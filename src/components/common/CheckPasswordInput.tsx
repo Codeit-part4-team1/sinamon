@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import Image from "next/image";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 type CheckPasswordInputProps = {
   whatFor: "signUp" | "updateUserInfo";
@@ -56,19 +56,21 @@ export default function CheckPasswordInput({
         type={showEyesIcon ? "text" : "password"}
         placeholder="비밀번호를 한번 더 입력해 주세요"
         onChange={onChange}
-        className="border border-gray-79747e rounded-md h-12 p-5"
+        className={`border rounded-md h-12 p-5 ${
+          checkPassword.length === 0 || inspection
+            ? "border-input"
+            : "border-red-500"
+        }`}
       />
-      <div onClick={toggleShowEyesIcon} className="absolute right-5 bottom-9">
-        <Image
-          src={
-            showEyesIcon
-              ? "/images/opendEyesIcon.png"
-              : "/images/closedEyesIcon.png"
-          }
-          alt="closedEyesIcon"
-          width={20}
-          height={20}
-        />
+      <div
+        onClick={toggleShowEyesIcon}
+        className="absolute right-5 bottom-10 hover:cursor-pointer"
+      >
+        {showEyesIcon ? (
+          <BsEye width={25} height={23} />
+        ) : (
+          <BsEyeSlash width={25} height={23} />
+        )}
       </div>
       <div className="h-4">
         {checkPassword.length === 0 || inspection ? undefined : (

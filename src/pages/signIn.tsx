@@ -53,7 +53,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="flex-col mx-5 gap-8 mt-20">
+    <div className="flex-col gap-5 mx-auto mt-[200px] w-96 sm:w-[342px] md:w-[632px] lg:w-[640px]">
       <div>
         <Image
           src="/images/logo.png"
@@ -63,7 +63,7 @@ export default function SignIn() {
           className="m-auto"
         />
       </div>
-      <form onSubmit={handlerSubmit} className="flex flex-col gap-3">
+      <form onSubmit={handlerSubmit} className="flex flex-col mt-10 gap-3">
         <div>
           <EmailInput
             whatFor="login"
