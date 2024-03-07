@@ -154,7 +154,14 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       );
 
       for (let item in cookies) {
-        setUserCookie((prev: UserCookieType) => ({...prev, [item]: cookies[item]}))
+        if (item === "") {
+          continue;
+        } else {
+          setUserCookie((prev: UserCookieType) => ({
+            ...prev,
+            [item]: cookies[item]
+          }));
+        }
       }
     }
 
