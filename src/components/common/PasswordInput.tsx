@@ -1,19 +1,19 @@
-import React, { Dispatch, SetStateAction, useState, useContext } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
-import { AuthContext } from "@/contexts/AuthProvider";
 
 type PasswordInputProps = {
   whatFor: "login" | "signUp" | "updateUserInfo";
   password: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inspection: boolean;
+  inspection: boolean | undefined;
   setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
-  email: boolean;
+  email?: boolean;
   nickname?: boolean;
-  password: boolean;
+  profileImageUrl?: boolean;
+  password?: boolean;
   checkPassword?: boolean;
 };
 
@@ -39,8 +39,10 @@ export default function PasswordInput({
   }
 
   return (
-    <div className="flex flex-col">
-      <label htmlFor="password">비밀번호</label>
+    <div className="relative flex flex-col gap-2">
+      <label htmlFor="password" className="text-md font-medium">
+        비밀번호
+      </label>
       <input
         name="password"
         type={showEyesIcon ? "text" : "password"}
@@ -50,22 +52,25 @@ export default function PasswordInput({
             : "8자 이상 입력해 주세요"
         }
         onChange={onChange}
+        className="border border-gray-79747e rounded-md h-12 p-5"
       />
-      <div onClick={toggleShowEyesIcon}>
+      <div onClick={toggleShowEyesIcon} className="absolute right-5 bottom-9">
         <Image
           src={
             showEyesIcon
-              ? "/image/opendEyesIcon.svg"
-              : "/image/closedEyesIcon.svg"
+              ? "/images/opendEyesIcon.png"
+              : "/images/closedEyesIcon.png"
           }
           alt="closedEyesIcon"
           width={20}
           height={20}
         />
       </div>
-      {password.length === 0 || inspection ? undefined : (
-        <small>8자 이상 입력해 주세요</small>
-      )}
+      <div className="h-4">
+        {password.length === 0 || inspection ? undefined : (
+          <small className="pl-3 text-red-500">8자 이상 입력해 주세요</small>
+        )}
+      </div>
     </div>
   );
 }
