@@ -2,15 +2,12 @@ import { ReactNode, useState, useEffect, createContext } from "react";
 import axios from "axios";
 import {
   UserCookieType,
-  // JoinResponse,
-  // LoginResponse,
   JoinInfo,
   LoginInfo,
-  UserInfoToUpdate,
-  // cookieCollection
+  UserInfoToUpdate
 } from "@/types/apiTypes";
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null | any>(null);
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -47,9 +44,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         "https://sp-globalnomad-api.vercel.app/2-1/users",
         joinInfo
       );
-  
+
       return res;
-    } catch(error) {
+    } catch (error) {
       return error;
     }
   }
@@ -124,17 +121,17 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         userInfoToEdit,
         { headers: { Authorization: `Bearer ${userCookie.accessToken}` } }
       );
-  
+
       deleteCookie("email");
       deleteCookie("nickname");
       deleteCookie("profileImageUrl");
       deleteCookie("updatedAt");
-  
+
       document.cookie = `email=${res.data.email}`;
       document.cookie = `nickname=${res.data.nickname}`;
       document.cookie = `profileImageUrl=${res.data.profileImageUrl}`;
       document.cookie = `updatedAt=${res.data.updatedAt}`;
-  
+
       setUserCookie((prev: UserCookieType) => ({
         ...prev,
         email: res.data.email,
@@ -142,15 +139,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         profileImageUrl: res.data.profileImageUrl,
         updatedAt: res.data.updatedAt
       }));
-  
+
       return res;
-    } catch(error) {
+    } catch (error) {
       return error;
     }
   }
-
-  //useEffect안에서만 사용
-  let getCookie;
 
   //새로고침시 userCookie값 재할당
   useEffect(() => {
@@ -159,12 +153,10 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         document.cookie.split(";").map((cookie) => cookie.trim().split("="))
       );
 
-      setUserCookie(cookies);
-
-      return cookies;
+      for (let item in cookies) {
+        setUserCookie((prev: UserCookieType) => ({...prev, [item]: cookies[item]}))
+      }
     }
-
-    getCookie = getCookieInUseEffect;
 
     getCookieInUseEffect();
   }, []);
@@ -183,7 +175,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         join,
         login,
         logout,
-        updateUserInfo,
+        updateUserInfo
       }}
     >
       {children}
