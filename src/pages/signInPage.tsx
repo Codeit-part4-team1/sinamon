@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AuthContext } from "../contexts/AuthProvider";
-import EmailInput from "../../src/components/common/EmailInput";
-import PasswordInput from "../../src/components/common/PasswordInput";
-import Button from "../../src/components/common/Button";
+import { AuthContext } from "@/contexts/AuthProvider";
+import EmailInput from "@/components/common/EmailInput";
+import PasswordInput from "@/components/common/PasswordInput";
+import Button from "@/components/common/Button";
 
 type LoginInfo = {
   email: string;
