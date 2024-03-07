@@ -152,7 +152,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       const cookies = Object.fromEntries(
         document.cookie.split(";").map((cookie) => cookie.trim().split("="))
       );
-
       for (let item in cookies) {
         if (item === "") {
           continue;
@@ -191,3 +190,4 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 }
 
 export { AuthContext };
+
