@@ -5,15 +5,16 @@ type EmailInputProps = {
   whatFor: "login" | "signUp" | "updateUserInfo";
   email: string;
   handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inspection: boolean;
+  inspection: boolean | undefined;
   setInspection: Dispatch<SetStateAction<InspectionType>>;
 };
 
 type InspectionType = {
-  email: boolean;
-  nickname: boolean;
-  password: boolean;
-  checkPassword: boolean;
+  email?: boolean;
+  nickname?: boolean;
+  profileImageUrl?: boolean;
+  password?: boolean;
+  checkPassword?: boolean;
 };
 
 export default function EmailInput({
@@ -32,7 +33,7 @@ export default function EmailInput({
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
     value.length === 0 || emailRegex.test(value)
-      ? setInspection((prev: InspectionType) => ({ ...prev, email: true }))
+      ? setInspection((prev: any) => ({ ...prev, email: true }))
       : setInspection((prev: InspectionType) => ({ ...prev, email: false }));
   }
 
@@ -46,7 +47,11 @@ export default function EmailInput({
         placeholder="이메일을 입력해 주세요"
         onChange={onchange}
         value={whatFor === "updateUserInfo" ? userCookie.email : email}
-        className="border border-gray-79747e rounded-md h-12 p-5"
+        className={`border rounded-md h-12 p-5 ${
+          email.length === 0 || inspection
+            ? "border-gray-79747e"
+            : "border-red-500"
+        }`}
       />
       <div className="h-4">
         {email.length === 0 || inspection ? undefined : (
