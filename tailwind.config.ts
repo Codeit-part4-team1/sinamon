@@ -54,40 +54,41 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))"
         },
-        main: "#553311",
-        sub: "#E6E2DE",
-        black: "#1B1B1B",
+        main: "hsl(var(--primary))",
+        sub: "hsl(var(--secondary))",
         white: {
-          ffffff: "#FFFFFF",
-          f9f9f9: "#F9F9F9"
+          ffffff: "hsl(var(--white))",
+          f9f9f9: "hsl(var(--background))"
         },
+        black: "hsl(var(--black))",
         gray: {
-          "4b4b4b": "#4B4B4B",
-          "79747e": "#79747E",
-          a4a1aa: "#A4A1AA",
-          adaeb8: "#ADAEB8",
-          cbc9cf: "#CBC9CF",
-          dddddd: "#DDDDDD",
-          eeeeee: "#EEEEEE"
+          "4b4b4b": "hsl(var(--gray4b4b4b))",
+          "79747e": "hsl(var(--gray79747e))",
+          a4a1aa: "hsl(var(--graya4a1aa))",
+          adaeb8: "hsl(var(--grayadaeb8))",
+          cbc9cf: "hsl(var(--graycbc9cf))",
+          dddddd: "hsl(var(--graydddddd))",
+          eeeeee: "hsl(var(--grayeeeeee))",
+          fafafa: "hsl(var(--grayfafafa))"
         },
         red: {
-          ff472e: "#FF472E",
-          ffe4e0: "#FFE4E0"
+          ff472e: "hsl(var(--redff472e))",
+          ffe4e0: "hsl(var(--redffe4e0))"
         },
         green: {
-          "00ac07": "#00AC07"
+          "00ac07": "hsl(var(--green00ac07))"
         },
         orange: {
-          ff7c1d: "#FF7C1D",
-          fff4e8: "#FFF4E8"
+          ff7c1d: "hsl(var(--orangeff7c1d))",
+          fff4e8: "hsl(var(--orangefff4e8))"
         },
         yellow: {
-          ffc23d: "#FFC23D"
+          ffc23d: "hsl(var(--yellowffc23d))"
         },
         blue: {
-          "0085ff": "#0085FF",
-          "2eb4ff": "#2EB4FF",
-          e5f3ff: "#E5F3FF"
+          "0085ff": "hsl(var(--blue0085ff))",
+          "2eb4ff": "hsl(var(--blue2eb4ff))",
+          e5f3ff: "hsl(var(--bluee5f3ff))"
         }
       },
       borderRadius: {
