@@ -46,8 +46,6 @@ export default function SignIn() {
     }
   }
 
-  console.log(userCookie);
-
   async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const response = await login(loginValue);
