@@ -2,6 +2,15 @@ import type { AppProps } from "next/app";
 import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
+import localFont from "next/font/local";
+
+export const pretendard = localFont({
+  src: [
+    {
+      path: "./fonts/PretendardVariable.woff2"
+    }
+  ]
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,7 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
       disableTransitionOnChange
     >
       <AuthProvider>
-        <Component {...pageProps} />
+        <main className={`${pretendard.className}`}>
+          <Component {...pageProps} />
+        </main>
       </AuthProvider>
     </ThemeProvider>
   );

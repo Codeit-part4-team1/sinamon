@@ -1,4 +1,3 @@
-import localFont from "next/font/local";
 import {
   Select,
   SelectContent,
@@ -7,17 +6,9 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-export const pretendard = localFont({
-  src: [
-    {
-      path: "./fonts/PretendardVariable.woff2"
-    }
-  ]
-});
-
 export default function Home() {
   return (
-    <main className={`${pretendard.className} font-sans p-4`}>
+    <>
       <Select defaultValue="latest">
         <SelectTrigger className="w-[110px] sm:w-[140px] py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base font-medium">
           <SelectValue />
@@ -43,6 +34,6 @@ export default function Home() {
           </SelectItem>
         </SelectContent>
       </Select>
-    </main>
+    </>
   );
 }
