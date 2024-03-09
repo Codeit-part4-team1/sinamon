@@ -1,5 +1,3 @@
-Alert Modal
-
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { MdCheckCircle } from "react-icons/md";
 import Button from "./Button";
