@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React from "react";
 import { MdCheckCircle } from "react-icons/md";
 import Button from "./Button";
 
@@ -26,15 +26,15 @@ export default function AlertModal({
       "flex flex-col gap-[30px] p-6 pt-[30px] border border-main rounded-lg mx-auto bg-white-ffffff w-[298px] h-[186px]"
   };
 
-  function checkAlert(e: React.MouseEvent<HTMLDivElement>) {
+  function checkAlert() {
     handlerAlertModal();
   }
 
-  function cancel(e: React.MouseEvent<HTMLDivElement>) {
+  function cancel() {
     handlerDicideNo();
   }
 
-  function execute(e: React.MouseEvent<HTMLDivElement>) {
+  function execute() {
     handelerDicideYes();
   }
 
