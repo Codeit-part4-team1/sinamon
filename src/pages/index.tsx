@@ -1,3 +1,6 @@
+import type { ReactElement } from "react";
+import type { NextPageWithLayout } from "@/pages/_app";
+import MainPageLayout from "@/components/layout/MainPageLayout";
 import {
   Select,
   SelectContent,
@@ -6,7 +9,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-export default function Home() {
+const Home: NextPageWithLayout = () => {
   return (
     <>
       <Select defaultValue="latest">
@@ -36,4 +39,10 @@ export default function Home() {
       </Select>
     </>
   );
-}
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <MainPageLayout>{page}</MainPageLayout>;
+};
+
+export default Home;
