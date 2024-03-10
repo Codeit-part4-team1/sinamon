@@ -44,7 +44,11 @@ export default function NicknameInput({
         placeholder="닉네임을 입력해 주세요"
         onChange={onChange}
         value={whatFor === "updateUserInfo" ? userCookie.nickname : nickname}
-        className="border border-gray-79747e rounded-md h-12 p-5"
+        className={`border rounded-md h-12 p-5 ${
+          nickname.length === 0 || inspection
+            ? "border-input"
+            : "border-red-500"
+        }`}
       />
       <div className="h-4">
         {nickname.length === 0 || inspection ? undefined : (
