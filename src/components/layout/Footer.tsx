@@ -7,7 +7,7 @@ import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="px-9 pt-8 pb-16  md:justify-center md:items-center md:flex lg:flex md:gap-[60px] md:px-[123px] md:pb-[10] lg:gap-[300px] bg-primary">
+    <footer className="px-9 pt-8 pb-16  md:justify-center md:items-center md:flex lg:flex md:gap-[60px] md:px-[123px] md:pb-[10] lg:gap-[300px] bg-primary">
       <div className="flex gap-3 justify-center pb-6 md:pb-0 md:gap-[60px] lg:gap-[300px] ">
         <span className="text-center text-white-ffffff text-[16px] ">
           ©codeit - 2023
@@ -31,7 +31,7 @@ const Footer = () => {
           <FaInstagram className="text-white-ffffff" />
         </Link>
       </div>
-    </div>
+    </footer>
   );
 };
 
