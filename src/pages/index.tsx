@@ -7,6 +7,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
+import Footer from "@/components/layout/Footer";
+
 export const pretendard = localFont({
   src: [
     {
@@ -43,6 +45,7 @@ export default function Home() {
           </SelectItem>
         </SelectContent>
       </Select>
+      <Footer />
     </main>
   );
 }
