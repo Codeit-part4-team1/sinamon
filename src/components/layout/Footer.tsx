@@ -5,7 +5,7 @@ import { FaTwitter } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <div className="px-9 pt-8 pb-16  md:justify-center md:items-center md:flex lg:flex md:gap-[60px] md:px-[123px] md:pb-[10] lg:gap-[300px] bg-primary">
       <div className="flex gap-3 justify-center pb-6 md:pb-0 md:gap-[60px] lg:gap-[300px] ">
@@ -33,4 +33,6 @@ export default function Footer() {
       </div>
     </div>
   );
-}
+};
+
+export default Footer;
