@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import Image from "next/image";
 
 interface MainPageLayoutProps {
@@ -29,8 +30,9 @@ const MainPageLayout = ({ children }: MainPageLayoutProps) => {
         />
       </div>
       <main className="px-4 md:px-6">
-        <div className="max-w-screen-lg mx-auto">{children}</div>
+        <div className="max-w-screen-lg mx-auto mb-36 md:mb-48">{children}</div>
       </main>
+      <Footer />
     </>
   );
 };
