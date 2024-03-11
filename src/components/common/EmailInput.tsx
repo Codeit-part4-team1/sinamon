@@ -38,7 +38,7 @@ export default function EmailInput({
   }
 
   return (
-    <div className="relative flex flex-col gap-2">
+    <div className="relative flex flex-col gap-1">
       <label htmlFor="email" className="text-md font-medium">
         이메일
       </label>
@@ -48,9 +48,7 @@ export default function EmailInput({
         onChange={onchange}
         value={whatFor === "updateUserInfo" ? userCookie.email : email}
         className={`border rounded-md h-12 p-5 ${
-          email.length === 0 || inspection
-            ? "border-gray-79747e"
-            : "border-red-500"
+          email.length === 0 || inspection ? "border-input" : "border-red-500"
         }`}
       />
       <div className="h-4">
