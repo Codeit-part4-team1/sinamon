@@ -2,7 +2,7 @@ import { IoSearchOutline } from "react-icons/io5";
 
 const Searchbar = () => {
   return (
-    <div className="flex flex-col gap-4 md:gap-6 p-5 md:p-8 bg-sub rounded-xl border border-gray-adaeb8 mb-10">
+    <div className="flex flex-col gap-4 md:gap-6 p-5 md:p-8 mb-10 md:mb-14 bg-sub rounded-xl border border-gray-adaeb8">
       <p className="text-lg md:text-xl font-bold">어떤 모임을 원하시나요?</p>
       <form className="flex gap-2 md:gap-4">
         <div className="flex-1 relative">

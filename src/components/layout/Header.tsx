@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/common/Button";
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -53,17 +54,21 @@ const Header = ({ user }: HeaderProps) => {
         ) : (
           <>
             <div className="flex gap-2 md:gap-4 items-center">
-              <Button
-                text="로그인"
-                type="button"
-                status="second"
-                className="h-8 px-4 text-sm md:h-10 md:px-6 md:text-base"
-              />
-              <Button
-                text="회원가입"
-                type="button"
-                className="h-8 px-4 text-sm md:h-10 md:px-6 md:text-base"
-              />
+              <Link href={"/signIn"}>
+                <Button
+                  text="로그인"
+                  type="button"
+                  status="second"
+                  className="h-8 px-4 text-sm md:h-10 md:px-6 md:text-base"
+                />
+              </Link>
+              <Link href={"/signUp"}>
+                <Button
+                  text="회원가입"
+                  type="button"
+                  className="h-8 px-4 text-sm md:h-10 md:px-6 md:text-base"
+                />
+              </Link>
             </div>
           </>
         )}
