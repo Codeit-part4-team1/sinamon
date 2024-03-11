@@ -7,6 +7,7 @@ import CategoryList from "@/components/home/CategoryList";
 import SortDropdown from "@/components/home/SortDropdown";
 import CardList from "@/components/home/CardList";
 import Pagination from "@/components/common/Pagination";
+import Footer from "@/components/layout/Footer";
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -20,6 +21,7 @@ const Home: NextPageWithLayout = () => {
       </div>
       <CardList />
       <Pagination />
+      <Footer />
     </>
   );
 };
