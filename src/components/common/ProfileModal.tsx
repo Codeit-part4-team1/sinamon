@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Button from "@/components/common/Button";
 import { LuUser2 } from "react-icons/lu";
 import { TbListCheck } from "react-icons/tb";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -43,7 +44,7 @@ const ProfileModal = () => {
             <button className="group w-full py-2 px-3 flex items-center gap-3 rounded-md hover:bg-sub">
               <AiOutlineSetting className="text-xl text-gray-79747e group-hover:text-main" />
               <span className="text-base text-gray-79747e group-hover:text-main font-semibold">
-                내 체험 관리
+                내 모임 관리
               </span>
             </button>
           </li>
@@ -56,6 +57,7 @@ const ProfileModal = () => {
             </button>
           </li>
         </ul>
+        <Button text="로그아웃" size="full" type="button" />
       </div>
     </div>
   );
