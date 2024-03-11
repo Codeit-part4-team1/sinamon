@@ -9,6 +9,8 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
+import Footer from "@/components/layout/Footer";
+
 const Home: NextPageWithLayout = () => {
   return (
     <>
@@ -37,6 +39,7 @@ const Home: NextPageWithLayout = () => {
           </SelectItem>
         </SelectContent>
       </Select>
+      <Footer />
     </>
   );
 };
