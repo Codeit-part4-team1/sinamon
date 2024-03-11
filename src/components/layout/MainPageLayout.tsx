@@ -28,7 +28,9 @@ const MainPageLayout = ({ children }: MainPageLayoutProps) => {
           fill
         />
       </div>
-      <main className="max-w-screen-lg mx-auto px-4 md:px-6">{children}</main>
+      <main className="px-4 md:px-6">
+        <div className="max-w-screen-lg mx-auto">{children}</div>
+      </main>
     </>
   );
 };
