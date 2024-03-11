@@ -7,12 +7,10 @@ import CategoryList from "@/components/home/CategoryList";
 import SortDropdown from "@/components/home/SortDropdown";
 import CardList from "@/components/home/CardList";
 import Pagination from "@/components/common/Pagination";
-import ProfileModal from "@/components/common/ProfileModal";
 
 const Home: NextPageWithLayout = () => {
   return (
     <>
-      <ProfileModal />
       <Searchbar />
       <CurationCardList />
       <CategoryList />

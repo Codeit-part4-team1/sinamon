@@ -7,7 +7,7 @@ import { LuCalendarCheck } from "react-icons/lu";
 
 const ProfileModal = () => {
   return (
-    <div className="w-72 p-5 border border-gray-dddddd rounded-xl bg-white-ffffff mb-20">
+    <div className="w-72 p-5 border border-gray-dddddd rounded-xl bg-white-ffffff">
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-2 items-center">
           <Image
