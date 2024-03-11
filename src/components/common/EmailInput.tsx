@@ -49,8 +49,9 @@ export default function EmailInput({
         value={whatFor === "updateUserInfo" ? userCookie.email : email}
         className={`border rounded-md h-12 p-5 ${
           email.length === 0 || inspection ? "border-input" : "border-red-500"
-        }`}
+        } ${whatFor === "updateUserInfo" ? "pointer-events-none bg-gray-300" : ""}`}
       />
+
       <div className="h-4">
         {email.length === 0 || inspection ? undefined : (
           <small className="pl-3 text-red-500">잘못된 이메일입니다</small>
