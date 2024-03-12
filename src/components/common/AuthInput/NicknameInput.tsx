@@ -1,60 +1,38 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthProvider";
 
-type NicknameInputProps = {
-  whatFor: "signUp" | "updateUserInfo";
-  nickname: string;
-  handlerOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inspection: boolean | undefined;
-  setInspection: Dispatch<SetStateAction<InspectionType>>;
-};
-
-type InspectionType = {
-  email?: boolean;
-  nickname?: boolean;
-  profileImageUrl?: boolean;
-  password?: boolean;
-  checkPassword?: boolean;
-};
-
-export default function NicknameInput({
-  whatFor,
-  nickname,
-  handlerOnChange,
-  inspection,
-  setInspection
-}: NicknameInputProps) {
+const NicknameInput = ({ whatFor, errors, watch, register }: any) => {
   const { userCookie } = useContext(AuthContext);
 
-  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    handlerOnChange(e);
-
-    e.target.value.length > 0 && e.target.value.length <= 10
-      ? setInspection((prev: InspectionType) => ({ ...prev, nickname: true }))
-      : setInspection((prev: InspectionType) => ({ ...prev, nickname: false }));
-  }
-
   return (
-    <div className="relative flex flex-col gap-2">
+    <div className="relative flex flex-col gap-1">
       <label htmlFor="nickname" className="text-md font-medium">
         닉네임
       </label>
       <input
-        name="nickname"
+        id="nickname"
         placeholder="닉네임을 입력해 주세요"
-        onChange={onChange}
-        value={whatFor === "updateUserInfo" ? userCookie.nickname : nickname}
-        className={`border rounded-md h-12 p-5 ${
-          nickname.length === 0 || inspection
+        autoComplete="off"
+        defaultValue={whatFor === "edit" ? userCookie.nickname : undefined}
+        {...register("nickname", {
+          required: "닉네임을 입력해 주세요",
+          maxLength: { value: 10, message: "10자 이하로 작성해 주세요" }
+        })}
+        className={`border rounded-md h-12 p-5 w-full focus:outline-none ${
+          watch("nickname")?.length === 0 || !errors.nickname
             ? "border-input"
             : "border-red-500"
         }`}
       />
       <div className="h-4">
-        {nickname.length === 0 || inspection ? undefined : (
-          <small className="pl-3 text-red-500">잘못된 닉네임 입니다</small>
+        {errors.nickname && (
+          <small className="pl-3 text-red-500">{errors.nickname.message}</small>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default NicknameInput;
+
+

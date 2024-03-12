@@ -1,122 +1,74 @@
-import { useState, useContext, FormEvent } from "react";
+import { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+
 import { AuthContext } from "@/contexts/AuthProvider";
 import AlertModal from "@/components/common/AlertModal";
-import EmailInput from "@/components/common/EmailInput";
-import NicknameInput from "@/components/common/NicknameInput";
-import PasswordInput from "@/components/common/PasswordInput";
-import CheckPasswordInput from "@/components/common/CheckPasswordInput";
+import EmailInput from "@/components/common/AuthInput/EmailInput";
+import NicknameInput from "@/components/common/AuthInput/NicknameInput";
+import PasswordInput from "@/components/common/AuthInput/PasswordInput";
+import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import Button from "@/components/common/Button";
 
-type InputDataType = {
-  email: string;
-  nickname: string;
-  password: string;
-  checkPassword: string;
-};
-
-type InspectionType = {
-  email?: boolean;
-  nickname?: boolean;
-  profileImageUrl?: boolean;
-  password?: boolean;
-  checkPassword?: boolean;
-};
-
-type ResDataType = {
+type ModalType = {
+  modal: boolean;
   message: string;
-  isSuccess: boolean;
-}
+};
 
-export default function SignUp() {
+type SubmitType = {
+  email?: string;
+  password?: string;
+};
+
+const SignUp = () => {
   const { join } = useContext(AuthContext);
   const router = useRouter();
-  const [alertModal, setAlertModal] = useState<boolean>(false);
-  const [resData, setResData] = useState<ResDataType>({
-    message: "",
-    isSuccess: false
-  });
-  const [signUpValue, setSignUpValue] = useState<InputDataType>({
-    email: "",
-    nickname: "",
-    password: "",
-    checkPassword: ""
-  });
-  const [inspection, setInspection] = useState<InspectionType>({
-    email: false,
-    nickname: false,
-    password: false,
-    checkPassword: false
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm({ mode: "onChange" });
+  const [modal, setModal] = useState<ModalType>({
+    modal: false,
+    message: ""
   });
 
-  function handlerOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const name = e.target.name;
-    const value = e.target.value;
+  const submit = {
+    onSubmit: async (data: SubmitType): Promise<any> => {
+      const res = await join(data);
 
-    switch (name) {
-      case "email":
-        setSignUpValue((prev) => ({ ...prev, email: value }));
-        break;
-
-      case "nickname":
-        setSignUpValue((prev) => ({ ...prev, nickname: value }));
-        break;
-
-      case "password":
-        setSignUpValue((prev) => ({ ...prev, password: value }));
-        break;
-
-      case "checkPassword":
-        setSignUpValue((prev) => ({ ...prev, checkPassword: value }));
-        break;
-    }
-  }
-
-  let handlerAlertModal;
-
-  resData.isSuccess
-    ? (handlerAlertModal = function () {
+      if (res.status === 201) {
         router.push("signIn");
-      })
-    : (handlerAlertModal = function () {
-        setAlertModal(false);
-      });
-
-  async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const res = await join(signUpValue);
-
-    if (res.status !== 201) {
-      setResData((prev: any) => ({
-        ...prev,
-        message: res.response.data.message,
-        isSuccess: false
-      }));
-      setAlertModal(true);
-    } else if (res.status === 201) {
-      setResData((prev: any) => ({
-        ...prev,
-        message: "가입이 완료되었습니다!",
-        isSuccess: true
-      }));
-      setAlertModal(true);
+      } else {
+        setModal((prev: ModalType) => ({
+          ...prev,
+          modal: !modal.modal,
+          message: res.response.data.message
+        }));
+      }
+    },
+    onError: async (error: any) => {
+      undefined;
     }
-  }
+  };
 
   return (
     <div className="relative w-screen h-screen min-w-[420px]">
-      {alertModal && (
+      {modal.modal && (
         <AlertModal
           type="alert"
           size="md"
-          text={resData.message}
-          handlerAlertModal={handlerAlertModal}
+          text={modal.message}
+          handlerAlertModal={() => {
+            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+          }}
         />
       )}
-      <div className="flex-col gap-5 mx-auto pt-[80px] w-[350px] sm:w-[342px] md:w-[632px] lg:w-[640px] min-w-[375px]">
+      <div className="flex-col gap-5 mx-auto pt-[90px] w-[375px] md:w-[632px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
@@ -126,42 +78,40 @@ export default function SignUp() {
             className="m-auto"
           />
         </div>
-        <form onSubmit={handlerSubmit} className="flex flex-col gap-2 mt-10">
+        <form
+          onSubmit={handleSubmit(submit.onSubmit, submit.onError)}
+          className="flex flex-col gap-3 mt-10"
+        >
           <div>
             <EmailInput
               whatFor="signUp"
-              email={signUpValue.email}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.email}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
           <div>
             <NicknameInput
               whatFor="signUp"
-              nickname={signUpValue.nickname}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.nickname}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
           <div>
             <PasswordInput
               whatFor="signUp"
-              password={signUpValue.password}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.password}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
           <div>
             <CheckPasswordInput
               whatFor="signUp"
-              password={signUpValue.password}
-              checkPassword={signUpValue.checkPassword}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.checkPassword}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
           <div className="mt-7">
@@ -177,4 +127,6 @@ export default function SignUp() {
       </div>
     </div>
   );
-}
+};
+
+export default SignUp;
