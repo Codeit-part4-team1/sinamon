@@ -1,83 +1,67 @@
-import { useState, useContext, FormEvent } from "react";
+import { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+
 import { AuthContext } from "@/contexts/AuthProvider";
 import AlertModal from "@/components/common/AlertModal";
-import EmailInput from "@/components/common/EmailInput";
-import PasswordInput from "@/components/common/PasswordInput";
+import EmailInput from "@/components/common/AuthInput/EmailInput";
+import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import Button from "@/components/common/Button";
 
-type LoginInfo = {
-  email: string;
-  password: string;
+type ModalType = {
+  modal: boolean;
+  message: string;
 };
 
-type InspectionType = {
-  email?: boolean;
-  nickname?: boolean;
-  profileImageUrl?: boolean;
-  password?: boolean;
-  checkPassword?: boolean;
-};
-
-export default function SignIn() {
+const SignIn = () => {
   const router = useRouter();
   const { login } = useContext(AuthContext);
-  const [resMessage, setResMessage] = useState<string>("");
-  const [alertModal, setAlertModal] = useState<boolean>(false);
-  const [loginValue, setLoginValue] = useState<LoginInfo>({
-    email: "",
-    password: ""
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<{ email: string; password: string }>({ mode: "onChange" });
+  const [modal, setModal] = useState<ModalType>({
+    modal: false,
+    message: ""
   });
-  const [inspection, setInspection] = useState<InspectionType>({
-    email: false,
-    password: false
-  });
 
-  function handlerOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const targetName = e.target.name;
-    const targetValue = e.target.value;
+  const submit = {
+    onSubmit: async (data: any) => {
+      const res = await login(data);
 
-    switch (targetName) {
-      case "email":
-        setLoginValue((prev) => ({ ...prev, email: targetValue }));
-        break;
-
-      case "password":
-        setLoginValue((prev) => ({ ...prev, password: targetValue }));
-        break;
+      if (res.status === 201) {
+        router.push("/");
+      } else {
+        setModal((prev: ModalType) => ({
+          ...prev,
+          modal: !modal.modal,
+          message: res.response.data.message
+        }));
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
     }
-  }
-
-  function handlerAlertModal() {
-    setAlertModal(false);
-  }
-
-  async function handlerSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const res = await login(loginValue);
-
-    if (res.status !== 201) {
-      setResMessage(res.response.data.message);
-      setAlertModal(true);
-    } else if (res.status === 201) {
-      router.push("/");
-    }
-  }
+  };
 
   return (
     <div className="relative w-screen h-screen min-w-[420px]">
-      {alertModal && (
+      {modal.modal && (
         <AlertModal
           type="alert"
           size="md"
-          text={resMessage}
-          handlerAlertModal={handlerAlertModal}
+          text={modal.message}
+          handlerAlertModal={() => {
+            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+          }}
         />
       )}
-      <div className="flex-col gap-5 mx-auto pt-[150px] w-[350px] sm:w-[342px] md:w-[632px] lg:w-[640px] min-w-[375px]">
+      <div className="flex-col gap-5 mx-auto pt-[150px] w-[375px] md:w-[632px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
@@ -87,23 +71,24 @@ export default function SignIn() {
             className="m-auto"
           />
         </div>
-        <form onSubmit={handlerSubmit} className="flex flex-col gap-2 mt-10">
+        <form
+          onSubmit={handleSubmit(submit.onSubmit, submit.onError)}
+          className="flex flex-col gap-3 mt-10"
+        >
           <div>
             <EmailInput
               whatFor="login"
-              email={loginValue.email}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.email}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
-          <div>
+          <div className="relative flex flex-col gap-1">
             <PasswordInput
               whatFor="login"
-              password={loginValue.password}
-              handlerOnChange={handlerOnChange}
-              inspection={inspection.password}
-              setInspection={setInspection}
+              errors={errors}
+              watch={watch}
+              register={register}
             />
           </div>
           <div className="mt-7">
@@ -119,4 +104,6 @@ export default function SignIn() {
       </div>
     </div>
   );
-}
+};
+
+export default SignIn;
