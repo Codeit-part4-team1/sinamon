@@ -9,7 +9,7 @@ import {
 const SortDropdown = () => {
   return (
     <Select defaultValue="latest">
-      <SelectTrigger className="w-[110px] md:w-[140px] py-2 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
+      <SelectTrigger className="w-[110px] md:w-[140px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

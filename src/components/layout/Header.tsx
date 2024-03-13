@@ -18,15 +18,17 @@ const Header = ({ user }: HeaderProps) => {
   return (
     <div className="w-full h-[60px] md:h-20 px-4 md:px-6 flex justify-center bg-white-f9f9f9 border-b-gray-dddddd border-b">
       <header className="max-w-screen-lg w-full h-full flex justify-between items-center">
-        <div className="w-[120px] h-6 relative md:w-[200px] md:h-10">
-          <Image
-            src="/images/logo-header.png"
-            alt="synamon 로고"
-            fill
-            sizes="(min-width: 768px) 200px, 120px"
-            priority
-          />
-        </div>
+        <Link href={"/"}>
+          <div className="w-[120px] h-6 relative md:w-[200px] md:h-10">
+            <Image
+              src="/images/logo-header.png"
+              alt="synamon 로고"
+              fill
+              sizes="(min-width: 768px) 200px, 120px"
+              priority
+            />
+          </div>
+        </Link>
         {user ? (
           <div className="flex gap-4 items-center">
             <div className="relative cursor-pointer">
