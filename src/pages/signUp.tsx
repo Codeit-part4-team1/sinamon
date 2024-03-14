@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "next/router";
@@ -13,11 +13,6 @@ import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import Button from "@/components/common/Button";
 
-type ModalType = {
-  modal: boolean;
-  message: string;
-};
-
 type SubmitType = {
   email?: string;
   password?: string;
@@ -25,30 +20,30 @@ type SubmitType = {
 
 const SignUp = () => {
   const { join } = useContext(AuthContext);
+
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
-  const [modal, setModal] = useState<ModalType>({
-    modal: false,
-    message: ""
-  });
+
+  const [resMessage, setResMessage] = useState<string>("");
+
+  const dialogRef = useRef<any>();
 
   const submit = {
     onSubmit: async (data: SubmitType): Promise<any> => {
       const res = await join(data);
 
       if (res.status === 201) {
-        router.push("signIn");
+        setResMessage("가입이 완료되었습니다!");
+        dialogRef.current.showModal();
       } else {
-        setModal((prev: ModalType) => ({
-          ...prev,
-          modal: !modal.modal,
-          message: res.response.data.message
-        }));
+        setResMessage(res.response.data.message);
+        dialogRef.current.showModal();
       }
     },
     onError: async (error: any) => {
@@ -57,18 +52,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className="relative w-screen h-screen min-w-[420px]">
-      {modal.modal && (
+    <div className="relative max-w-[740px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[100px]">
+      <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
           size="md"
-          text={modal.message}
+          text={resMessage}
           handlerAlertModal={() => {
-            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+            dialogRef.current.close();
           }}
         />
-      )}
-      <div className="flex-col gap-5 mx-auto pt-[90px] w-[375px] md:w-[632px] lg:w-[640px]">
+      </dialog>
+      <div className="flex-col gap-5 min-w-[280px] mx-auto">
         <div>
           <Image
             src="/images/logo.png"
