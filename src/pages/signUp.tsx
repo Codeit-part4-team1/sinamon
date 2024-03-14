@@ -52,7 +52,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="relative max-w-[740px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[100px]">
+    <div className="relative max-w-[740px] pt-[100px] px-[12px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[100px]">
       <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"

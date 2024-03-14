@@ -46,7 +46,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="relative max-w-[740px] min-w-[375px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[180px]">
+    <div className="relative max-w-[740px] pt-[100px] px-[12px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[180px]">
       <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
@@ -57,7 +57,7 @@ const SignIn = () => {
           }}
         />
       </dialog>
-      <div className="flex flex-col gap-5 min-w-[280px] mx-auto">
+      <div className="flex-col gap-5 min-w-[280px] mx-auto">
         <div>
           <Image
             src="/images/logo.png"
@@ -91,7 +91,7 @@ const SignIn = () => {
             <Button text="로그인 하기" size="full" type="submit" />
           </div>
         </form>
-        <div className="flex flex-row justify-center gap-3 text-sm mx-auto mt-8">
+        <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
           <p>회원이 아니신가요?</p>
           <Link href="signUp" className="underline">
             회원가입하기
