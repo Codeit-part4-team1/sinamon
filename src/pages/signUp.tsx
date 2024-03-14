@@ -63,7 +63,7 @@ const SignUp = () => {
           }}
         />
       </dialog>
-      <div className="flex-col gap-5 min-w-[280px] mx-auto">
+      <div className="flex flex-col gap-5 min-w-[280px] mx-auto">
         <div>
           <Image
             src="/images/logo.png"
@@ -112,7 +112,7 @@ const SignUp = () => {
           <div className="mt-7">
             <Button text="회원가입 하기" size="full" type="submit"></Button>
           </div>
-          <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
+          <div className="flex flex-row justify-center gap-3 text-sm mx-auto mt-8">
             <p>회원이신가요?</p>
             <Link href="signIn" className="underline">
               로그인하기
