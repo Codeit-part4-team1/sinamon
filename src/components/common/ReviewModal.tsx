@@ -18,7 +18,7 @@ const ReviewModal = () => {
           <div className="flex flex-row gap-[24px] h-[127px]">
             <div className="w-[126px] h-[127px] rounded-lg">
               <Image
-                src={"/images/temp-profile.png"}
+                src={"/images/icon-category-culture.svg"}
                 alt="temp-active-preview"
                 width={126}
                 height={126}
@@ -29,8 +29,14 @@ const ReviewModal = () => {
               <h1 className="h-[26px] font-bold text-[20px]">
                 함께 배우면 즐거운 스트릿 댄스
               </h1>
-              <p>2023.2.14 11:00 - 12:30 10명</p>
-              <div className="pt-[12px] border-t-gray-400 font-bold text-[32px]">
+              <div className="flex felx-row gap-[8px]">
+                <p className="font-bold text-[18px]">2023.2.14</p>
+                <p className="font-bold text-[18px]">·</p>
+                <p className="font-bold text-[18px]">11:00 - 12:30</p>
+                <p className="font-boldtext-[18px]">·</p>
+                <p className="font-bold text-[18px]">10명</p>
+              </div>
+              <div className="pt-[12px] border-t border-gray-300 font-bold text-[32px]">
                 ₩10,000
               </div>
             </div>
@@ -43,7 +49,7 @@ const ReviewModal = () => {
             <IoIosStarOutline size={56} />
           </div>
           <div>
-            <textarea className="border border-gray-400 rounded-md w-full h-[240px] resize: noneg" />
+            <textarea className="border border-gray-400 rounded-md w-full h-[240px] p-[16px] resize-none" />
           </div>
           <Button text="작성하기" size="full" type="submit" />
         </div>
