@@ -19,17 +19,17 @@ type NotificationType = {
 
 type NotificationArrayType = NotificationType[];
 
-const NotificationModal = () => {
+const NotificationModal = ({ onCancel }: any) => {
   const { userCookie } = useContext(AuthContext);
   const [notifications, setNotifications] = useState<NotificationArrayType>([]);
 
   const arr = [1, 2, 3];
 
   return (
-    <div className="flex-col rounded-lg bg-zinc-200 w-[368px] h-[469px] px-[20px] py-[24px]">
+    <div className="flex-col rounded-lg bg-sub w-[368px] h-[469px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
         <h1 className="text-[20px] w-[75px] font-bold">알림 6개</h1>
-        <div>
+        <div onClick={onCancel}>
           <FaXmark width={24} height={24} />
         </div>
       </div>
