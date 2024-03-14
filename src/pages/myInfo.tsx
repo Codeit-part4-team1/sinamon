@@ -1,13 +1,13 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
-import BaseLayout from "@/components/layout/BaseLayout";
-import MenuLayout from "@/components/layout/MenuLayout";
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
 
 import { AuthContext } from "@/contexts/AuthProvider";
+import BaseLayout from "@/components/layout/BaseLayout";
+import MenuLayout from "@/components/layout/MenuLayout";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import NicknameInput from "@/components/common/AuthInput/NicknameInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
@@ -15,53 +15,42 @@ import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput
 import AlertModal from "@/components/common/AlertModal";
 import Button from "@/components/common/Button";
 
-type ModalType = {
-  modal: boolean;
-  message: string;
-};
-
 const MyInfo: NextPageWithLayout = () => {
   const { updateUserInfo } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
-  const [modal, setModal] = useState<ModalType>({
-    modal: false,
-    message: ""
-  });
+
+  const [resMessage, setResMessage] = useState<string>("");
+
+  const dialogRef = useRef<any>();
 
   const submit = {
     onSubmit: async (data: any): Promise<any> => {
-      setModal((prev: any) => ({
-        ...prev,
-        modal: !modal.modal,
-        message: "hello"
-      }));
+      setResMessage("hello");
+      dialogRef.current.showModal();
     },
     onError: async (error: any) => {
-      setModal((prev: any) => ({
-        ...prev,
-        modal: !modal.modal,
-        message: "hello"
-      }));
+      setResMessage("bye");
     }
   };
 
   return (
     <div className="relative max-w-[930px]">
-      {modal.modal && (
+      <dialog ref={dialogRef}>
         <AlertModal
           type="decide"
           size="md"
-          text={modal.message}
+          text={resMessage}
           handlerAlertModal={() => {
-            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+            dialogRef.current.close();
           }}
         />
-      )}
+      </dialog>
       <div className="mx-auto sm:pt-[20px] md:pt-[50px]">
         <div className="flex-col gap-5 mx-auto">
           <form
