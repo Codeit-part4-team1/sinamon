@@ -9,7 +9,7 @@ import { AuthContext } from "@/contexts/AuthProvider";
 import Button from "./Button";
 import AlertModal from "./AlertModal";
 
-const ReviewModal = () => {
+const ReviewModal = ({ onCancel }: any) => {
   const { userCookie } = useContext(AuthContext);
 
   const {
@@ -46,12 +46,12 @@ const ReviewModal = () => {
       </dialog>
       <form
         onSubmit={handleSubmit(submit.onSubmit, submit.onError)}
-        className="sm:w-screen sm:h-[777px] sm:px-[12px] sm:pt-[35px] md:border-2 md:border-main md:w-[480px] md:h-[750px] md:rounded-lg md:px-[24px] md:pt-[28px]"
+        className="sm:w-screen sm:h-screen sm:px-[12px] sm:pt-[35px] md:border-2 md:border-main md:w-[480px] md:h-[750px] md:rounded-lg md:px-[24px] md:pt-[28px]"
       >
         <div className="flex flex-col gap-[40px]">
           <div className="flex flex-row justify-between h-[40px]">
             <h1 className="font-bold text-[30px]">후기 작성</h1>
-            <div>
+            <div onClick={onCancel} className="hover: cursor-pointer">
               <FaXmark size={35} />
             </div>
           </div>
