@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { AuthContext } from "@/contexts/AuthProvider";
-import AlertModal from "@/components/common/AlertModal";
-import EmailInput from "@/components/common/EmailInput";
-import PasswordInput from "@/components/common/PasswordInput";
-import Button from "@/components/common/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import EmailInput from "@/components/common/Input/EmailInput";
+import PasswordInput from "@/components/common/Input/PasswordInput";
+import Button from "@/components/common/Button/Button";
 
 type LoginInfo = {
   email: string;

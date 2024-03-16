@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { AuthContext } from "@/contexts/AuthProvider";
-import AlertModal from "@/components/common/AlertModal";
-import EmailInput from "@/components/common/EmailInput";
-import NicknameInput from "@/components/common/NicknameInput";
-import PasswordInput from "@/components/common/PasswordInput";
-import CheckPasswordInput from "@/components/common/CheckPasswordInput";
-import Button from "@/components/common/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import EmailInput from "@/components/common/Input/EmailInput";
+import NicknameInput from "@/components/common/Input/NicknameInput";
+import PasswordInput from "@/components/common/Input/PasswordInput";
+import CheckPasswordInput from "@/components/common/Input/CheckPasswordInput";
+import Button from "@/components/common/Button/Button";
 
 type InputDataType = {
   email: string;
@@ -28,7 +28,7 @@ type InspectionType = {
 type ResDataType = {
   message: string;
   isSuccess: boolean;
-}
+};
 
 export default function SignUp() {
   const { join } = useContext(AuthContext);
