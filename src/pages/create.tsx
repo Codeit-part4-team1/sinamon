@@ -340,7 +340,7 @@ const CreatePage: NextPageWithLayout = () => {
                       shouldCloseOnSelect
                       minDate={new Date()}
                       // selected={value ? new Date(value) : null}
-                      selected={value}
+                      selected={new Date(value)}
                       onChange={(data: any) => onChange(data)}
                     />
                   )}
@@ -357,7 +357,7 @@ const CreatePage: NextPageWithLayout = () => {
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                       // selected={value ? new Date(value) : null}
-                      selected={value}
+                      selected={new Date(value)}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
                       showTimeSelectOnly
