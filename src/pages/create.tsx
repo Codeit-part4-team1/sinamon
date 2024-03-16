@@ -365,12 +365,14 @@ const CreatePage: NextPageWithLayout = () => {
                       timeCaption="Time"
                       timeFormat="HH:mm"
                       dateFormat="HH:mm"
-                      minTime={new Date().setHours(0, 0)}
+                      minTime={new Date(new Date().setHours(0, 0))}
                       maxTime={
-                        new Date(form.watch("endTimePicker")).setMinutes(
-                          new Date(form.watch("endTimePicker")).getMinutes() -
-                            10
-                        ) || new Date().setHours(23, 59)
+                        new Date(
+                          new Date(form.watch("endTimePicker")).setMinutes(
+                            new Date(form.watch("endTimePicker")).getMinutes() -
+                              10
+                          )
+                        ) || new Date(new Date().setHours(23, 59))
                       }
                     />
                   )}
@@ -396,12 +398,15 @@ const CreatePage: NextPageWithLayout = () => {
                       timeFormat="HH:mm"
                       dateFormat="HH:mm"
                       minTime={
-                        new Date(form.watch("startTimePicker")).setMinutes(
-                          new Date(form.watch("startTimePicker")).getMinutes() +
-                            10
-                        ) || new Date().setHours(0, 0)
+                        new Date(
+                          new Date(form.watch("startTimePicker")).setMinutes(
+                            new Date(
+                              form.watch("startTimePicker")
+                            ).getMinutes() + 10
+                          )
+                        ) || new Date(new Date().setHours(0, 0))
                       }
-                      maxTime={new Date().setHours(23, 59)}
+                      maxTime={new Date(new Date().setHours(23, 59))}
                     />
                   )}
                 />
