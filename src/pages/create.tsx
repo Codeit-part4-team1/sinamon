@@ -84,8 +84,8 @@ const CreatePage: NextPageWithLayout = () => {
         address3: ""
       },
       datePicker: new Date(),
-      // startTimePicker: new Date(new Date().setMinutes(0)),
-      // endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
+      startTimePicker: new Date(new Date().setMinutes(0)),
+      endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
     }
   });
 
@@ -340,7 +340,7 @@ const CreatePage: NextPageWithLayout = () => {
                       shouldCloseOnSelect
                       minDate={new Date()}
                       // selected={value ? new Date(value) : null}
-                      selected={new Date(value)}
+                      selected={value}
                       onChange={(data: Date) => onChange(new Date(data))}
                     />
                   )}
@@ -357,7 +357,7 @@ const CreatePage: NextPageWithLayout = () => {
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                       // selected={value ? new Date(value) : null}
-                      selected={new Date(value)}
+                      selected={value}
                       onChange={(data: Date) => onChange(new Date(data))}
                       showTimeSelect
                       showTimeSelectOnly
@@ -387,7 +387,7 @@ const CreatePage: NextPageWithLayout = () => {
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                       // selected={value ? new Date(value) : null}
-                      selected={new Date(value)}
+                      selected={value}
                       onChange={(data: Date) => onChange(new Date(data))}
                       showTimeSelect
                       showTimeSelectOnly
