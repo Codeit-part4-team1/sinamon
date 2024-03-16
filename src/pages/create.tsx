@@ -57,8 +57,8 @@ const formSchema = z.object({
     address3: z.string()
   }),
   datePicker: z.date(),
-  startTimePicker: z.date().or(z.string()),
-  endTimePicker: z.date().or(z.string()),
+  startTimePicker: z.date(),
+  endTimePicker: z.date(),
   dateField: z.array(
     z.object({
       date: z.string(),
@@ -339,7 +339,8 @@ const CreatePage: NextPageWithLayout = () => {
                       dateFormatCalendar="yyyy년 MM월"
                       shouldCloseOnSelect
                       minDate={new Date()}
-                      selected={value ? new Date(value) : null}
+                      // selected={value ? new Date(value) : null}
+                      selected={value}
                       onChange={(data: any) => onChange(data)}
                     />
                   )}
@@ -355,7 +356,8 @@ const CreatePage: NextPageWithLayout = () => {
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
-                      selected={value ? new Date(value) : null}
+                      // selected={value ? new Date(value) : null}
+                      selected={value}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
                       showTimeSelectOnly
@@ -384,7 +386,8 @@ const CreatePage: NextPageWithLayout = () => {
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
-                      selected={value ? new Date(value) : null}
+                      // selected={value ? new Date(value) : null}
+                      selected={new Date(value)}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
                       showTimeSelectOnly
