@@ -84,10 +84,8 @@ const CreatePage: NextPageWithLayout = () => {
         address3: ""
       },
       datePicker: new Date(),
-      // startTimePicker: new Date("2024-12-17T24:00:00"),
-      startTimePicker: "",
-      endTimePicker: ""
-      // dateField: [{ date: "", date2: "" }]
+      startTimePicker: new Date(new Date().setMinutes(0)),
+      endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
     }
   });
 
@@ -322,18 +320,22 @@ const CreatePage: NextPageWithLayout = () => {
               </Dialog>
             </div>
           </div>
-          <div className="flex flex-col gap-y-1 md:gap-y-2">
-            <span className="text-lg md:text-xl font-semibold">모임 일정</span>
+          <div className="w-fit flex flex-col gap-y-2 md:gap-y-3">
+            <span className="text-lg md:text-xl font-semibold leading-5 md:leading-5">
+              모임 일정
+            </span>
             <div className="flex items-end gap-x-2 md:gap-x-5">
               <div className="flex flex-col">
-                <label className="text-md md:text-lg font-semibold">날짜</label>
+                <label className="text-md md:text-lg font-semibold leading-4 md:leading-5">
+                  날짜
+                </label>
                 <Controller
                   name="datePicker"
                   control={form.control}
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
-                      className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
-                      dateFormat="yyyy년 MM월 dd일"
+                      className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                      dateFormat="yyyy년 M월 dd일"
                       dateFormatCalendar="yyyy년 MM월"
                       shouldCloseOnSelect
                       minDate={new Date()}
@@ -344,7 +346,7 @@ const CreatePage: NextPageWithLayout = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md md:text-lg font-semibold">
+                <label className="text-md md:text-lg font-semibold leading-4 md:leading-5">
                   시작 시간
                 </label>
                 <Controller
@@ -352,7 +354,7 @@ const CreatePage: NextPageWithLayout = () => {
                   control={form.control}
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
-                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                       selected={value}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
@@ -361,19 +363,20 @@ const CreatePage: NextPageWithLayout = () => {
                       timeCaption="Time"
                       timeFormat="HH:mm"
                       dateFormat="HH:mm"
-                      minTime={new Date("2024-12-17T24:00:00")}
+                      minTime={new Date().setHours(0, 0)}
                       maxTime={
                         new Date(form.watch("endTimePicker")).setMinutes(
                           new Date(form.watch("endTimePicker")).getMinutes() -
                             10
-                        ) || new Date("2024-12-17T23:30:00")
+                          // ) || new Date("2024-12-17T23:30:00")
+                        ) || new Date().setHours(23, 59)
                       }
                     />
                   )}
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-md md:text-lg font-semibold">
+                <label className="text-md md:text-lg font-semibold leading-4 md:leading-5">
                   종료 시간
                 </label>
                 <Controller
@@ -381,7 +384,7 @@ const CreatePage: NextPageWithLayout = () => {
                   control={form.control}
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
-                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                       selected={value}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
@@ -394,9 +397,9 @@ const CreatePage: NextPageWithLayout = () => {
                         new Date(form.watch("startTimePicker")).setMinutes(
                           new Date(form.watch("startTimePicker")).getMinutes() +
                             10
-                        ) || new Date("2024-12-17T24:00:00")
+                        ) || new Date().setHours(0, 0)
                       }
-                      maxTime={new Date("2024-12-17T23:30:00")}
+                      maxTime={new Date().setHours(23, 59)}
                     />
                   )}
                 />
@@ -405,49 +408,57 @@ const CreatePage: NextPageWithLayout = () => {
                 className="h-10 md:h-12 aspect-square flex justify-center items-center bg-main rounded-md"
                 type="button"
                 onClick={() => {
-                  append({
-                    date: `${form
-                      .getValues("datePicker")
-                      .toLocaleDateString("ko-KR", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                      })}`,
-                    startTime: `${form
-                      .getValues("startTimePicker")
-                      .toLocaleString("en-US", {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: false
-                      })}`,
-                    endTime: `${form
-                      .getValues("endTimePicker")
-                      .toLocaleString("en-US", {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: false
-                      })}`
-                  });
+                  console.log(typeof form.getValues("startTimePicker"));
+                  if (
+                    form.getValues("datePicker") &&
+                    form.getValues("startTimePicker") &&
+                    form.getValues("endTimePicker")
+                  ) {
+                    append({
+                      date: `${form
+                        .getValues("datePicker")
+                        .toLocaleDateString("ko-KR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric"
+                        })}`,
+                      startTime: `${form
+                        .getValues("startTimePicker")
+                        .toLocaleString("en-US", {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: false
+                        })}`,
+                      endTime: `${form
+                        .getValues("endTimePicker")
+                        .toLocaleString("en-US", {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: false
+                        })}`
+                    });
+                  }
                 }}
               >
                 <FaPlus className="text-white-ffffff text-xl md:text-2xl" />
               </button>
             </div>
-            <ul>
+            <div className="w-full h-[1px] bg-gray-dddddd"></div>
+            <ul className="flex flex-col gap-y-2 md:gap-y-3">
               {fields.map((item, index) => {
                 return (
                   <li key={item.id}>
                     <div className="flex items-end gap-x-2 md:gap-x-5">
                       <Input
-                        className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
+                        className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
                         {...register(`dateField.${index}.date`)}
                       />
                       <Input
-                        className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
+                        className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
                         {...register(`dateField.${index}.startTime`)}
                       />
                       <Input
-                        className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
+                        className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
                         {...register(`dateField.${index}.endTime`)}
                       />
                       <button
