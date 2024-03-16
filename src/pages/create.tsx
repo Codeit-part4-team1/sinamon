@@ -355,7 +355,7 @@ const CreatePage: NextPageWithLayout = () => {
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
                       className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
-                      selected={value}
+                      selected={new Date(value)}
                       onChange={(data: any) => onChange(data)}
                       showTimeSelect
                       showTimeSelectOnly
@@ -368,7 +368,6 @@ const CreatePage: NextPageWithLayout = () => {
                         new Date(form.watch("endTimePicker")).setMinutes(
                           new Date(form.watch("endTimePicker")).getMinutes() -
                             10
-                          // ) || new Date("2024-12-17T23:30:00")
                         ) || new Date().setHours(23, 59)
                       }
                     />
