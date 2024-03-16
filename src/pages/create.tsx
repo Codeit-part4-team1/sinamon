@@ -84,8 +84,8 @@ const CreatePage: NextPageWithLayout = () => {
         address3: ""
       },
       datePicker: new Date(),
-      startTimePicker: new Date(new Date().setMinutes(0)),
-      endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
+      // startTimePicker: new Date(new Date().setMinutes(0)),
+      // endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
     }
   });
 
