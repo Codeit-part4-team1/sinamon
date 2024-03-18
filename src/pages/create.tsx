@@ -1,4 +1,5 @@
 import React, { useState, type ReactElement } from "react";
+import Image from "next/image";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
@@ -52,20 +53,40 @@ const formSchema = z.object({
       message: "설명은 256자 미만으로 입력해 주세요"
     }),
   address: z.object({
-    address1: z.string(),
+    address1: z.string().min(1, {
+      message: "주소를 입력해 주세요"
+    }),
     address2: z.string(),
     address3: z.string()
   }),
   datePicker: z.date(),
   startTimePicker: z.date(),
   endTimePicker: z.date(),
-  dateField: z.array(
-    z.object({
-      date: z.string(),
-      startTime: z.date().or(z.string()),
-      endTime: z.date().or(z.string())
+  schedules: z
+    .array(
+      z.object({
+        date: z.string(),
+        startTime: z.date().or(z.string()),
+        endTime: z.date().or(z.string())
+      })
+    )
+    .nonempty({
+      message: "일정을 등록해주세요"
+    }),
+  bannerImageSelect: z.any(),
+  bannerImageUrl: z.string().min(1, {
+    message: "배너 이미지를 등록해주세요"
+  }),
+  subImageSelect: z.any(),
+  subImageUrlList: z
+    .array(
+      z.object({
+        subImageUrl: z.string()
+      })
+    )
+    .nonempty({
+      message: "소개 이미지를 등록해주세요"
     })
-  )
 });
 
 const CreatePage: NextPageWithLayout = () => {
@@ -85,7 +106,11 @@ const CreatePage: NextPageWithLayout = () => {
       },
       datePicker: new Date(),
       startTimePicker: new Date(new Date().setMinutes(0)),
-      endTimePicker: new Date(new Date().setHours(new Date().getHours() + 1, 0))
+      endTimePicker: new Date(
+        new Date().setHours(new Date().getHours() + 1, 0)
+      ),
+      bannerImageUrl: ""
+      // subImage: ""
     }
   });
 
@@ -107,9 +132,21 @@ const CreatePage: NextPageWithLayout = () => {
   };
 
   const { control, register } = form;
-  const { fields, remove, append } = useFieldArray({
+  const {
+    fields: schedulesFields,
+    append: schedulesAppend,
+    remove: schedulesRemove
+  } = useFieldArray({
     control,
-    name: "dateField"
+    name: "schedules"
+  });
+  const {
+    fields: subImageUrlListFields,
+    append: subImageUrlListAppend,
+    remove: subImageUrlListRemove
+  } = useFieldArray({
+    control,
+    name: "subImageUrlList"
   });
 
   return (
@@ -244,7 +281,7 @@ const CreatePage: NextPageWithLayout = () => {
             />
           </div>
           <div className="max-w-[700px]">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-4">
               <Dialog open={dialogopen} onOpenChange={setDialogOpen}>
                 <DialogContent>
                   <DaumPostcode
@@ -263,14 +300,14 @@ const CreatePage: NextPageWithLayout = () => {
                       <div className="flex items-end gap-2 md:gap-4">
                         <DialogTrigger asChild>
                           <FormControl>
-                            <Input
-                              className="h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa cursor-pointer"
+                            <input
+                              className="w-full h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
+                              type="text"
                               placeholder="우편번호"
                               {...field}
                             />
                           </FormControl>
                         </DialogTrigger>
-                        <FormMessage />
                         <DialogTrigger asChild>
                           <button
                             className="flex-shrink-0 h-10 px-6 text-base md:h-12 md:px-8 bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main rounded-md font-medium border border-transparent"
@@ -280,6 +317,7 @@ const CreatePage: NextPageWithLayout = () => {
                           </button>
                         </DialogTrigger>
                       </div>
+                      <FormMessage className="mt-[2px] md:mt-1" />
                     </FormItem>
                   )}
                 />
@@ -290,8 +328,9 @@ const CreatePage: NextPageWithLayout = () => {
                     <FormItem className="flex-1">
                       <DialogTrigger asChild>
                         <FormControl>
-                          <Input
-                            className="h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa cursor-pointer"
+                          <input
+                            className="w-full h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
+                            type="text"
                             placeholder="기본 주소를 입력해주세요"
                             {...field}
                           />
@@ -356,7 +395,7 @@ const CreatePage: NextPageWithLayout = () => {
                   control={form.control}
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
-                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
                       selected={value}
                       onChange={(data: Date) => onChange(new Date(data))}
                       showTimeSelect
@@ -370,7 +409,7 @@ const CreatePage: NextPageWithLayout = () => {
                         new Date(
                           new Date(form.watch("endTimePicker")).setMinutes(
                             new Date(form.watch("endTimePicker")).getMinutes() -
-                              10
+                              15
                           )
                         ) || new Date(new Date().setHours(23, 59))
                       }
@@ -387,7 +426,7 @@ const CreatePage: NextPageWithLayout = () => {
                   control={form.control}
                   render={({ field: { onChange, value } }) => (
                     <DatePicker
-                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                      className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
                       selected={value}
                       onChange={(data: Date) => onChange(new Date(data))}
                       showTimeSelect
@@ -401,7 +440,7 @@ const CreatePage: NextPageWithLayout = () => {
                           new Date(form.watch("startTimePicker")).setMinutes(
                             new Date(
                               form.watch("startTimePicker")
-                            ).getMinutes() + 10
+                            ).getMinutes() + 15
                           )
                         ) || new Date(new Date().setHours(0, 0))
                       }
@@ -414,13 +453,12 @@ const CreatePage: NextPageWithLayout = () => {
                 className="h-10 md:h-12 aspect-square flex justify-center items-center bg-main rounded-md"
                 type="button"
                 onClick={() => {
-                  console.log(typeof form.getValues("startTimePicker"));
                   if (
                     form.getValues("datePicker") &&
                     form.getValues("startTimePicker") &&
                     form.getValues("endTimePicker")
                   ) {
-                    append({
+                    schedulesAppend({
                       date: `${form
                         .getValues("datePicker")
                         .toLocaleDateString("ko-KR", {
@@ -451,26 +489,32 @@ const CreatePage: NextPageWithLayout = () => {
             </div>
             <div className="w-full h-[1px] bg-gray-dddddd"></div>
             <ul className="flex flex-col gap-y-2 md:gap-y-3">
-              {fields.map((item, index) => {
+              <span className="absolute text-xs md:text-sm font-medium md:leading-4 text-destructive">
+                {form.formState.errors.schedules?.message}
+              </span>
+              {schedulesFields.map((item, index) => {
                 return (
                   <li key={item.id}>
                     <div className="flex items-end gap-x-2 md:gap-x-5">
                       <Input
                         className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
-                        {...register(`dateField.${index}.date`)}
+                        disabled
+                        {...register(`schedules.${index}.date`)}
                       />
                       <Input
                         className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
-                        {...register(`dateField.${index}.startTime`)}
+                        disabled
+                        {...register(`schedules.${index}.startTime`)}
                       />
                       <Input
                         className="w-16 md:w-24 h-10 md:h-12 px-3 md:px-4 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
-                        {...register(`dateField.${index}.endTime`)}
+                        disabled
+                        {...register(`schedules.${index}.endTime`)}
                       />
                       <button
                         className="h-10 md:h-12 aspect-square flex justify-center items-center bg-main rounded-md"
                         type="button"
-                        onClick={() => remove(index)}
+                        onClick={() => schedulesRemove(index)}
                       >
                         <FaMinus className="text-white-ffffff text-xl md:text-2xl" />
                       </button>
@@ -479,6 +523,108 @@ const CreatePage: NextPageWithLayout = () => {
                 );
               })}
             </ul>
+          </div>
+          <div className="mt-1">
+            <span className="text-lg md:text-xl font-semibold leading-5 md:leading-5">
+              배너 이미지
+            </span>
+            <div className="mt-1">
+              {form.watch("bannerImageUrl") ? (
+                <div>
+                  <Image
+                    src={form.watch("bannerImageUrl")}
+                    alt="모임 배너 이미지"
+                    width={50}
+                    height={50}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => form.setValue("bannerImageUrl", "")}
+                  >
+                    삭제 버튼
+                  </button>
+                </div>
+              ) : (
+                <div className="group relative w-fit">
+                  <label
+                    className="w-[100px] aspect-square flex bg-white-ffffff rounded-md border border-gray-a4a1aa border-dashed cursor-pointer"
+                    htmlFor="bannerImageSelect"
+                  >
+                    <FaPlus className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-gray-cbc9cf text-xl md:text-2xl group-hover:text-main" />
+                  </label>
+                  <input
+                    className="hidden"
+                    id="bannerImageSelect"
+                    type="file"
+                    accept="image/*"
+                    {...register("bannerImageSelect", {
+                      onChange: () =>
+                        form.setValue(
+                          "bannerImageUrl",
+                          URL?.createObjectURL(
+                            form.getValues("bannerImageSelect")[0]
+                          )
+                        )
+                    })}
+                  />
+
+                  <span className="absolute mt-1 text-xs md:text-sm font-medium md:leading-4 text-destructive whitespace-nowrap">
+                    {form.formState.errors.bannerImageUrl?.message}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="mt-1">
+            <span className="text-lg md:text-xl font-semibold leading-5 md:leading-5">
+              소개 이미지
+            </span>
+            <div className="mt-1">
+              {subImageUrlListFields.length < 4 && (
+                <div className="group relative w-fit">
+                  <label
+                    className="w-[100px] aspect-square flex bg-white-ffffff rounded-md border border-gray-a4a1aa border-dashed cursor-pointer"
+                    htmlFor="subImageSelect"
+                  >
+                    <FaPlus className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-gray-cbc9cf text-xl md:text-2xl group-hover:text-main" />
+                  </label>
+                  <input
+                    className="hidden"
+                    id="subImageSelect"
+                    type="file"
+                    accept="image/*"
+                    {...register("subImageSelect", {
+                      onChange: () =>
+                        subImageUrlListAppend({
+                          subImageUrl: URL?.createObjectURL(
+                            form.getValues("subImageSelect")[0]
+                          )
+                        })
+                    })}
+                  />
+                  <span className="absolute mt-1 text-xs md:text-sm font-medium md:leading-4 text-destructive whitespace-nowrap">
+                    {form.formState.errors.subImageUrlList?.message}
+                  </span>
+                </div>
+              )}
+              {subImageUrlListFields.map((item, index) => (
+                <div key={item.id}>
+                  <Image
+                    src={form.watch(`subImageUrlList.${index}.subImageUrl`)}
+                    alt="모임 소개 이미지"
+                    width={50}
+                    height={50}
+                  />
+                  <button
+                    className="h-10 md:h-12 aspect-square flex justify-center items-center bg-main rounded-md"
+                    type="button"
+                    onClick={() => subImageUrlListRemove(index)}
+                  >
+                    <FaMinus className="text-white-ffffff text-xl md:text-2xl" />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
           <Button
             text="등록하기"
