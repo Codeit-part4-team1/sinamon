@@ -80,19 +80,19 @@ const ReservationInfoModal = ({ onCancel, destination }: any) => {
             <div className="flex flex-row justify-start gap-[12px] h-[43px] border-b-2 font-semibold">
               <div
                 onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.apply && "border-b-[3px] border-main"}`}
+                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.apply && "border-b-[3px] border-main text-main"}`}
               >
                 <p id="apply">신청 2</p>
               </div>
               <div
                 onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.approval && "border-b-[3px] border-main"}`}
+                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.approval && "border-b-[3px] border-main text-main"}`}
               >
                 <p id="approval">승인 1</p>
               </div>
               <div
                 onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.refusal && "border-b-[3px] border-main"}`}
+                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.refusal && "border-b-[3px] border-main text-main"}`}
               >
                 <p id="refusal">거절 1</p>
               </div>
