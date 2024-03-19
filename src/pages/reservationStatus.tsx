@@ -19,49 +19,6 @@ import {
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 
-const CustomToolbar = ({ onNavigate }: any) => {
-  const currentDate = new Date();
-  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth() + 1);
-
-  return (
-    <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
-      <div
-        onClick={() => {
-          if (currentMonth === 1) {
-            setCurrentMonth(12);
-            setCurrentYear((prev: number) => (prev - 1));
-            onNavigate("PREV");
-          } else {
-            setCurrentMonth(currentMonth - 1);
-            onNavigate("PREV");
-          }
-        }}
-        className="hover:cursor-pointer"
-      >
-        <MdKeyboardDoubleArrowLeft size={35} />
-      </div>
-      <div>
-        <h1 className="text-[20px] font-bold">{`${currentYear}년 ${currentMonth}월`}</h1>
-      </div>
-      <div
-        onClick={() => {
-          if (currentMonth === 12) {
-            setCurrentMonth(1);
-            setCurrentYear((prev: number) => (prev + 1));
-          } else {
-            setCurrentMonth(currentMonth + 1);
-          }
-          onNavigate("NEXT");
-        }}
-        className="hover:cursor-pointer"
-      >
-        <MdKeyboardDoubleArrowRight size={35} />
-      </div>
-    </div>
-  );
-};
-
 const ReservationStatus: NextPageWithLayout = () => {
   const localizer = momentLocalizer(moment);
 
@@ -90,9 +47,33 @@ const ReservationStatus: NextPageWithLayout = () => {
             startAccessor="start"
             endAccessor="end"
             view="month"
-            style={{ height: 500 }}
+            style={{ height: 600 }}
             components={{
-              toolbar: CustomToolbar
+              toolbar: myToolbar
+            }}
+            events={event}
+            eventPropGetter={(event: any) => {
+              if (event.title.includes("승인")) {
+                return {
+                  style: {
+                    color: "#FF7C1D",
+                    fontSize: "13px",
+                    backgroundColor: "#FFF4E8"
+                  }
+                };
+              } else if (event.title.includes("거절")) {
+                return {
+                  style: {
+                    color: "#FF472E",
+                    fontSize: "13px",
+                    backgroundColor: "#FFE4E8"
+                  }
+                };
+              } else {
+                return {
+                  className: "flex items-center text-[13px] h-[20px]"
+                };
+              }
             }}
             className="flex flex-col gap-[30px]"
           />
@@ -101,6 +82,76 @@ const ReservationStatus: NextPageWithLayout = () => {
     </div>
   );
 };
+
+const myToolbar = ({ onNavigate }: any) => {
+  const currentDate = new Date();
+  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth() + 1);
+
+  return (
+    <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
+      <div
+        onClick={() => {
+          if (currentMonth === 1) {
+            setCurrentMonth(12);
+            setCurrentYear((prev: number) => prev - 1);
+            onNavigate("PREV");
+          } else {
+            setCurrentMonth(currentMonth - 1);
+            onNavigate("PREV");
+          }
+        }}
+        className="hover:cursor-pointer"
+      >
+        <MdKeyboardDoubleArrowLeft size={35} />
+      </div>
+      <div>
+        <h1 className="text-[20px] font-bold">{`${currentYear}년 ${currentMonth}월`}</h1>
+      </div>
+      <div
+        onClick={() => {
+          if (currentMonth === 12) {
+            setCurrentMonth(1);
+            setCurrentYear((prev: number) => prev + 1);
+          } else {
+            setCurrentMonth(currentMonth + 1);
+          }
+          onNavigate("NEXT");
+        }}
+        className="hover:cursor-pointer"
+      >
+        <MdKeyboardDoubleArrowRight size={35} />
+      </div>
+    </div>
+  );
+};
+
+const event = [
+  {
+    id: 1,
+    title: "예약 5",
+    start: new Date("2024-3-20"),
+    end: new Date("2024-3-20")
+  },
+  {
+    id: 2,
+    title: "승인 5",
+    start: new Date("2024-3-20"),
+    end: new Date("2024-3-20")
+  },
+  {
+    id: 3,
+    title: "승인 1",
+    start: new Date("2024-3-25"),
+    end: new Date("2024-3-25")
+  },
+  {
+    id: 4,
+    title: "거절 2",
+    start: new Date("2024-3-27"),
+    end: new Date("2024-3-27")
+  }
+];
 
 ReservationStatus.getLayout = function getLayout(page: ReactElement) {
   return (
