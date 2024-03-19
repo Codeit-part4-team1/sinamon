@@ -48,13 +48,13 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
   } = reservation;
 
   return (
-    <li className=" w-full md:w-[400px] lg:w-[448px] rounded-xl overflow-hidden shadow-lg bg-white my-2">
+    <li className=" w-full md:w-[400px] lg:w-[448px] rounded-xl overflow-hidden shadow-lg bg-white-ffffff my-2">
       <img
         className="w-full h-40 object-cover"
         src={bannerImageUrl}
         alt="Activity"
       />
-      <div className="px-6 p-6">
+      <div className="px-6 p-6 h-[235px] lg:h-[251px]">
         <div className="flex justify-between items-center">
           <span
             className={` text-sm md:text-base leading-[26px] font-bold lg:mb-2  ${

@@ -20,7 +20,7 @@ const MyHistory: NextPageWithLayout = () => {
         <span className="text-2xl md:text-3xl font-bold">전체</span>
         <SortDropdown />
       </div>
-      <ul className="relative justify-center w-full flex flex-row flex-wrap gap-6 md:gap-4 sm:gap-2">
+      <ul className="relative justify-center w-full flex flex-row flex-wrap md:gap-4 sm:gap-2">
         {RESERVATIONS.map((reservation: Reservation) => (
           <ReservationCard key={reservation.id} reservation={reservation} />
         ))}
