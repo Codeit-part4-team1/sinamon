@@ -4,9 +4,24 @@ import ReservationCalendar from "@/components/Activities/ReservationCalendar/Res
 import Button from "@/components/common/Button/Button";
 import ReservationTime from "@/components/Activities/ReservationTime/ReservationTime";
 import SelectHeadcount from "@/components/Activities/SelectHeadcount/SelectHeadcount";
+import ReservationModalUi from "../ReservationModlal/ReservationModal";
+import { createPortal } from "react-dom";
 
 const ReservationDatePicker = () => {
+  const [isModalOpend, setisModalOpend] = useState(false);
   const [Headcount, setHeadcount] = useState(1);
+
+  const html = document.querySelector("html");
+
+  const handelReserveModalOpen = () => {
+    setisModalOpend((prev) => !prev);
+    html?.classList.add("scroll-locked");
+  };
+
+  const handelReserveModalClose = () => {
+    setisModalOpend((prev) => !prev);
+    html?.classList.remove("scroll-locked");
+  };
 
   return (
     <>
@@ -17,21 +32,26 @@ const ReservationDatePicker = () => {
             / 인
           </span>
         </p>
-        <hr className="md:w-full md:bg-gray-dddddd" />
+        <hr className="md:w-full md:bg-gray-dddddd md:my-4" />
         <div>
           <h2 className="md:font-bold md:text-[20px]">날짜</h2>
-          <button className="md:text-black md:underline md:font-semibold md:text-[16px] lg:hidden  ">
+          <button
+            className="md:text-black md:underline md:font-semibold md:pb-[30px] md:text-[16px] lg:hidden"
+            onClick={handelReserveModalOpen}
+          >
             날짜 선택하기
           </button>
-          <ReservationCalendar />
+          <div className="md:hidden lg:block">
+            <ReservationCalendar />
+          </div>
         </div>
-        <div className="lg:flex-col lg:gap-[14px] lg:block md:hidden">
+        <div className="lg:flex-col lg:pb-4 lg:block md:hidden">
           <ReservationTime />
         </div>
-        <hr className="md:w-full md:bg-gray-dddddd" />
+        <hr className="md:w-full md:bg-gray-dddddd md:hidden lg:block" />
         <SelectHeadcount Headcount={Headcount} setHeadcount={setHeadcount} />
         <Button text="신청하기" size="full" type="button" />
-        <hr className="md:w-full md:bg-gray-dddddd" />
+        <hr className="md:w-full md:bg-gray-dddddd md:mt-6 md:mb-4" />
         <div>
           <div className="md:flex md:justify-between">
             <h2 className="md:font-bold md:text-[20px]">총 합계</h2>
@@ -55,6 +75,12 @@ const ReservationDatePicker = () => {
         </div>
         <Button text="신청하기" size="lg" type="button" />
       </div>
+
+      {isModalOpend &&
+        createPortal(
+          <ReservationModalUi closeModal={handelReserveModalClose} />,
+          document.getElementById("modal-root") as HTMLDivElement
+        )}
     </>
   );
 };

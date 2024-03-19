@@ -6,12 +6,7 @@ const ReservationCalendar = () => {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(new Date());
 
   return (
-    <Calendar
-      className="md:hidden lg:block"
-      mode="single"
-      selected={selectedDay}
-      onSelect={setSelectedDay}
-    />
+    <Calendar mode="single" selected={selectedDay} onSelect={setSelectedDay} />
   );
 };
 

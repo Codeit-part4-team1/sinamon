@@ -21,9 +21,9 @@ const SelectHeadcount = ({
   };
 
   return (
-    <div className={`flex-col gap-2`}>
+    <div className={`md:flex md:flex-col md:gap-2  lg:pt-3 md:pb-6`}>
       <h2 className="md:font-bold md:text-[20px]">참여 인원</h2>
-      <div className="flex w-[120px] p-1 h-10 border border-gray-4b4b4b rounded-md text-gray-4b4b4b bg-white-ffffff text-center items-center justify-between mb-2 text-[14px]">
+      <div className="flex w-[120px] p-1 h-10 border border-gray-4b4b4b rounded-md text-gray-4b4b4b bg-white-ffffff text-center items-center justify-between  text-[14px]">
         <button
           onClick={() => setHeadcount((prev) => (prev > 1 ? prev - 1 : 1))}
         >
