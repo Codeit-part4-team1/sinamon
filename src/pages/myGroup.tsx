@@ -17,8 +17,8 @@ const MyGroup: NextPageWithLayout = () => {
   return (
     <div>
       <div className="mb-4 md:mb-6 flex justify-between items-center">
-        <span className="text-2xl md:text-3xl font-bold">내 체험 관리</span>
-        <Button text="체험 등록하기" size="lg" type="submit" />
+        <span className="text-2xl md:text-3xl font-bold">내 모임 관리</span>
+        <Button text="모임 등록하기" size="lg" type="submit" />
       </div>
       <ul className="relative justify-center w-full flex flex-row flex-wrap gap-4">
         {GROUPS.map((groups: GroupType) => (
