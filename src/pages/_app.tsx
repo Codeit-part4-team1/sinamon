@@ -15,11 +15,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export const pretendard = localFont({
-  src: [
-    {
-      path: "./fonts/PretendardVariable.woff2"
-    }
-  ]
+  src: "./fonts/PretendardVariable.woff2"
 });
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {

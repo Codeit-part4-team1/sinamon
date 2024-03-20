@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "next/router";
@@ -11,37 +11,33 @@ import EmailInput from "@/components/common/AuthInput/EmailInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import Button from "@/components/common/Button";
 
-type ModalType = {
-  modal: boolean;
-  message: string;
-};
-
 const SignIn = () => {
   const router = useRouter();
+
   const { login } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<{ email: string; password: string }>({ mode: "onChange" });
-  const [modal, setModal] = useState<ModalType>({
-    modal: false,
-    message: ""
-  });
+
+  const [resMessage, setResMessage] = useState<string>("");
+
+  const dialogRef = useRef<any>();
 
   const submit = {
     onSubmit: async (data: any) => {
       const res = await login(data);
 
+      console.log(res);
+
       if (res.status === 201) {
         router.push("/");
       } else {
-        setModal((prev: ModalType) => ({
-          ...prev,
-          modal: !modal.modal,
-          message: res.response.data.message
-        }));
+        setResMessage(res.response.data.message);
+        dialogRef.current.showModal();
       }
     },
     onError: (error: any) => {
@@ -50,18 +46,18 @@ const SignIn = () => {
   };
 
   return (
-    <div className="relative w-screen h-screen min-w-[420px]">
-      {modal.modal && (
+    <div className="relative max-w-[740px] pt-[100px] px-[12px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[180px]">
+      <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
           size="md"
-          text={modal.message}
+          text={resMessage}
           handlerAlertModal={() => {
-            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+            dialogRef.current.close();
           }}
         />
-      )}
-      <div className="flex-col gap-5 mx-auto pt-[150px] w-[375px] md:w-[632px] lg:w-[640px]">
+      </dialog>
+      <div className="flex-col gap-5 min-w-[280px] mx-auto">
         <div>
           <Image
             src="/images/logo.png"

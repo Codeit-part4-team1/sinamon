@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import { ReactNode } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 import MainPageLayout from "@/components/layout/MainPageLayout";
 import Searchbar from "@/components/home/Searchbar";
@@ -24,7 +24,7 @@ const Home: NextPageWithLayout = () => {
   );
 };
 
-Home.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactNode) {
   return <MainPageLayout>{page}</MainPageLayout>;
 };
 
