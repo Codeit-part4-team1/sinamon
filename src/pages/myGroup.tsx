@@ -1,7 +1,5 @@
-import type { ReactElement } from "react";
+import { ReactNode, useContext } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
-
-import React, { useContext } from "react";
 
 import { AuthContext } from "@/contexts/AuthProvider";
 import GroupCard from "@/components/myGroup/GroupCard";
@@ -15,21 +13,21 @@ const MyGroup: NextPageWithLayout = () => {
   const { updateUserInfo } = useContext(AuthContext);
 
   return (
-    <div>
-      <div className="mb-4 md:mb-6 flex justify-between items-center">
+    <>
+      <div className="mb-5 md:mb-8 flex justify-between items-center">
         <span className="text-2xl md:text-3xl font-bold">내 모임 관리</span>
-        <Button text="모임 등록하기" size="lg" type="submit" />
+        <Button text="모임 등록하기" size="md" type="submit" />
       </div>
-      <ul className="relative justify-center w-full flex flex-row flex-wrap gap-4">
+      <ul className="relative justify-between w-full grid gap-4 md:gap-5 grid-cols-[repeat(auto-fill,_minmax(260px,_1fr))]">
         {GROUPS.map((groups: GroupType) => (
           <GroupCard key={groups.id} {...groups} />
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 
-MyGroup.getLayout = function getLayout(page: ReactElement) {
+MyGroup.getLayout = function getLayout(page: ReactNode) {
   return (
     <BaseLayout>
       <MenuLayout>{page}</MenuLayout>

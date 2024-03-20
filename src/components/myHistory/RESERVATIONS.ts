@@ -5,7 +5,7 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2023/08/05/14/24/twilight-8171206_1280.jpg",
+        "/images/temp-active-preview.png",
       title: "루마니아 야시장 탐방",
       id: 0
     },
@@ -26,8 +26,8 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2019/12/16/10/49/building-4699096_640.jpg",
-      title: "홍콩 마천루 탐방",
+        "/images/temp-active-preview.png",
+      title: "일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사",
       id: 0
     },
     scheduleId: 0,
@@ -47,7 +47,7 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2018/09/18/16/45/forest-3686632_640.jpg",
+        "/images/temp-active-preview.png",
       title: "로키산맥의 눈부신 가을",
       id: 0
     },
@@ -68,7 +68,7 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2023/09/29/08/38/sea-8283340_640.jpg",
+        "/images/temp-active-preview.png",
       title: "인도네시아 현지인들과 낚시",
       id: 0
     },
@@ -89,7 +89,7 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2023/10/15/11/38/street-8316703_640.jpg",
+        "/images/temp-active-preview.png",
       title: "영국의 빈티지 펍에서 맥주 한잔",
       id: 0
     },
@@ -110,7 +110,7 @@ export const RESERVATIONS = [
     userId: 0,
     activity: {
       bannerImageUrl:
-        "https://cdn.pixabay.com/photo/2024/01/30/14/02/road-8542123_640.jpg",
+        "/images/temp-active-preview.png",
       title: "멕시코 시골길 걸어서 완주하기",
       id: 0
     },

@@ -6,10 +6,10 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-const SortDropdown = () => {
+const StatusDropdown = () => {
   return (
-    <Select defaultValue="latest">
-      <SelectTrigger className="w-[110px] md:w-[140px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
+    <Select defaultValue="all">
+      <SelectTrigger className="w-[110px] md:w-[120px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
@@ -54,4 +54,4 @@ const SortDropdown = () => {
   );
 };
 
-export default SortDropdown;
+export default StatusDropdown;
