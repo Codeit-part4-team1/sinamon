@@ -8,7 +8,7 @@ import ReservationCard from "@/components/myHistory/ReservationCard";
 import SortDropdown from "@/components/myHistory/SortDropdown";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import { RESERVATIONS } from "@/components/myHistory/RESERVATIONS.js";
+import { RESERVATIONS } from "@/components/myHistory/RESERVATIONS";
 import type { Reservation } from "@/types/reservationTypes";
 
 const MyHistory: NextPageWithLayout = () => {
