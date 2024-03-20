@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -6,11 +7,13 @@ import {
   FormMessage
 } from "@/components/ui/form";
 
-const DescriptionField = ({ useForm }: any) => {
+const DescriptionField = () => {
+  const { control } = useFormContext();
+
   return (
     <div>
       <FormField
-        control={useForm.control}
+        control={control}
         name="description"
         render={({ field }) => (
           <FormItem className="h-fit">

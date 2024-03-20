@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -7,10 +8,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const TitleField = ({ useForm }: any) => {
+const TitleField = () => {
+  const { control } = useFormContext();
+
   return (
     <FormField
-      control={useForm.control}
+      control={control}
       name="title"
       render={({ field }) => (
         <FormItem className="flex-1">

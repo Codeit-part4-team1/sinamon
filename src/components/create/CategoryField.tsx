@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -13,10 +14,12 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-const CategoryField = ({ useForm }: any) => {
+const CategoryField = () => {
+  const { control } = useFormContext();
+
   return (
     <FormField
-      control={useForm.control}
+      control={control}
       name="category"
       render={({ field }) => (
         <FormItem className="flex-1">

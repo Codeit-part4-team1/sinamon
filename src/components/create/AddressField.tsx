@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import {
@@ -10,13 +11,15 @@ import {
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-const AddressField = ({ useForm }: any) => {
+const AddressField = () => {
   const [dialogopen, setDialogOpen] = useState(false);
+
+  const { control, setValue } = useFormContext();
 
   const handleComplete = (data: any) => {
     setDialogOpen((prev) => !prev);
-    useForm.setValue("addressObject.postcode", data.zonecode);
-    useForm.setValue("addressObject.roadAddress", data.address);
+    setValue("addressObject.postcode", data.zonecode);
+    setValue("addressObject.roadAddress", data.address);
   };
 
   const addressStyle = {
@@ -34,7 +37,7 @@ const AddressField = ({ useForm }: any) => {
             ></DaumPostcode>
           </DialogContent>
           <FormField
-            control={useForm.control}
+            control={control}
             name="addressObject.postcode"
             render={({ field }) => (
               <FormItem className="flex-1">
@@ -66,7 +69,7 @@ const AddressField = ({ useForm }: any) => {
             )}
           />
           <FormField
-            control={useForm.control}
+            control={control}
             name="addressObject.roadAddress"
             render={({ field }) => (
               <FormItem className="flex-1">
@@ -85,7 +88,7 @@ const AddressField = ({ useForm }: any) => {
             )}
           />
           <FormField
-            control={useForm.control}
+            control={control}
             name="addressObject.detailAddress"
             render={({ field }) => (
               <FormItem className="flex-1">

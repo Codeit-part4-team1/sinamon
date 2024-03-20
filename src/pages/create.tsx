@@ -1,21 +1,20 @@
 import React, { type ReactElement } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import { Form } from "@/components/ui/form";
 import Button from "@/components/common/Button";
 import TitleField from "@/components/create/TitleField";
 import CategoryField from "@/components/create/CategoryField";
 import PriceField from "@/components/create/PriceField";
 import DescriptionField from "@/components/create/DescriptionField";
 import AddressField from "@/components/create/AddressField";
-import Schedules from "@/components/create/Schedules";
+import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
-import SubImageUrls from "@/components/create/SubImageUrls";
+import SubImageUrlsField from "@/components/create/SubImageUrlsField";
 
 const CreatePage: NextPageWithLayout = () => {
   const form = useForm<z.infer<typeof createPageSchema>>({
@@ -71,30 +70,30 @@ const CreatePage: NextPageWithLayout = () => {
   return (
     <>
       <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 등록</p>
-      <Form {...form}>
+      <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="flex flex-col md:flex-row gap-x-4 gap-y-5 md:gap-y-6">
-            <TitleField useForm={form} />
+            <TitleField />
             <div className="flex gap-x-4">
-              <CategoryField useForm={form} />
-              <PriceField useForm={form} />
+              <CategoryField />
+              <PriceField />
             </div>
           </div>
-          <DescriptionField useForm={form} />
-          <AddressField useForm={form} />
-          <Schedules useForm={form} />
-          <BannerImageUrlField useForm={form} />
-          <SubImageUrls useForm={form} />
+          <DescriptionField />
+          <AddressField />
+          <SchedulesField />
+          <BannerImageUrlField />
+          <SubImageUrlsField />
           <Button
             text="등록하기"
             className="w-full md:w-96 h-12 mx-auto mt-8"
             type="submit"
           ></Button>
         </form>
-      </Form>
+      </FormProvider>
     </>
   );
 };
