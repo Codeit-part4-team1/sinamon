@@ -18,7 +18,7 @@ const GroupCard: React.FC<GroupType> = ({
   reviewCount
 }) => {
   return (
-    <li className=" w-full md:w-[400px] lg:w-[448px] rounded-xl overflow-hidden shadow-lg bg-white my-2">
+    <li className=" w-full md:w-[400px] lg:w-[448px] rounded-xl overflow-hidden shadow-lg bg-white-ffffff my-2">
       <img
         className="w-full h-40 object-cover"
         src={bannerImageUrl}
