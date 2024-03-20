@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
-const SubImageUrls = ({ useForm }: any) => {
-  const { control, register } = useForm;
+const SubImageUrlsField = () => {
+  const { control, register, watch, getValues } = useFormContext();
 
   const {
     fields: subImageUrlListFields,
@@ -35,10 +35,10 @@ const SubImageUrls = ({ useForm }: any) => {
               accept="image/*"
               {...register("subImageSelect", {
                 onChange: () => {
-                  useForm.watch("subImageSelect")[0] &&
+                  watch("subImageSelect")[0] &&
                     subImageUrlListAppend({
                       subImageUrl: URL?.createObjectURL(
-                        useForm.getValues("subImageSelect")[0]
+                        getValues("subImageSelect")[0]
                       )
                     });
                 }
@@ -54,7 +54,7 @@ const SubImageUrls = ({ useForm }: any) => {
             <div className="w-[156px] aspect-square relative">
               <Image
                 className="object-cover"
-                src={useForm.watch(`subImageUrlList.${index}.subImageUrl`)}
+                src={watch(`subImageUrlList.${index}.subImageUrl`)}
                 alt="모임 소개 이미지"
                 fill
               />
@@ -73,4 +73,4 @@ const SubImageUrls = ({ useForm }: any) => {
   );
 };
 
-export default SubImageUrls;
+export default SubImageUrlsField;
