@@ -1,4 +1,4 @@
-import React, { type ReactElement } from "react";
+import { ReactNode } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -98,7 +98,7 @@ const CreatePage: NextPageWithLayout = () => {
   );
 };
 
-CreatePage.getLayout = function getLayout(page: ReactElement) {
+CreatePage.getLayout = function getLayout(page: ReactNode) {
   return (
     <BaseLayout>
       <MenuLayout>{page}</MenuLayout>

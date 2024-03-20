@@ -1,7 +1,6 @@
-import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, { useState, useEffect } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -153,7 +152,7 @@ const event = [
   }
 ];
 
-ReservationStatus.getLayout = function getLayout(page: ReactElement) {
+ReservationStatus.getLayout = function getLayout(page: ReactNode) {
   return (
     <BaseLayout>
       <MenuLayout>{page}</MenuLayout>
