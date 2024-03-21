@@ -7,8 +7,15 @@ import CategoryList from "@/components/home/CategoryList";
 import SortDropdown from "@/components/home/SortDropdown";
 import CardList from "@/components/home/CardList";
 import Pagination from "@/components/common/Pagination";
+import useGetActivitiesQuery from "@/queries/useGetActivitiesQuery";
 
 const Home: NextPageWithLayout = () => {
+  const { data, isLoading, hasNextPage, fetchNextPage } = useGetActivitiesQuery({})
+
+  if (isLoading) {
+    return <div>loading...</div>
+  } 
+
   return (
     <>
       <Searchbar />
