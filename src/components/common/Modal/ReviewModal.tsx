@@ -7,8 +7,8 @@ import ReactDOM from "react-dom";
 import { FaXmark } from "react-icons/fa6";
 import { IoIosStar } from "react-icons/io";
 import { AuthContext } from "@/contexts/AuthProvider";
-import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
 
 const ReviewModal = ({ onCancel, destination }: any) => {
   const { userCookie } = useContext(AuthContext);
