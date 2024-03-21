@@ -37,7 +37,7 @@ const ReservationModalUi: React.FC<ReservationModalProps> = ({
       <div className="flex justify-center">
         <ReservationCalendar />
       </div>
-      <div className="mb-56 md:mb-0">
+      <div className="mb-56  md:mb-0">
         <ReservationTime />
       </div>
       <Button text="신청하기" size="full" type="submit" />
