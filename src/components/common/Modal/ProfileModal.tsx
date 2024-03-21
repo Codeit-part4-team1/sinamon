@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import Button from "@/components/common/Button/Button";
-
 import { LuUser2 } from "react-icons/lu";
 import { TbListCheck } from "react-icons/tb";
 import { AiOutlineSetting } from "react-icons/ai";
