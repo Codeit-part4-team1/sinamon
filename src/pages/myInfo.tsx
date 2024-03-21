@@ -1,7 +1,6 @@
-import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, { useState, useContext, useRef } from "react";
+import { ReactNode, useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
 
@@ -118,7 +117,7 @@ const MyInfo: NextPageWithLayout = () => {
   );
 };
 
-MyInfo.getLayout = function getLayout(page: ReactElement) {
+MyInfo.getLayout = function getLayout(page: ReactNode) {
   return (
     <BaseLayout>
       <MenuLayout>{page}</MenuLayout>
