@@ -2,13 +2,15 @@ import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 import { AuthContext } from "@/contexts/AuthProvider";
-import EmailInput from "@/components/common/AuthInput/EmailInput";
-import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import AlertModal from "@/components/common/Modal/AlertModal";
+import EmailInput from "@/components/common/AuthInput/EmailInput";
+import NicknameInput from "@/components/common/AuthInput/NicknameInput";
+import PasswordInput from "@/components/common/AuthInput/PasswordInput";
+import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import Button from "@/components/common/Button/Button";
 
 type ModalType = {
@@ -16,26 +18,31 @@ type ModalType = {
   message: string;
 };
 
-const SignIn = () => {
+type SubmitType = {
+  email?: string;
+  password?: string;
+};
+
+const SignUp = () => {
+  const { join } = useContext(AuthContext);
   const router = useRouter();
-  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<{ email: string; password: string }>({ mode: "onChange" });
+  } = useForm({ mode: "onChange" });
   const [modal, setModal] = useState<ModalType>({
     modal: false,
     message: ""
   });
 
   const submit = {
-    onSubmit: async (data: any) => {
-      const res = await login(data);
+    onSubmit: async (data: SubmitType): Promise<any> => {
+      const res = await join(data);
 
       if (res.status === 201) {
-        router.push("/");
+        router.push("signIn");
       } else {
         setModal((prev: ModalType) => ({
           ...prev,
@@ -44,8 +51,8 @@ const SignIn = () => {
         }));
       }
     },
-    onError: (error: any) => {
-      console.log(error);
+    onError: async (error: any) => {
+      undefined;
     }
   };
 
@@ -61,7 +68,7 @@ const SignIn = () => {
           }}
         />
       )}
-      <div className="flex-col gap-5 mx-auto pt-[150px] w-[375px] md:w-[632px] lg:w-[640px]">
+      <div className="flex-col gap-5 mx-auto pt-[90px] w-[375px] md:w-[632px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
@@ -77,33 +84,49 @@ const SignIn = () => {
         >
           <div>
             <EmailInput
-              whatFor="login"
+              whatFor="signUp"
               errors={errors}
               watch={watch}
               register={register}
             />
           </div>
-          <div className="relative flex flex-col gap-1">
+          <div>
+            <NicknameInput
+              whatFor="signUp"
+              errors={errors}
+              watch={watch}
+              register={register}
+            />
+          </div>
+          <div>
             <PasswordInput
-              whatFor="login"
+              whatFor="signUp"
+              errors={errors}
+              watch={watch}
+              register={register}
+            />
+          </div>
+          <div>
+            <CheckPasswordInput
+              whatFor="signUp"
               errors={errors}
               watch={watch}
               register={register}
             />
           </div>
           <div className="mt-7">
-            <Button text="로그인 하기" size="full" type="submit" />
+            <Button text="회원가입 하기" size="full" type="submit"></Button>
+          </div>
+          <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
+            <p>회원이신가요?</p>
+            <Link href="signIn" className="underline">
+              로그인하기
+            </Link>
           </div>
         </form>
-        <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
-          <p>회원이 아니신가요?</p>
-          <Link href="signUp" className="underline">
-            회원가입하기
-          </Link>
-        </div>
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;

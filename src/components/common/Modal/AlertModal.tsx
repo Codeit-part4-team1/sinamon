@@ -1,6 +1,6 @@
 import React from "react";
 import { MdCheckCircle } from "react-icons/md";
-import Button from "../Button/Button";
+import Button from "@/components/common/Button/Button";
 
 type PopupProps = {
   type: "alert" | "decide";

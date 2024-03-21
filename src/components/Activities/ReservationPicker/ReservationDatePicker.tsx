@@ -4,25 +4,20 @@ import ReservationCalendar from "@/components/Activities/ReservationCalendar/Res
 import Button from "@/components/common/Button/Button";
 import ReservationTime from "@/components/Activities/ReservationTime/ReservationTime";
 import SelectHeadcount from "@/components/Activities/SelectHeadcount/SelectHeadcount";
-import ReservationModalUi from "../ReservationModlal/ReservationModal";
+import ReservationModalUi from "@/components/Activities/ReservationModlal/ReservationModal";
 import { createPortal } from "react-dom";
 
 const ReservationDatePicker = () => {
   const [isModalOpend, setisModalOpend] = useState(false);
   const [Headcount, setHeadcount] = useState(1);
 
-  const html = document.querySelector("html");
-
   const handelReserveModalOpen = () => {
     setisModalOpend((prev) => !prev);
-    html?.classList.add("scroll-locked");
   };
 
   const handelReserveModalClose = () => {
     setisModalOpend((prev) => !prev);
-    html?.classList.remove("scroll-locked");
   };
-
   return (
     <>
       <div className="sm:hidden md:block md:flex-col md:border md:gap-6 md:rounded-sm bg-white-ffffff lg:top-0 lg:w-96 md:p-6 md:absolute md:top-1 md:w-[251px]">
@@ -41,7 +36,7 @@ const ReservationDatePicker = () => {
           >
             날짜 선택하기
           </button>
-          <div className="md:hidden lg:block">
+          <div className="m-auto md:hidden lg:block">
             <ReservationCalendar />
           </div>
         </div>
@@ -63,13 +58,17 @@ const ReservationDatePicker = () => {
       {/* 모바일 */}
       <div className="md:hidden flex border bg-white-ffffff justify-between w-full sticky bottom-0 p-4 h-20 ">
         <div>
-          <p className="font-bold text-[20px]">
+          <p className="flex font-bold text-[20px] gap-[6px]  ">
             ￦ 1,000
-            <button className="text-main text-[14px] underline underline-offset-[3px] ">
-              / 인
+            <span className="text-[20px] font-semibold text-[#121]">/</span>
+            <button className="text-main font-medium text-[18px] underline underline-offset-[3px]  ">
+              명
             </button>
           </p>
-          <button className="text-main underline font-semibold text-[14px]   ">
+          <button
+            onClick={handelReserveModalOpen}
+            className="text-main underline font-semibold text-[14px]   "
+          >
             날짜 선택하기
           </button>
         </div>

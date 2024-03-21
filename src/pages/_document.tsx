@@ -4,10 +4,10 @@ export default function Document() {
   return (
     <Html lang="ko" suppressHydrationWarning>
       <Head />
-      <body>
+      <body className="relative">
         <Main />
-        <div id="modal-root"></div>
         <NextScript />
+        <div id="modal-root"></div>
       </body>
     </Html>
   );
