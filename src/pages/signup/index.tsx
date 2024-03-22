@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useState, useRef, useContext } from "react";
 import { useForm } from "react-hook-form";
-
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,11 +11,6 @@ import NicknameInput from "@/components/common/AuthInput/NicknameInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import Button from "@/components/common/Button/Button";
-
-type ModalType = {
-  modal: boolean;
-  message: string;
-};
 
 type SubmitType = {
   email?: string;
@@ -32,23 +26,21 @@ const SignUp = () => {
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
-  const [modal, setModal] = useState<ModalType>({
-    modal: false,
-    message: ""
-  });
+  const [resMessage, setResMessage] = useState<string>("");
+
+  const failDialogRef = useRef<any>();
+  const successDialogRef = useRef<any>();
 
   const submit = {
     onSubmit: async (data: SubmitType): Promise<any> => {
       const res = await join(data);
 
       if (res.status === 201) {
-        router.push("signIn");
+        setResMessage("가입이 완료되었습니다!");
+        successDialogRef.current.showModal();
       } else {
-        setModal((prev: ModalType) => ({
-          ...prev,
-          modal: !modal.modal,
-          message: res.response.data.message
-        }));
+        setResMessage(res.response.data.message);
+        failDialogRef.current.showModal();
       }
     },
     onError: async (error: any) => {
@@ -57,25 +49,31 @@ const SignUp = () => {
   };
 
   return (
-    <div className="relative w-screen h-screen min-w-[420px]">
-      {modal.modal && (
+    <div className="relative h-full min-w-[375px]">
+      <dialog ref={failDialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
           size="md"
-          text={modal.message}
+          text={resMessage}
           handlerAlertModal={() => {
-            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+            failDialogRef.current.close();
           }}
         />
-      )}
-      <div className="flex-col gap-5 mx-auto pt-[90px] w-[375px] md:w-[632px] lg:w-[640px]">
+      </dialog>
+      <dialog ref={successDialogRef} className="rounded-lg">
+        <AlertModal type="alert" size="md" text={resMessage} />
+      </dialog>
+      <div className="flex-col gap-5 mx-auto w-[360px] pt-[80px] pb-[50px] md:w-[632px] md:pt-[150px] md:pb-[50px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
             alt="logo"
             width={300}
             height={100}
-            className="m-auto"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="m-auto hover:cursor-pointer"
           />
         </div>
         <form
@@ -119,7 +117,7 @@ const SignUp = () => {
           </div>
           <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
             <p>회원이신가요?</p>
-            <Link href="signIn" className="underline">
+            <Link href="signin" className="underline">
               로그인하기
             </Link>
           </div>
