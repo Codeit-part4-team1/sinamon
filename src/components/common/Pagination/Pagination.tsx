@@ -12,7 +12,7 @@ const Pagination = () => {
   const pageGroupLastNumber = currentpageGroup * visiblePageCount; // 현재 페이지 그룹의 마지막 페이지 번호
 
   return (
-    <nav className="w-fit">
+    <nav className="w-fit mx-auto">
       <ul className="flex gap-2">
         <li>
           <button className="w-8 md:w-12 h-8 md:h-12 flex justify-center items-center bg-white-ffffff border border-gray-adaeb8 hover:border-gray-79747e rounded-md">
