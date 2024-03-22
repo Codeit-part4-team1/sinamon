@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Button from "@/components/common/Button";
+import Button from "@/components/common/Button/Button";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 interface HeaderProps {
