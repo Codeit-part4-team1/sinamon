@@ -3,7 +3,7 @@ import type { NextPageWithLayout } from "@/pages/_app";
 
 import { AuthContext } from "@/contexts/AuthProvider";
 import GroupCard from "@/components/myGroup/GroupCard";
-import Button from "@/components/common/Button";
+import Button from "@/components/common/Button/Button";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import { GROUPS } from "@/components/myGroup/GROUPS";

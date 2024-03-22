@@ -6,7 +6,7 @@ import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import Button from "@/components/common/Button";
+import Button from "@/components/common/Button/Button";
 import TitleField from "@/components/create/TitleField";
 import CategoryField from "@/components/create/CategoryField";
 import PriceField from "@/components/create/PriceField";

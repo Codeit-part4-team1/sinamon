@@ -11,8 +11,8 @@ import EmailInput from "@/components/common/AuthInput/EmailInput";
 import NicknameInput from "@/components/common/AuthInput/NicknameInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
-import AlertModal from "@/components/common/AlertModal";
-import Button from "@/components/common/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import Button from "@/components/common/Button/Button";
 
 const MyInfo: NextPageWithLayout = () => {
   const { updateUserInfo } = useContext(AuthContext);

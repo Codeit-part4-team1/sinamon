@@ -1,6 +1,6 @@
 import React from "react";
 import { MdCheckCircle } from "react-icons/md";
-import Button from "./Button";
+import Button from "@/components/common/Button/Button";
 
 import { useRouter } from "next/router";
 
@@ -53,7 +53,9 @@ const AlertModal = ({
       {(size === "md" || size === "sm") && (
         <div
           onClick={
-            text === "가입이 완료되었습니다!" ? () => (router.push("signIn")) : checkAlert
+            text === "가입이 완료되었습니다!"
+              ? () => router.push("signIn")
+              : checkAlert
           }
           className="text-center"
         >

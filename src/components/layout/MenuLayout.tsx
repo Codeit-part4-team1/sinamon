@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
-import SideMenu from "@/components/common/SideMenu";
+import SideMenu from "@/components/common/SideMenu/SideMenu";
 
 interface MenuLayoutProps {
   children: ReactNode;

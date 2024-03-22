@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/select";
 
 import { AuthContext } from "@/contexts/AuthProvider";
-import Button from "./Button";
-import AlertModal from "./AlertModal";
+import Button from "@/components/common/Button/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
 
 type ViewType = {
   apply: boolean;
