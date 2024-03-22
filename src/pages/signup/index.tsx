@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -26,10 +26,25 @@ const SignUp = () => {
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
+  const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
   const [resMessage, setResMessage] = useState<string>("");
-
   const failDialogRef = useRef<any>();
   const successDialogRef = useRef<any>();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setModalSize("sm");
+      } else {
+        setModalSize("md");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const submit = {
     onSubmit: async (data: SubmitType): Promise<any> => {
@@ -53,7 +68,7 @@ const SignUp = () => {
       <dialog ref={failDialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
-          size="md"
+          size={modalSize}
           text={resMessage}
           handlerAlertModal={() => {
             failDialogRef.current.close();
@@ -63,7 +78,7 @@ const SignUp = () => {
       <dialog ref={successDialogRef} className="rounded-lg">
         <AlertModal type="alert" size="md" text={resMessage} />
       </dialog>
-      <div className="flex-col gap-5 mx-auto w-[360px] pt-[80px] pb-[50px] md:w-[632px] md:pt-[150px] md:pb-[50px] lg:w-[640px]">
+      <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[110px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"

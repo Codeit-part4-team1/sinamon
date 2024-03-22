@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -19,10 +19,24 @@ const SignIn = () => {
     watch,
     formState: { errors }
   } = useForm<{ email: string; password: string }>({ mode: "onChange" });
-
+  const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
   const [resMessage, setResMessage] = useState<string>("");
-
   const dialogRef = useRef<any>();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setModalSize("sm");
+      } else {
+        setModalSize("md");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const submit = {
     onSubmit: async (data: any): Promise<any> => {
@@ -45,15 +59,14 @@ const SignIn = () => {
       <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
-          size="sm"
+          size={modalSize}
           text={resMessage}
           handlerAlertModal={() => {
             dialogRef.current.close();
           }}
         />
       </dialog>
-
-      <div className="flex-col gap-5 mx-auto w-[360px] pt-[80px] pb-[50px] md:w-[632px] md:pt-[150px] md:pb-[50px] lg:w-[640px]">
+      <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[150px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
