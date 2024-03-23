@@ -18,42 +18,59 @@ const SignIn = () => {
     watch,
     formState: { errors }
   } = useForm<{ email: string; password: string }>({ mode: "onChange" });
-  const [modal, setModal] = useState<ErrorModal>({
-    modal: false,
-    message: ""
-  });
+    const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
+    const [resMessage, setResMessage] = useState<string>("");
+    const dialogRef = useRef<any>();
 
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setModalSize("sm");
+        } else {
+          setModalSize("md");
+        }
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
+  
   const { mutate } = useAuth.login(setModal);
 
   const submit = {
     onSubmit: async (value: Signin) => {
       mutate(value);
     },
-    onError: (error: any) => {
-      console.log(error);
+    onError: async (error: any) => {
+      undefined;
     }
   };
 
   return (
-    <div className="relative w-screen h-screen min-w-[420px]">
-      {modal.modal && (
+    <div className="relative h-full min-w-[375px]">
+      <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
-          size="md"
-          text={modal.message}
+          size={modalSize}
+          text={resMessage}
           handlerAlertModal={() => {
-            setModal((prev: ErrorModal) => ({ ...prev, modal: !modal.modal }));
+            dialogRef.current.close();
           }}
         />
-      )}
-      <div className="flex-col gap-5 mx-auto pt-[150px] w-[375px] md:w-[632px] lg:w-[640px]">
+      </dialog>
+      <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[150px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
             alt="logo"
             width={300}
             height={100}
-            className="m-auto"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="m-auto hover:cursor-pointer"
           />
         </div>
         <form
@@ -82,7 +99,7 @@ const SignIn = () => {
         </form>
         <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
           <p>회원이 아니신가요?</p>
-          <Link href="signUp" className="underline">
+          <Link href="signup" className="underline">
             회원가입하기
           </Link>
         </div>
