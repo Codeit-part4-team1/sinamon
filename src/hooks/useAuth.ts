@@ -6,7 +6,7 @@ import { Signin, ErrorModal } from "@/types/auth";
 import { setCookie } from "@/utils/cookie";
 
 export const useAuth = {
-  login: (setModal: any) =>
+  login: (setResMessage: any, dialogRef: any) =>
     useMutation({
       mutationFn: (value: Signin) => instance.post("/auth/login", value),
       onSuccess(data) {
@@ -16,11 +16,8 @@ export const useAuth = {
         Router.push("/");
       },
       onError(err: any) {
-        setModal((prev: ErrorModal) => ({
-          ...prev,
-          modal: (prev: boolean) => !prev,
-          message: err.response.data.message
-        }));
+        setResMessage(err.response.data.message);
+        dialogRef.current.showModal();
       }
     })
 };

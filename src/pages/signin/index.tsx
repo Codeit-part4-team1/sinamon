@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
 
 const SignIn = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -37,7 +39,7 @@ const SignIn = () => {
       };
     }, []);
   
-  const { mutate } = useAuth.login(setModal);
+  const { mutate } = useAuth.login(setResMessage, dialogRef);
 
   const submit = {
     onSubmit: async (value: Signin) => {
