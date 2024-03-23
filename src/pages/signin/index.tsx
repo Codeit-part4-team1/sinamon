@@ -1,48 +1,33 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
-import { AuthContext } from "@/contexts/AuthProvider";
+import { useAuth } from "@/hooks/useAuth";
+import { Signin, ErrorModal } from "@/types/auth";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
 
-type ModalType = {
-  modal: boolean;
-  message: string;
-};
-
 const SignIn = () => {
-  const router = useRouter();
-  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<{ email: string; password: string }>({ mode: "onChange" });
-  const [modal, setModal] = useState<ModalType>({
+  const [modal, setModal] = useState<ErrorModal>({
     modal: false,
     message: ""
   });
 
-  const submit = {
-    onSubmit: async (data: any) => {
-      const res = await login(data);
+  const { mutate } = useAuth.login(setModal);
 
-      if (res.status === 201) {
-        router.push("/");
-      } else {
-        setModal((prev: ModalType) => ({
-          ...prev,
-          modal: !modal.modal,
-          message: res.response.data.message
-        }));
-      }
+  const submit = {
+    onSubmit: async (value: Signin) => {
+      mutate(value);
     },
     onError: (error: any) => {
       console.log(error);
@@ -57,7 +42,7 @@ const SignIn = () => {
           size="md"
           text={modal.message}
           handlerAlertModal={() => {
-            setModal((prev: ModalType) => ({ ...prev, modal: !modal.modal }));
+            setModal((prev: ErrorModal) => ({ ...prev, modal: !modal.modal }));
           }}
         />
       )}
