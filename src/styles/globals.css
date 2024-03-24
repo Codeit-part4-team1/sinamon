@@ -95,7 +95,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border focus-visible:outline-none;
   }
   body {
     @apply bg-background text-foreground;
