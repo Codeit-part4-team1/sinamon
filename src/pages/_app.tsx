@@ -6,6 +6,8 @@ import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -20,6 +22,7 @@ export const pretendard = localFont({
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => page);
+  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider
@@ -28,11 +31,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       enableSystem
       disableTransitionOnChange
     >
-      <AuthProvider>
-        <div className={`${pretendard.className}`}>
-          {getLayout(<Component {...pageProps} />)}
-        </div>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <div className={`${pretendard.className}`}>
+            {getLayout(<Component {...pageProps} />)}
+          </div>
+        </AuthProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

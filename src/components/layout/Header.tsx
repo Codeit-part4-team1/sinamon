@@ -56,7 +56,7 @@ const Header = ({ user }: HeaderProps) => {
         ) : (
           <>
             <div className="flex gap-2 md:gap-4 items-center">
-              <Link href={"/signIn"}>
+              <Link href={"/signin"}>
                 <Button
                   text="로그인"
                   type="button"
@@ -64,7 +64,7 @@ const Header = ({ user }: HeaderProps) => {
                   className="h-8 px-4 text-sm md:h-10 md:px-6 md:text-base"
                 />
               </Link>
-              <Link href={"/signUp"}>
+              <Link href={"/signup"}>
                 <Button
                   text="회원가입"
                   type="button"
