@@ -38,7 +38,6 @@ export const pretendard = localFont({
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => page);
-  const queryClient = new QueryClient();
 
   return (
     <ThemeProvider
