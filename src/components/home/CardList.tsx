@@ -14,7 +14,6 @@ interface CardList {
 const CardList = () => {
   const { data } = useActivities.get();
   const { activities } = data?.data || [];
-  console.log(activities);
 
   return (
     <ul className="mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">

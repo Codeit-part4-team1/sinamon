@@ -90,7 +90,6 @@ const DetailHeader = () => {
     queryKey: [queryKey.usersMe],
     queryFn: () => getUser()
   });
-  console.log(userData);
 
   const deleteActivityMutation = useMutation({
     mutationFn: () => deleteActivity(activityData?.id),
