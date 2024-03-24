@@ -1,26 +1,30 @@
-import Image from "next/image";
-
+import Avatar from "@/components/common/Avatar/Avatar";
 import Button from "@/components/common/Button/Button";
 import { LuUser2 } from "react-icons/lu";
 import { TbListCheck } from "react-icons/tb";
 import { AiOutlineSetting } from "react-icons/ai";
 import { LuCalendarCheck } from "react-icons/lu";
 
-const ProfileModal = () => {
+interface ProfileModalProps {
+  user: {
+    id: number;
+    email: string;
+    nickname: string;
+    profileImageUrl?: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+const ProfileModal = ({ user }: ProfileModalProps) => {
   return (
     <div className="w-72 p-5 border border-gray-dddddd rounded-xl bg-white-ffffff">
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-2 items-center">
-          <Image
-            src={"/images/temp-profile.png"}
-            alt="profile image"
-            width={100}
-            height={100}
-            className="border border-gray-dddddd rounded-full"
-          />
-          <div className="flex flex-col items-center">
-            <p className="text-lg font-bold">정만철</p>
-            <p className="text-base">mancheol@codeit.com</p>
+        <div className="flex flex-col gap-4 items-center">
+          <Avatar user={user} size="lg" />
+          <div className="flex flex-col gap-1 items-center">
+            <p className="text-lg font-bold">{user?.nickname}</p>
+            <p className="text-base">{user?.email}</p>
           </div>
         </div>
         <div className="w-full h-[1px] bg-gray-dddddd"></div>
