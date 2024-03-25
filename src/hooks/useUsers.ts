@@ -14,7 +14,7 @@ export const useUsers = {
     }),
   signUp: (setModal: any, successDialog: any, failDialog: any) =>
     useMutation({
-      mutationFn: (value: SignUp) => instance.post("users", value),
+      mutationFn: (value: SignUp) => instance.post("/users", value),
       onSuccess: () => {
         setModal((prev: Modal) => ({
           ...prev,

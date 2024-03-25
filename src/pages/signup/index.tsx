@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
-import { SignUp, ValidateSignUp, Modal } from "@/types/auth";
+import { SignUp, Modal } from "@/types/auth";
 import { useUsers } from "@/hooks/useUsers";
 import AlertModal from "@/components/common/Modal/AlertModal";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
@@ -36,7 +36,6 @@ const SignUp = () => {
         ? setModal((prev: Modal) => ({ ...prev, size: "sm" }))
         : setModal((prev: Modal) => ({ ...prev, size: "md" }));
     };
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -52,6 +51,8 @@ const SignUp = () => {
         nickname: value.nickname,
         password: value.password
       };
+      console.log(value);
+      console.log(body);
       mutate(body);
     },
     onError: () => {
