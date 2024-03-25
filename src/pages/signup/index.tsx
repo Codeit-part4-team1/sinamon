@@ -1,10 +1,17 @@
-import { useState, useEffect, useRef, useContext } from "react";
+export interface Join {
+  email: string;
+  nickname: string;
+  password: string; 
+}
+
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
-import { AuthContext } from "@/contexts/AuthProvider";
+import { JoinData, validateJoinData } from "@/types/joinTypes";
+import { useJoin } from "@/hooks/useJoin";
 import AlertModal from "@/components/common/Modal/AlertModal";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import NicknameInput from "@/components/common/AuthInput/NicknameInput";
@@ -12,13 +19,7 @@ import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import Button from "@/components/common/Button/Button";
 
-type SubmitType = {
-  email?: string;
-  password?: string;
-};
-
 const SignUp = () => {
-  const { join } = useContext(AuthContext);
   const router = useRouter();
   const {
     register,
@@ -26,18 +27,16 @@ const SignUp = () => {
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
+  const dialog = {
+    success: useRef<any>(),
+    fail: useRef<any>()
+  };
   const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
   const [resMessage, setResMessage] = useState<string>("");
-  const failDialogRef = useRef<any>();
-  const successDialogRef = useRef<any>();
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setModalSize("sm");
-      } else {
-        setModalSize("md");
-      }
+      window.innerWidth < 768 ? setModalSize("sm") : setModalSize("md");
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -46,37 +45,36 @@ const SignUp = () => {
     };
   }, []);
 
-  const submit = {
-    onSubmit: async (data: SubmitType): Promise<any> => {
-      const res = await join(data);
+  const { mutate } = useJoin.join(setResMessage, dialog.success, dialog.fail);
 
-      if (res.status === 201) {
-        setResMessage("가입이 완료되었습니다!");
-        successDialogRef.current.showModal();
-      } else {
-        setResMessage(res.response.data.message);
-        failDialogRef.current.showModal();
+  const submit = {
+    onSubmit: async (value: validateJoinData) => {
+      const body: JoinData = {
+        email: value.email,
+        nickname: value.nickname,
+        password: value.password
       }
+      mutate(body)
     },
-    onError: async (error: any) => {
+    onError: async () => {
       undefined;
     }
   };
 
   return (
     <div className="relative h-full min-w-[375px]">
-      <dialog ref={failDialogRef} className="rounded-lg">
+      <dialog ref={dialog.success} className="rounded-lg">
+        <AlertModal type="alert" size={modalSize} text={resMessage} />
+      </dialog>
+      <dialog ref={dialog.fail} className="rounded-lg">
         <AlertModal
           type="alert"
           size={modalSize}
           text={resMessage}
           handlerAlertModal={() => {
-            failDialogRef.current.close();
+            dialog.fail.current.close();
           }}
         />
-      </dialog>
-      <dialog ref={successDialogRef} className="rounded-lg">
-        <AlertModal type="alert" size="md" text={resMessage} />
       </dialog>
       <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[110px] lg:w-[640px]">
         <div>
