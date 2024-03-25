@@ -1,9 +1,13 @@
 import ReservationDatePicker from "@/components/Activities/ReservationPicker/ReservationDatePicker";
+import ReviewList from "@/components/Activities/ReviewList/ReviewList";
 
 const Activity = () => {
   return (
     <>
-      <ReservationDatePicker />
+      <div>
+        <ReviewList />
+      </div>
+      {/* <ReservationDatePicker /> */}
     </>
   );
 };
