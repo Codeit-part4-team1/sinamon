@@ -30,7 +30,14 @@ const Avatar = ({ user, size }: AvatarProps) => {
           priority
         />
       ) : (
-        <div className="w-full h-full bg-main"></div>
+        <div className="w-full h-full bg-white-ffffff">
+          <Image
+            src="/images/default-profile.png"
+            alt="프로필 사진"
+            fill
+            priority
+          />
+        </div>
       )}
     </div>
   );
