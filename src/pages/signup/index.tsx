@@ -1,17 +1,11 @@
-export interface Join {
-  email: string;
-  nickname: string;
-  password: string; 
-}
-
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { JoinData, validateJoinData } from "@/types/joinTypes";
-import { useJoin } from "@/hooks/useJoin";
+import { SignUp, ValidateSignUp, Modal } from "@/types/auth";
+import { useUsers } from "@/hooks/useUsers";
 import AlertModal from "@/components/common/Modal/AlertModal";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import NicknameInput from "@/components/common/AuthInput/NicknameInput";
@@ -31,12 +25,16 @@ const SignUp = () => {
     success: useRef<any>(),
     fail: useRef<any>()
   };
-  const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
-  const [resMessage, setResMessage] = useState<string>("");
+  const [modal, setModal] = useState<Modal>({
+    size: "sm",
+    message: ""
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      window.innerWidth < 768 ? setModalSize("sm") : setModalSize("md");
+      window.innerWidth < 768
+        ? setModal((prev: Modal) => ({ ...prev, size: "sm" }))
+        : setModal((prev: Modal) => ({ ...prev, size: "md" }));
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -45,18 +43,18 @@ const SignUp = () => {
     };
   }, []);
 
-  const { mutate } = useJoin.join(setResMessage, dialog.success, dialog.fail);
+  const { mutate } = useUsers.signUp(setModal, dialog.success, dialog.fail);
 
   const submit = {
-    onSubmit: async (value: validateJoinData) => {
-      const body: JoinData = {
+    onSubmit: (value: any) => {
+      const body: SignUp = {
         email: value.email,
         nickname: value.nickname,
         password: value.password
-      }
-      mutate(body)
+      };
+      mutate(body);
     },
-    onError: async () => {
+    onError: () => {
       undefined;
     }
   };
@@ -64,13 +62,13 @@ const SignUp = () => {
   return (
     <div className="relative h-full min-w-[375px]">
       <dialog ref={dialog.success} className="rounded-lg">
-        <AlertModal type="alert" size={modalSize} text={resMessage} />
+        <AlertModal type="alert" size={modal.size} text={modal.message} />
       </dialog>
       <dialog ref={dialog.fail} className="rounded-lg">
         <AlertModal
           type="alert"
-          size={modalSize}
-          text={resMessage}
+          size={modal.size}
+          text={modal.message}
           handlerAlertModal={() => {
             dialog.fail.current.close();
           }}

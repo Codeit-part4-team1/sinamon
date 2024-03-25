@@ -54,7 +54,7 @@ const AlertModal = ({
         <div
           onClick={
             text === "가입이 완료되었습니다!"
-              ? () => router.push("signIn")
+              ? () => router.push("signin")
               : checkAlert
           }
           className="text-center"
