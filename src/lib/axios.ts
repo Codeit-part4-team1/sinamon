@@ -4,7 +4,7 @@ import { getCookie } from "@/utils/cookie";
 
 export const instance = axios.create({
   baseURL: "https://sp-globalnomad-api.vercel.app/2-1",
-  timeout: 1000,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json"
   }
@@ -26,5 +26,3 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error)
 );
-
-instance.defaults.timeout = 2500;
