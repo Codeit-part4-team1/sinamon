@@ -17,7 +17,8 @@ export const createPageSchema = z.object({
     .string()
     .regex(priceNumberRegex, { message: "숫자만 입력해 주세요" })
     .regex(priceHeadZeroRegex, { message: "올바른 가격을 입력해 주세요" })
-    .max(7, { message: "1000만원 미만으로 입력해 주세요" }),
+    .max(7, { message: "1000만원 미만으로 입력해 주세요" })
+    .or(z.number()),
   description: z
     .string()
     .min(10, { message: "설명은 10자 이상으로 입력해 주세요" })
@@ -50,10 +51,12 @@ export const createPageSchema = z.object({
   bannerImageUrl: z.string().min(1, {
     message: "배너 이미지를 등록해 주세요"
   }),
+  bannerImagePreview: z.string(),
   subImageSelect: z.any(),
   subImageUrlList: z.array(
     z.object({
-      subImageUrl: z.string()
+      subImageUrl: z.string(),
+      subImagePreview: z.string()
     })
   ),
   subImageUrls: z.array(z.string())

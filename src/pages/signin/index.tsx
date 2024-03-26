@@ -1,70 +1,78 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-
 import { useRouter } from "next/router";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { AuthContext } from "@/contexts/AuthProvider";
-import AlertModal from "@/components/common/AlertModal";
+import { useAuth } from "@/hooks/useAuth";
+import { Signin, ErrorModal } from "@/types/auth";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
-import Button from "@/components/common/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import Button from "@/components/common/Button/Button";
 
 const SignIn = () => {
   const router = useRouter();
-
-  const { login } = useContext(AuthContext);
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<{ email: string; password: string }>({ mode: "onChange" });
+    const [modalSize, setModalSize] = useState<"md" | "sm" | "decide">("sm");
+    const [resMessage, setResMessage] = useState<string>("");
+    const dialogRef = useRef<any>();
 
-  const [resMessage, setResMessage] = useState<string>("");
-
-  const dialogRef = useRef<any>();
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setModalSize("sm");
+        } else {
+          setModalSize("md");
+        }
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
+  
+  const { mutate } = useAuth.login(setResMessage, dialogRef);
 
   const submit = {
-    onSubmit: async (data: any) => {
-      const res = await login(data);
-
-      console.log(res);
-
-      if (res.status === 201) {
-        router.push("/");
-      } else {
-        setResMessage(res.response.data.message);
-        dialogRef.current.showModal();
-      }
+    onSubmit: async (value: Signin) => {
+      mutate(value);
     },
-    onError: (error: any) => {
-      console.log(error);
+    onError: async (error: any) => {
+      undefined;
     }
   };
 
   return (
-    <div className="relative max-w-[740px] pt-[100px] px-[12px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[180px]">
+    <div className="relative h-full min-w-[375px]">
       <dialog ref={dialogRef} className="rounded-lg">
         <AlertModal
           type="alert"
-          size="md"
+          size={modalSize}
           text={resMessage}
           handlerAlertModal={() => {
             dialogRef.current.close();
           }}
         />
       </dialog>
-      <div className="flex-col gap-5 min-w-[280px] mx-auto">
+      <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[150px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
             alt="logo"
             width={300}
             height={100}
-            className="m-auto"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="m-auto hover:cursor-pointer"
           />
         </div>
         <form
@@ -93,7 +101,7 @@ const SignIn = () => {
         </form>
         <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
           <p>회원이 아니신가요?</p>
-          <Link href="signUp" className="underline">
+          <Link href="signup" className="underline">
             회원가입하기
           </Link>
         </div>

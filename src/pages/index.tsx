@@ -6,7 +6,7 @@ import CurationCardList from "@/components/home/CurationCardList";
 import CategoryList from "@/components/home/CategoryList";
 import SortDropdown from "@/components/home/SortDropdown";
 import CardList from "@/components/home/CardList";
-import Pagination from "@/components/common/Pagination";
+import Pagination from "@/components/common/Pagination/Pagination";
 
 const Home: NextPageWithLayout = () => {
   return (

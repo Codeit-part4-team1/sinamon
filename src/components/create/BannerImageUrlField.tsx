@@ -1,9 +1,30 @@
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
+
+import { useActivities } from "@/hooks/useActivities";
+
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
 const BannerImageUrlField = () => {
   const { formState, register, watch, getValues, setValue } = useFormContext();
+
+  const { mutate } = useActivities.createImageUrl(setValue, "bannerImageUrl");
+
+  const handleCreateImageUrl = () => {
+    setValue(
+      "bannerImagePreview",
+      URL?.createObjectURL(getValues("bannerImageSelect")[0])
+    );
+
+    const formData = new FormData();
+    formData.append("image", getValues("bannerImageSelect")[0]);
+    mutate(formData);
+  };
+
+  const henaldeResetValue = () => {
+    setValue("bannerImageUrl", "");
+    setValue("bannerImagePreview", "");
+  };
 
   return (
     <div className="mt-1">
@@ -11,12 +32,12 @@ const BannerImageUrlField = () => {
         배너 이미지
       </span>
       <div className="mt-1">
-        {watch("bannerImageUrl") ? (
+        {watch("bannerImagePreview") ? (
           <div className="group w-fit relative flex-shrink-0 list-none rounded-md overflow-hidden">
             <div className="w-[156px] aspect-square relative">
               <Image
                 className="object-cover"
-                src={watch("bannerImageUrl")}
+                src={watch("bannerImagePreview")}
                 alt="모임 배너 이미지"
                 fill
               />
@@ -24,7 +45,7 @@ const BannerImageUrlField = () => {
             <button
               className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 rounded-md group-hover:flex"
               type="button"
-              onClick={() => setValue("bannerImageUrl", "")}
+              onClick={henaldeResetValue}
             >
               <FaXmark className="text-white-ffffff text-xl md:text-2xl" />
             </button>
@@ -43,11 +64,7 @@ const BannerImageUrlField = () => {
               type="file"
               accept="image/*"
               {...register("bannerImageSelect", {
-                onChange: () =>
-                  setValue(
-                    "bannerImageUrl",
-                    URL?.createObjectURL(getValues("bannerImageSelect")[0])
-                  )
+                onChange: handleCreateImageUrl
               })}
             />
 

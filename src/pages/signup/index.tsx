@@ -1,76 +1,91 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 
-import { AuthContext } from "@/contexts/AuthProvider";
-import AlertModal from "@/components/common/AlertModal";
+import { SignUp, Modal } from "@/types/auth";
+import { useUsers } from "@/hooks/useUsers";
+import AlertModal from "@/components/common/Modal/AlertModal";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import NicknameInput from "@/components/common/AuthInput/NicknameInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
-import Button from "@/components/common/Button";
-
-type SubmitType = {
-  email?: string;
-  password?: string;
-};
+import Button from "@/components/common/Button/Button";
 
 const SignUp = () => {
-  const { join } = useContext(AuthContext);
-
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm({ mode: "onChange" });
+  const dialog = {
+    success: useRef<any>(),
+    fail: useRef<any>()
+  };
+  const [modal, setModal] = useState<Modal>({
+    size: "sm",
+    message: ""
+  });
 
-  const [resMessage, setResMessage] = useState<string>("");
+  useEffect(() => {
+    const handleResize = () => {
+      window.innerWidth < 768
+        ? setModal((prev: Modal) => ({ ...prev, size: "sm" }))
+        : setModal((prev: Modal) => ({ ...prev, size: "md" }));
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-  const dialogRef = useRef<any>();
+  const { mutate } = useUsers.signUp(setModal, dialog.success, dialog.fail);
 
   const submit = {
-    onSubmit: async (data: SubmitType): Promise<any> => {
-      const res = await join(data);
-
-      if (res.status === 201) {
-        setResMessage("가입이 완료되었습니다!");
-        dialogRef.current.showModal();
-      } else {
-        setResMessage(res.response.data.message);
-        dialogRef.current.showModal();
-      }
+    onSubmit: (value: any) => {
+      const body: SignUp = {
+        email: value.email,
+        nickname: value.nickname,
+        password: value.password
+      };
+      console.log(value);
+      console.log(body);
+      mutate(body);
     },
-    onError: async (error: any) => {
+    onError: () => {
       undefined;
     }
   };
 
   return (
-    <div className="relative max-w-[740px] pt-[100px] px-[12px] mx-auto sm:px-[12px] sm:pt-[100px] md:px-[52px] md:pt-[100px]">
-      <dialog ref={dialogRef} className="rounded-lg">
+    <div className="relative h-full min-w-[375px]">
+      <dialog ref={dialog.success} className="rounded-lg">
+        <AlertModal type="alert" size={modal.size} text={modal.message} />
+      </dialog>
+      <dialog ref={dialog.fail} className="rounded-lg">
         <AlertModal
           type="alert"
-          size="md"
-          text={resMessage}
+          size={modal.size}
+          text={modal.message}
           handlerAlertModal={() => {
-            dialogRef.current.close();
+            dialog.fail.current.close();
           }}
         />
       </dialog>
-      <div className="flex flex-col gap-5 min-w-[280px] mx-auto">
+      <div className="flex-col gap-5 mx-auto w-full pt-[80px] pb-[50px] px-[15px] md:w-[632px] md:pt-[110px] lg:w-[640px]">
         <div>
           <Image
             src="/images/logo.png"
             alt="logo"
             width={300}
             height={100}
-            className="m-auto"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="m-auto hover:cursor-pointer"
           />
         </div>
         <form
@@ -112,9 +127,9 @@ const SignUp = () => {
           <div className="mt-7">
             <Button text="회원가입 하기" size="full" type="submit"></Button>
           </div>
-          <div className="flex flex-row justify-center gap-3 text-sm mx-auto mt-8">
+          <div className="flex justify-center gap-3 text-sm mx-auto mt-8">
             <p>회원이신가요?</p>
-            <Link href="signIn" className="underline">
+            <Link href="signin" className="underline">
               로그인하기
             </Link>
           </div>
