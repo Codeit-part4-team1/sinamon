@@ -44,9 +44,6 @@ instance.interceptors.response.use(
       setCookie("refreshToken", result.data.refreshToken);
 
       return instance(originRequest);
-      // refreshToken 요청 실패로 만료가 되었다고 생각했을 때 재로그인 페이지 이동
-    } else if (error.response.status === 404) {
-      window.location.replace("/signin");
     }
     return Promise.reject(error);
   }
