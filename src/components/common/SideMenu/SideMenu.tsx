@@ -9,7 +9,7 @@ interface SideMenuProps {
 
 const SideMenu = ({ path }: SideMenuProps) => {
   return (
-    <ul className="w-full md:w-44 h-fit flex md:flex-col flex-shrink-0 justify-between gap-1 md:gap-3 bg-white-ffffff md:bg-transparent border border-gray-cbc9cf md:border-none rounded-md p-2 md:p-0">
+    <ul className="md:sticky w-full md:w-44 h-fit top-0 md:pt-6 p-2 md:p-0 flex md:flex-col flex-shrink-0 justify-between gap-1 md:gap-3 bg-white-ffffff md:bg-transparent border border-gray-cbc9cf md:border-none rounded-md">
       <li className="sm:flex-1">
         <button
           className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "/mypage" && "border border-main bg-sub"}`}

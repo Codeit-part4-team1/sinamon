@@ -5,6 +5,7 @@ import { useActivities } from "@/hooks/useActivities";
 
 interface CardList {
   id: number;
+  bannerImageUrl: string;
   reviewCount: number;
   rating: number;
   title: string;
@@ -12,20 +13,27 @@ interface CardList {
 }
 
 const CardList = () => {
-  const { data } = useActivities.get();
+  const { data } = useActivities.getActivitiesList();
   const { activities } = data?.data || [];
 
   return (
     <ul className="mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">
       {activities?.map(
-        ({ id, reviewCount, rating, title, price }: CardList) => (
+        ({
+          id,
+          bannerImageUrl,
+          reviewCount,
+          rating,
+          title,
+          price
+        }: CardList) => (
           <Link href={`/activities/${id}`}>
             <li key={id}>
               <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square">
                 <Image
                   className="object-cover"
-                  src={"/images/temp-active-preview.png"}
-                  alt="temp-active-preview"
+                  src={bannerImageUrl}
+                  alt="모임 이미지"
                   fill
                 />
               </div>

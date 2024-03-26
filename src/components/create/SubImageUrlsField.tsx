@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
+
+import { useActivities } from "@/hooks/useActivities";
+
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
 const SubImageUrlsField = () => {
-  const { control, register, watch, getValues } = useFormContext();
+  const { control, register, watch, getValues, setValue } = useFormContext();
 
   const {
     fields: subImageUrlListFields,
@@ -13,6 +16,21 @@ const SubImageUrlsField = () => {
     control,
     name: "subImageUrlList"
   });
+
+  const { mutate } = useActivities.createImageUrl(
+    setValue,
+    "subImageUrl",
+    getValues,
+    subImageUrlListAppend
+  );
+
+  const handleCreateImageUrl = () => {
+    if (watch("subImageSelect")[0]) {
+      const formData = new FormData();
+      formData.append("image", getValues("subImageSelect")[0]);
+      mutate(formData);
+    }
+  };
 
   return (
     <div className="mt-1">
@@ -34,14 +52,7 @@ const SubImageUrlsField = () => {
               type="file"
               accept="image/*"
               {...register("subImageSelect", {
-                onChange: () => {
-                  watch("subImageSelect")[0] &&
-                    subImageUrlListAppend({
-                      subImageUrl: URL?.createObjectURL(
-                        getValues("subImageSelect")[0]
-                      )
-                    });
-                }
+                onChange: handleCreateImageUrl
               })}
             />
           </li>
@@ -54,7 +65,7 @@ const SubImageUrlsField = () => {
             <div className="w-[156px] aspect-square relative">
               <Image
                 className="object-cover"
-                src={watch(`subImageUrlList.${index}.subImageUrl`)}
+                src={watch(`subImageUrlList.${index}.subImagePreview`)}
                 alt="모임 소개 이미지"
                 fill
               />
