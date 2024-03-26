@@ -7,8 +7,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
-import "@/styles/globals.css";
 
+import "@/styles/globals.css";
+import "@/styles/datePicker.css";
 
 const queryClient = new QueryClient({
   // 임시 기본값 추후 변경

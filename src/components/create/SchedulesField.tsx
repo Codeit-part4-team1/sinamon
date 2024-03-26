@@ -1,8 +1,10 @@
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaPlus, FaMinus } from "react-icons/fa6";
+
 import { Input } from "@/components/ui/input";
+
+import { FaPlus, FaMinus } from "react-icons/fa6";
 
 const SchedulesField = () => {
   const { control, formState, register, watch, getValues } = useFormContext();
@@ -32,6 +34,7 @@ const SchedulesField = () => {
             render={({ field: { onChange, value } }) => (
               <DatePicker
                 className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
+                formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
                 dateFormat="yyyy년 M월 dd일"
                 dateFormatCalendar="yyyy년 MM월"
                 shouldCloseOnSelect

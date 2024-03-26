@@ -2,8 +2,10 @@ import { ReactNode } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
+import { useActivities } from "@/hooks/useActivities";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import Button from "@/components/common/Button/Button";
@@ -40,7 +42,10 @@ const CreatePage: NextPageWithLayout = () => {
     }
   });
 
+  const { mutate } = useActivities.postActivities();
+
   function onSubmit(values: z.infer<typeof createPageSchema>) {
+    values.price = Number(form.watch("price"));
     values.address = `${values.addressObject.roadAddress} ${values.addressObject.detailAddress}`;
     values.subImageUrls = values.subImageUrlList.map((url) => url.subImageUrl);
     values.schedules.forEach((schedule) => {
@@ -59,12 +64,13 @@ const CreatePage: NextPageWithLayout = () => {
       startTimeSelect,
       endTimeSelect,
       bannerImageSelect,
+      bannerImagePreview,
       subImageSelect,
       subImageUrlList,
       ...newCreateData
     } = values;
 
-    console.log(newCreateData);
+    mutate(newCreateData);
   }
 
   return (
