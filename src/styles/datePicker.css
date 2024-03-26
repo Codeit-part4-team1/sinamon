@@ -1,7 +1,8 @@
 .react-datepicker {
+  left: 40px !important;
   border-radius: 12px !important;
-  overflow: hidden !important;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  overflow: hidden !important;
 }
 
 @media screen and (max-width: 768px) {
