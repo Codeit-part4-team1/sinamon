@@ -12,6 +12,7 @@ export const useUsers = {
       queryFn: () => instance.get("/users/me"),
       enabled: !!getCookie("accessToken")
     }),
+
   signUp: (setModal: any, successDialog: any, failDialog: any) =>
     useMutation({
       mutationFn: (value: SignUp) => instance.post("/users", value),

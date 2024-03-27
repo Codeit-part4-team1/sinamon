@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { useRouter } from "next/router";
+import { ReactNode, useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { useActivities } from "@/hooks/useActivities";
+import { useMyActivities } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import Button from "@/components/common/Button/Button";
@@ -18,12 +20,18 @@ import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
 
-const CreatePage: NextPageWithLayout = () => {
+const EditPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { id: stringId } = router.query;
+  const id = Number(stringId);
+
+  const { data } = useActivities.getActivitiesDetail(id);
+
   const form = useForm<z.infer<typeof createPageSchema>>({
     resolver: zodResolver(createPageSchema),
     defaultValues: {
       title: "",
-      category: "문화 · 예술",
+      category: "",
       price: "",
       description: "",
       address: "",
@@ -33,25 +41,73 @@ const CreatePage: NextPageWithLayout = () => {
         new Date().setHours(new Date().getHours() + 1, 0)
       ),
       bannerImageUrl: "",
-      subImageUrls: []
+      bannerImagePreview: "",
+      subImageUrlList: [{ subImagePreview: "", subImageUrl: "" }],
+
+      subImageUrls: [],
+      subImageIdsToRemove: []
     }
   });
 
-  const { mutate } = useActivities.postActivities();
+  useEffect(() => {
+    if (data?.data) {
+      form.setValue("title", data.data.title);
+      form.setValue("category", data.data.category);
+      form.setValue("price", data.data.price);
+      form.setValue("description", data.data.description);
+      form.setValue("address", data.data.address);
+      form.setValue("bannerImageUrl", data.data.bannerImageUrl);
+      form.setValue("bannerImagePreview", data.data.bannerImageUrl);
+    }
+  }, [data?.data.title]);
+
+  const { mutate } = useMyActivities.patchMyActivityEdit(id);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
+    values.schedulesToAdd = values.schedules.filter(
+      (ele) => ele.id === undefined
+    );
+
+    const remainSchedules = values.schedules.map((schedule) => schedule.id);
+
+    const InitialSchedules = values.schedulesInitial.map(
+      (schedule: any) => schedule.id
+    );
+
+    values.scheduleIdsToRemove = InitialSchedules.filter(
+      (schedule: any) => !remainSchedules.includes(schedule)
+    );
+
+    values.subImageUrlsToAdd = values.subImageUrlList
+      .filter((ele) => ele.id === undefined)
+      .map((ele) => ele.subImageUrl);
+
+    const remainSubImages = values.subImageUrlList.map(
+      (subImageUrl) => subImageUrl.id
+    );
+
+    const InitialsubImages = values.subImageiInitial.map(
+      (subImage: any) => subImage.id
+    );
+
+    values.subImageIdsToRemove = InitialsubImages.filter(
+      (subImage: any) => !remainSubImages.includes(subImage)
+    );
+
     values.price = Number(form.watch("price"));
     values.subImageUrls = values.subImageUrlList.map((url) => url.subImageUrl);
 
     const {
-      schedulesInitial,
       dateSelect,
+      schedules,
+      schedulesInitial,
       startTimeSelect,
       endTimeSelect,
       bannerImageSelect,
       bannerImagePreview,
       subImageSelect,
       subImageUrlList,
+      subImageUrls,
       subImageiInitial,
       ...newCreateData
     } = values;
@@ -61,7 +117,7 @@ const CreatePage: NextPageWithLayout = () => {
 
   return (
     <>
-      <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 등록</p>
+      <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 수정</p>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"
@@ -76,11 +132,11 @@ const CreatePage: NextPageWithLayout = () => {
           </div>
           <DescriptionField />
           <AddressField />
-          <SchedulesField />
+          <SchedulesField data={data?.data.schedules} />
           <BannerImageUrlField />
-          <SubImageUrlsField />
+          <SubImageUrlsField edit={"edit"} data={data?.data.subImages} />
           <Button
-            text="등록하기"
+            text="수정하기"
             className="w-full md:w-96 h-12 mx-auto mt-8"
             type="submit"
           ></Button>
@@ -90,7 +146,7 @@ const CreatePage: NextPageWithLayout = () => {
   );
 };
 
-CreatePage.getLayout = function getLayout(page: ReactNode) {
+EditPage.getLayout = function getLayout(page: ReactNode) {
   return (
     <BaseLayout>
       <MenuLayout>{page}</MenuLayout>
@@ -98,4 +154,4 @@ CreatePage.getLayout = function getLayout(page: ReactNode) {
   );
 };
 
-export default CreatePage;
+export default EditPage;

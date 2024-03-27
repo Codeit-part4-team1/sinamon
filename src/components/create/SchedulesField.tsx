@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,17 +7,26 @@ import { Input } from "@/components/ui/input";
 
 import { FaPlus, FaMinus } from "react-icons/fa6";
 
-const SchedulesField = () => {
-  const { control, formState, register, watch, getValues } = useFormContext();
+const SchedulesField = ({ data }: any) => {
+  const { control, formState, register, watch, getValues, setValue } =
+    useFormContext();
 
   const {
     fields: schedulesFields,
     append: schedulesAppend,
-    remove: schedulesRemove
+    remove: schedulesRemove,
+    replace: schedulesRePlace
   } = useFieldArray({
     control,
     name: "schedules"
   });
+
+  useEffect(() => {
+    if (data) {
+      schedulesRePlace(data);
+    }
+    setValue(`schedulesInitial`, getValues(`schedules`));
+  }, [data]);
 
   return (
     <div className="w-fit flex flex-col gap-y-2 md:gap-y-3">
@@ -35,7 +45,7 @@ const SchedulesField = () => {
               <DatePicker
                 className="w-[136px] md:w-40 h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none"
                 formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
-                dateFormat="yyyy년 M월 dd일"
+                dateFormat="yyyy-MM-dd"
                 dateFormatCalendar="yyyy년 MM월"
                 shouldCloseOnSelect
                 minDate={new Date()}
@@ -117,11 +127,15 @@ const SchedulesField = () => {
               getValues("endTimeSelect")
             ) {
               schedulesAppend({
-                date: `${getValues("dateSelect").toLocaleDateString("ko-KR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric"
-                })}`,
+                date: `${getValues("dateSelect")
+                  .toLocaleDateString("ko-KR", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
+                  })
+                  .replace(/\s+/g, "")
+                  .replace(/\./g, "-")
+                  .slice(0, -1)}`,
                 startTime: `${getValues("startTimeSelect").toLocaleString(
                   "en-US",
                   {
