@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getCookie } from "@/utils/cookie";
+import { getCookie, setCookie } from "@/utils/cookie";
 
 export const instance = axios.create({
   baseURL: "https://sp-globalnomad-api.vercel.app/2-1",
@@ -13,7 +13,6 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -24,5 +23,28 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error)
+  async (error) => {
+    const originRequest = error.config;
+    const refreshToken = getCookie("refreshToken");
+    // 401 error (accessToken) 만료로 refreshToken 검증 후 accessToken 발급
+    // _retry 속성으로 해당 요청이 재시도가 되었는지 여부를 표시
+    if (
+      error.response?.status === 401 &&
+      !originRequest._retry &&
+      refreshToken
+    ) {
+      const result = await instance.post(
+        "/auth/tokens",
+        {},
+        {
+          headers: { Authorization: `Bearer ${refreshToken}`, _retry: true }
+        }
+      );
+      setCookie("accessToken", result.data.accessToken);
+      setCookie("refreshToken", result.data.refreshToken);
+
+      return instance(originRequest);
+    }
+    return Promise.reject(error);
+  }
 );
