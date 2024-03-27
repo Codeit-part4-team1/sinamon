@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
+
 import {
   FormControl,
   FormField,
@@ -9,7 +10,6 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 
 const AddressField = () => {
   const [dialogopen, setDialogOpen] = useState(false);
@@ -18,8 +18,7 @@ const AddressField = () => {
 
   const handleComplete = (data: any) => {
     setDialogOpen((prev) => !prev);
-    setValue("addressObject.postcode", data.zonecode);
-    setValue("addressObject.roadAddress", data.address);
+    setValue("address", data.address);
   };
 
   const addressStyle = {
@@ -38,7 +37,7 @@ const AddressField = () => {
           </DialogContent>
           <FormField
             control={control}
-            name="addressObject.postcode"
+            name="address"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel className="text-lg md:text-xl font-semibold">
@@ -50,7 +49,7 @@ const AddressField = () => {
                       <input
                         className="w-full h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
                         type="text"
-                        placeholder="우편번호"
+                        placeholder="기본 주소를 입력해 주세요"
                         {...field}
                       />
                     </FormControl>
@@ -64,41 +63,6 @@ const AddressField = () => {
                     </button>
                   </DialogTrigger>
                 </div>
-                <FormMessage className="mt-[2px] md:mt-1" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="addressObject.roadAddress"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <DialogTrigger asChild>
-                  <FormControl>
-                    <input
-                      className="w-full h-10 md:h-12 px-3 md:px-4 mt-[6px] md:mt-2 text-sm md:text-base bg-white-ffffff border border-gray-a4a1aa rounded-md outline-none cursor-pointer caret-transparent"
-                      type="text"
-                      placeholder="기본 주소를 입력해 주세요"
-                      {...field}
-                    />
-                  </FormControl>
-                </DialogTrigger>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="addressObject.detailAddress"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormControl>
-                  <Input
-                    className="h-10 md:h-12 px-3 md:px-4 mt-1 md:mt-2 text-sm md:text-base bg-white-ffffff border-gray-a4a1aa"
-                    placeholder="상세 주소를 입력해 주세요"
-                    {...field}
-                  />
-                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
