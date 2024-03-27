@@ -23,6 +23,8 @@ export const useAuth = {
   logout: () => {
     removeCookie("accessToken");
     removeCookie("refreshToken");
-    Router.push("/");
+    Router.push("/").then(() => {
+      window.location.reload();
+    })
   }
 };
