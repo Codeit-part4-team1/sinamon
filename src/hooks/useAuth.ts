@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
 import { Signin, ErrorModal } from "@/types/auth";
-import { setCookie } from "@/utils/cookie";
+import { removeCookie, setCookie } from "@/utils/cookie";
 
 export const useAuth = {
   login: (setResMessage: any, dialogRef: any) =>
@@ -19,5 +19,10 @@ export const useAuth = {
         setResMessage(err.response.data.message);
         dialogRef.current.showModal();
       }
-    })
+    }),
+  logout: () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    Router.push("/");
+  }
 };
