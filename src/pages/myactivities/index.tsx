@@ -23,7 +23,7 @@ const MyActivitiesPage: NextPageWithLayout = () => {
 
   return (
     <ul>
-      {data?.data.activities.map(({ id, title }: Activity) => (
+      {data?.data.activities.map(({ id, title }: any) => (
         <li key={id}>
           <Link href={`/myactivities/${id}/edit`}>{title}</Link>
         </li>

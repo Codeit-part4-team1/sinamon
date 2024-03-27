@@ -117,7 +117,7 @@ const EditPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 등록</p>
+      <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 수정</p>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"
