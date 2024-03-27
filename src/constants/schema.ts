@@ -25,13 +25,8 @@ export const createPageSchema = z.object({
     .max(255, {
       message: "설명은 256자 미만으로 입력해 주세요"
     }),
-  address: z.string(),
-  addressObject: z.object({
-    postcode: z.string().min(1, {
-      message: "주소를 입력해 주세요"
-    }),
-    roadAddress: z.string(),
-    detailAddress: z.string()
+  address: z.string().min(1, {
+    message: "주소를 입력해 주세요"
   }),
   dateSelect: z.date(),
   startTimeSelect: z.date(),
@@ -41,12 +36,16 @@ export const createPageSchema = z.object({
       z.object({
         date: z.string(),
         startTime: z.date().or(z.string()),
-        endTime: z.date().or(z.string())
+        endTime: z.date().or(z.string()),
+        id: z.number().optional()
       })
     )
     .nonempty({
       message: "일정을 등록해 주세요"
     }),
+  schedulesToAdd: z.any().optional(),
+  scheduleIdsToRemove: z.array(z.string()).optional(),
+  schedulesInitial: z.any().optional(),
   bannerImageSelect: z.any(),
   bannerImageUrl: z.string().min(1, {
     message: "배너 이미지를 등록해 주세요"
@@ -55,9 +54,13 @@ export const createPageSchema = z.object({
   subImageSelect: z.any(),
   subImageUrlList: z.array(
     z.object({
+      subImagePreview: z.string(),
       subImageUrl: z.string(),
-      subImagePreview: z.string()
+      id: z.number().optional()
     })
   ),
-  subImageUrls: z.array(z.string())
+  subImageUrls: z.any(),
+  subImageUrlsToAdd: z.any().optional(),
+  subImageIdsToRemove: z.array(z.string()).optional(),
+  subImageiInitial: z.any().optional()
 });

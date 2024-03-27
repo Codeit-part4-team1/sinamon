@@ -21,6 +21,13 @@ export const useActivities = {
       }
     }),
 
+  getActivitiesDetail: (id: number) =>
+    useQuery({
+      queryKey: ["myActivity"],
+      queryFn: () => instance.get(`/activities/${id}`),
+      enabled: !!id
+    }),
+
   createImageUrl: (
     setValue: any,
     imageName: string,
