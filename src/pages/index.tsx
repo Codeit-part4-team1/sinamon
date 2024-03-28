@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 import MainPageLayout from "@/components/layout/MainPageLayout";
 import Searchbar from "@/components/home/Searchbar";
@@ -9,13 +9,20 @@ import CardList from "@/components/home/CardList";
 import Pagination from "@/components/common/Pagination/Pagination";
 
 const Home: NextPageWithLayout = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   return (
     <>
       <Searchbar />
       <CurationCardList />
-      <CategoryList />
+      <CategoryList
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
       <div className="mb-4 md:mb-6 flex justify-between items-center">
-        <span className="text-2xl md:text-3xl font-bold">전체</span>
+        <span className="text-2xl md:text-3xl font-bold">
+          {selectedCategory || "전체"}
+        </span>
         <SortDropdown />
       </div>
       <CardList />

@@ -22,20 +22,14 @@ const Avatar = ({ user, size }: AvatarProps) => {
   return (
     <div className={`${sizeClass[size]} relative rounded-full overflow-hidden`}>
       {user?.profileImageUrl ? (
-        <Image
-          src={user.profileImageUrl}
-          alt="프로필 사진"
-          fill
-          sizes="100%"
-          priority
-        />
+        <Image src={user.profileImageUrl} alt="프로필 사진" fill sizes="100%" />
       ) : (
-        <div className="w-full h-full bg-white-ffffff">
+        <div className="relative w-full h-full bg-white-ffffff">
           <Image
             src="/images/default-profile.png"
             alt="프로필 사진"
             fill
-            priority
+            sizes="100%"
           />
         </div>
       )}

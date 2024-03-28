@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { instance } from "@/lib/axios";
 
 export const useMyActivities = {
-  patchMyActivityEdit: (id: number) =>
+  patchMyActivityEdit: (id: number, handleError: (status: number) => void) =>
     useMutation({
       mutationFn: (value: any) => instance.patch(`/my-activities/${id}`, value),
       onSuccess(data) {
@@ -11,6 +11,7 @@ export const useMyActivities = {
       },
       onError(err: any) {
         console.log(err);
+        handleError(err.response.status);
       }
     })
 };

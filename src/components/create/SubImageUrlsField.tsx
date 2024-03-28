@@ -77,12 +77,15 @@ const SubImageUrlsField = ({ data }: any) => {
             key={item.id}
           >
             <div className="w-[156px] aspect-square relative">
-              <Image
-                className="object-cover"
-                src={watch(`subImageUrlList.${index}.subImagePreview`)}
-                alt="모임 소개 이미지"
-                fill
-              />
+              {watch(`subImageUrlList.${index}.subImagePreview`) && (
+                <Image
+                  className="object-cover"
+                  src={watch(`subImageUrlList.${index}.subImagePreview`)}
+                  alt="모임 소개 이미지"
+                  fill
+                  sizes="100%"
+                />
+              )}
             </div>
             <button
               className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 rounded-md group-hover:flex"

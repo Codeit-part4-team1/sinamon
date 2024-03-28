@@ -40,8 +40,12 @@ instance.interceptors.response.use(
           headers: { Authorization: `Bearer ${refreshToken}`, _retry: true }
         }
       );
-      setCookie("accessToken", result.data.accessToken);
-      setCookie("refreshToken", result.data.refreshToken);
+      setCookie("accessToken", result.data.accessToken, {
+        path: "/"
+      });
+      setCookie("refreshToken", result.data.refreshToken, {
+        path: "/"
+      });
 
       return instance(originRequest);
     }

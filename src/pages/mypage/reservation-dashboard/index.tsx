@@ -24,7 +24,7 @@ const ReservationStatus: NextPageWithLayout = () => {
   return (
     <div className="flex flex-col gap-[40px]">
       <div className="relative flex flex-col gap-[32px]">
-        <h1 className="text-[28px] font-bold">예약 현황</h1>
+        <h1 className="text-[28px] font-bold">모집 현황</h1>
         <Select>
           <SelectTrigger className="border border-gray-500 h-[56px] rounded-md focus:outline-none placeholder:font-bold">
             <SelectValue placeholder="함께 배우면 즐거운 스트릿 댄스" />
