@@ -40,6 +40,7 @@ const BannerImageUrlField = () => {
                 src={watch("bannerImagePreview")}
                 alt="모임 배너 이미지"
                 fill
+                sizes="100%"
               />
             </div>
             <button
