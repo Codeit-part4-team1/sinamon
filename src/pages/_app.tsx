@@ -5,7 +5,6 @@ import localFont from "next/font/local";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import "@/styles/globals.css";
@@ -47,14 +46,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       enableSystem
       disableTransitionOnChange
     >
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <div className={`${pretendard.className}`}>
-            {getLayout(<Component {...pageProps} />)}
-          </div>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <div className={`${pretendard.className}`}>
+          {getLayout(<Component {...pageProps} />)}
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

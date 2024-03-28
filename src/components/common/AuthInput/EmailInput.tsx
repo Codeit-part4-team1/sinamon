@@ -13,7 +13,7 @@ const EmailInput = ({ whatFor }: WhatFor) => {
       </label>
       <input
         id="email"
-        placeholder={whatFor !== "edit" ? "이메일을 입력해 주세요" : ""}
+        placeholder="이메일을 입력해 주세요"
         autoComplete="off"
         readOnly={whatFor === "edit" ? true : false}
         {...register("email", {

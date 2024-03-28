@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { FaXmark } from "react-icons/fa6";
@@ -10,7 +10,6 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-import { AuthContext } from "@/contexts/AuthProvider";
 import Button from "@/components/common/Button/Button";
 import AlertModal from "@/components/common/Modal/AlertModal";
 
@@ -21,8 +20,6 @@ type ViewType = {
 };
 
 const ReservationInfoModal = ({ onCancel, destination }: any) => {
-  const { userCookie } = useContext(AuthContext);
-
   const [view, setView] = useState<ViewType>({
     apply: true,
     approval: false,

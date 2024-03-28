@@ -1,11 +1,8 @@
-import React, { useState, useContext } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
 import { FaXmark } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { GoDotFill } from "react-icons/go";
-
-import { AuthContext } from "@/contexts/AuthProvider";
 
 type NotificationType = {
   id: number;
@@ -20,7 +17,6 @@ type NotificationType = {
 type NotificationArrayType = NotificationType[];
 
 const NotificationModal = ({ onCancel }: any) => {
-  const { userCookie } = useContext(AuthContext);
   const [notifications, setNotifications] = useState<NotificationArrayType>([]);
 
   const arr = [1, 2, 3];

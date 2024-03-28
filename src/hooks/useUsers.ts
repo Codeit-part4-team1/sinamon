@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
 import { SignUpValue, SignUpModal } from "@/types/auth";
+import { MyInfoValue, MyInfoModal } from "@/types/users";
 
 export const useUsers = {
   get: () =>
@@ -27,6 +28,14 @@ export const useUsers = {
           message: err.response.data.message
         }));
         failDialog.current.showModal();
+      }
+    }),
+  edit: (modal: MyInfoModal, setModal: any) =>
+    useMutation({
+      mutationFn: (value: MyInfoValue) => instance.patch("/users", value),
+      onSuccess: () => {
+        setModal((prev: MyInfoModal) => ({ ...prev, message: "수정되었습니다" }));
+        modal.modal.showModal();
       }
     })
 };

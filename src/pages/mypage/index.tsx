@@ -1,10 +1,12 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import { ReactNode, useState, useContext, useRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect, useRef, ReactNode } from "react";
+import Image from "next/image";
+import { useForm, FormProvider } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
 
-import { AuthContext } from "@/contexts/AuthProvider";
+import { MyInfoField, MyInfoValue, MyInfoModal } from "@/types/users";
+import { useUsers } from "@/hooks/useUsers";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
@@ -15,105 +17,142 @@ import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
 
 const MyInfo: NextPageWithLayout = () => {
-  const { updateUserInfo } = useContext(AuthContext);
+  const { data } = useUsers.get();
+  
+  const form = useForm({
+    mode: "onChange"
+  });
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm({ mode: "onChange" });
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        profileImageURL: data?.data.profileImageURL,
+        nickname: data?.data.nickname,
+        email: data?.data.email
+      });
+    }
+  }, [data]);
 
-  const [resMessage, setResMessage] = useState<string>("");
+  const [modal, setModal] = useState<MyInfoModal>({
+    modal: useRef<any>(),
+    message: ""
+  });
 
-  const dialogRef = useRef<any>();
+  const [imgPreview, setImgPreview] = useState<boolean>(false);
+
+  const handleCreateImageUrl = () => {
+    form.setValue(
+      "profileImageURL",
+      URL?.createObjectURL(form.getValues("profileImageURL")[0])
+    );
+    const formData = new FormData();
+    formData.append("image", form.getValues("profileImageURL")[0]);
+    setImgPreview(true);
+  };
+
+  const { mutate } = useUsers.edit(modal, setModal);
 
   const submit = {
-    onSubmit: async (data: any): Promise<any> => {
-      setResMessage("hello");
-      dialogRef.current.showModal();
+    onSubmit: async (value: any) => {
+      const body: MyInfoValue = {
+        nickname: value.nickname,
+        profileImageURL: value.profileImageURL,
+        newPassword: value.newPassword
+      };
+      mutate(body);
     },
-    onError: async (error: any) => {
-      setResMessage("bye");
+    onError: async () => {
+      undefined;
     }
   };
 
   return (
-    <div className="relative max-w-[930px]">
-      <dialog ref={dialogRef}>
-        <AlertModal
-          type="decide"
-          size="md"
-          text={resMessage}
-          handlerAlertModal={() => {
-            dialogRef.current.close();
-          }}
-        />
-      </dialog>
-      <div className="mx-auto sm:pt-[20px] md:pt-[50px]">
-        <div className="flex-col gap-5 mx-auto">
-          <form
-            onSubmit={handleSubmit(submit.onSubmit, submit.onError)}
-            className="flex flex-col gap-5 md:gap-10"
-          >
-            <h1 className="text-[28px] font-bold">내 정보</h1>
-            <div className="flex flex-col items-center gap-10 sm:pt-[15px] md:pt-[0px] md:flex-row">
-              <div className="relative flex flex-col gap-5 items-center">
-                <input
-                  type="file"
-                  className="border rounded-md bg-gray-200 h-[140px] w-[140px]"
-                />
-                <HiPlus
-                  width={50}
-                  height={50}
-                  className="absolute top-[63px] left-[63px] hover: cursor-pointer"
-                />
-                <Button text="초기화" size="full" type="button"></Button>
+    <FormProvider {...form}>
+      <div className="relative max-w-[930px]">
+        <dialog ref={modal.modal}>
+          <AlertModal
+            type="decide"
+            size="decide"
+            text={modal.message}
+            handlerAlertModal={() => {
+              modal.modal.current.close();
+            }}
+          />
+        </dialog>
+        <div className="mx-auto pt-[20px] md:pt-[50px]">
+          <div className="flex-col gap-5 mx-auto">
+            <form
+              onSubmit={form.handleSubmit(submit.onSubmit, submit.onError)}
+              className="flex flex-col gap-5 md:gap-10"
+            >
+              <h1 className="text-[28px] font-bold">내 정보</h1>
+              <div className="flex flex-col items-center gap-10 pt-[15px] md:pt-[0px] md:flex-row">
+                <div className="relative flex flex-col gap-5 items-center">
+                  <div className="relative border rounded-md bg-gray-300 h-[140px] w-[140px]">
+                    {imgPreview && (
+                      <Image
+                        src={form.getValues("profileImageURL")}
+                        alt="profileImage"
+                        layout="fill"
+                        className="rounded-md"
+                      />
+                    )}
+                    {!imgPreview && (
+                      <label htmlFor="profileImage">
+                        <HiPlus
+                          size={30}
+                          color="white"
+                          className="absolute top-[55px] left-[55px] hover: cursor-pointer"
+                        />
+                      </label>
+                    )}
+                    <input
+                      id="profileImage"
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,image/svg"
+                      {...form.register("profileImageURL", {
+                        onChange: handleCreateImageUrl
+                      })}
+                      className="h-full w-full opacity-0 hover:cursor-pointer"
+                    />
+                  </div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setImgPreview(false);
+                      form.setValue("profileImageURL", undefined);
+                    }}
+                    className="w-[138px]"
+                  >
+                    <Button text="초기화" size="full" type="button"></Button>
+                  </div>
+                </div>
+
+                <div className="relative flex flex-col gap-5 md:translate-y-[18px] w-full">
+                  <div>
+                    <NicknameInput />
+                  </div>
+                  <div>
+                    <EmailInput whatFor="edit" />
+                  </div>
+                </div>
               </div>
-              <div className="relative flex flex-col gap-5 md:translate-y-[18px] w-full">
+              <div className="relative flex flex-col gap-5">
                 <div>
-                  <NicknameInput
-                    whatFor="edit"
-                    errors={errors}
-                    watch={watch}
-                    register={register}
-                  />
+                  <PasswordInput whatFor="edit" />
                 </div>
                 <div>
-                  <EmailInput
-                    whatFor="edit"
-                    errors={errors}
-                    watch={watch}
-                    register={register}
-                  />
+                  <CheckPasswordInput whatFor="edit" />
+                </div>
+                <div className="flex justify-end pt-[20px]">
+                  <Button text="저장하기" size="lg" type="submit" />
                 </div>
               </div>
-            </div>
-            <div className="relative flex flex-col gap-5">
-              <div>
-                <PasswordInput
-                  whatFor="edit"
-                  errors={errors}
-                  watch={watch}
-                  register={register}
-                />
-              </div>
-              <div>
-                <CheckPasswordInput
-                  whatFor="edit"
-                  errors={errors}
-                  watch={watch}
-                  register={register}
-                />
-              </div>
-              <div className="flex justify-end pt-[20px]">
-                <Button text="저장하기" size="lg" type="submit" />
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </FormProvider>
   );
 };
 

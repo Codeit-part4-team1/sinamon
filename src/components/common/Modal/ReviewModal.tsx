@@ -1,17 +1,14 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Image from "next/image";
 import ReactDOM from "react-dom";
 
 import { FaXmark } from "react-icons/fa6";
 import { IoIosStar } from "react-icons/io";
-import { AuthContext } from "@/contexts/AuthProvider";
 import Button from "@/components/common/Button/Button";
 import AlertModal from "@/components/common/Modal/AlertModal";
 
 const ReviewModal = ({ onCancel, destination }: any) => {
-  const { userCookie } = useContext(AuthContext);
 
   const {
     register,
