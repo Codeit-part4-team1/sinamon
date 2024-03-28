@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,7 @@ import AddressField from "@/components/create/AddressField";
 import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
+import AlertModal from "@/components/common/Modal/AlertModal";
 
 const EditPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -61,7 +62,13 @@ const EditPage: NextPageWithLayout = () => {
     }
   }, [data?.data.title]);
 
-  const { mutate } = useMyActivities.patchMyActivityEdit(id);
+  const handleError = (status: number) => {
+    if (status === 409) {
+      dialogRef.current.showModal();
+    }
+  };
+
+  const { mutate } = useMyActivities.patchMyActivityEdit(id, handleError);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.schedulesToAdd = values.schedules.filter(
@@ -115,9 +122,21 @@ const EditPage: NextPageWithLayout = () => {
     mutate(newCreateData);
   }
 
+  const dialogRef = useRef<any>();
+
   return (
     <>
       <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 수정</p>
+      <dialog ref={dialogRef} className="rounded-lg">
+        <AlertModal
+          type="alert"
+          size="sm"
+          text="겹치는 시간대가 존재합니다"
+          handlerAlertModal={() => {
+            dialogRef.current.close();
+          }}
+        />
+      </dialog>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"
