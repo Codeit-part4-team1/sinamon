@@ -27,14 +27,15 @@ const CardList = () => {
           title,
           price
         }: CardList) => (
-          <Link href={`/activities/${id}`}>
-            <li key={id}>
-              <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square">
+          <li key={id} className="group">
+            <Link href={`/activities/${id}`}>
+              <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square border border-transparent group-hover:border-main group-hover:border">
                 <Image
                   className="object-cover"
                   src={bannerImageUrl}
                   alt="모임 이미지"
                   fill
+                  sizes="100%"
                 />
               </div>
               <div className="flex flex-col gap-[2px] md:gap-1">
@@ -47,15 +48,15 @@ const CardList = () => {
                 </p>
                 <p>
                   <span className="text-black text-xs md:text-sm font-bold">
-                    ₩ {price}
+                    ₩ {price.toLocaleString()}
                   </span>
                   <span className="text-gray-79747e text-xs md:text-sm">
                     &nbsp;/ 인
                   </span>
                 </p>
               </div>
-            </li>
-          </Link>
+            </Link>
+          </li>
         )
       )}
     </ul>
