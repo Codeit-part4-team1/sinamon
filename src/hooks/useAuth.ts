@@ -2,13 +2,13 @@ import Router from "next/router";
 import { useMutation } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
-import { Signin, ErrorModal } from "@/types/auth";
+import { SignInValue } from "@/types/auth";
 import { removeCookie, setCookie } from "@/utils/cookie";
 
 export const useAuth = {
   login: (setResMessage: any, dialogRef: any) =>
     useMutation({
-      mutationFn: (value: Signin) => instance.post("/auth/login", value),
+      mutationFn: (value: SignInValue) => instance.post("/auth/login", value),
       onSuccess(data) {
         const { accessToken, refreshToken } = data.data;
         setCookie("accessToken", accessToken);
@@ -25,6 +25,6 @@ export const useAuth = {
     removeCookie("refreshToken");
     Router.push("/").then(() => {
       window.location.reload();
-    })
+    });
   }
 };
