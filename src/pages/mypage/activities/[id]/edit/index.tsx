@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { useActivities } from "@/hooks/useActivities";
-import { useMyActivities } from "@/hooks/useMyActivites";
+import { patchMyActivityEdit } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import Button from "@/components/common/Button/Button";
@@ -68,7 +68,7 @@ const EditPage: NextPageWithLayout = () => {
     }
   };
 
-  const { mutate } = useMyActivities.patchMyActivityEdit(id, handleError);
+  const { mutate } = patchMyActivityEdit(id, handleError);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.schedulesToAdd = values.schedules.filter(
