@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
-import { instance } from "@/lib/axios";
 import { queryKey } from "@/constants/queryKeys";
 import { AxiosError } from "axios";
 
@@ -15,6 +14,7 @@ import {
   SelectItem,
   SelectTrigger
 } from "@/components/ui/select";
+
 import { getAcitivity } from "@/api/activities";
 import { getUser } from "@/api/users";
 import { deleteActivity } from "@/api/myActivities";
