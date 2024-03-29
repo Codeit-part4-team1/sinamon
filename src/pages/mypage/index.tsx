@@ -18,19 +18,17 @@ import Button from "@/components/common/Button/Button";
 
 const MyInfo: NextPageWithLayout = () => {
   const { data } = useUsers.get();
-  
+
   const form = useForm({
     mode: "onChange"
   });
 
   useEffect(() => {
-    if (data) {
-      form.reset({
-        profileImageURL: data?.data.profileImageURL,
-        nickname: data?.data.nickname,
-        email: data?.data.email
-      });
-    }
+    form.reset({
+      profileImageURL: data?.data.profileImageURL,
+      nickname: data?.data.nickname,
+      email: data?.data.email
+    });
   }, [data]);
 
   const [modal, setModal] = useState<MyInfoModal>({
@@ -40,14 +38,20 @@ const MyInfo: NextPageWithLayout = () => {
 
   const [imgPreview, setImgPreview] = useState<boolean>(false);
 
+  const { mutate: createImageURL } = useUsers.createImageURL(form.setValue);
+
   const handleCreateImageUrl = () => {
+    
     form.setValue(
       "profileImageURL",
       URL?.createObjectURL(form.getValues("profileImageURL")[0])
     );
+    setImgPreview(true);
+
     const formData = new FormData();
     formData.append("image", form.getValues("profileImageURL")[0]);
-    setImgPreview(true);
+
+    createImageURL(formData);
   };
 
   const { mutate } = useUsers.edit(modal, setModal);
@@ -120,7 +124,7 @@ const MyInfo: NextPageWithLayout = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setImgPreview(false);
-                      form.setValue("profileImageURL", undefined);
+                      form.setValue("profileImageURL", "");
                     }}
                     className="w-[138px]"
                   >

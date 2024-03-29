@@ -32,10 +32,32 @@ export const useUsers = {
     }),
   edit: (modal: MyInfoModal, setModal: any) =>
     useMutation({
-      mutationFn: (value: MyInfoValue) => instance.patch("/users", value),
+      mutationFn: (value: MyInfoValue) => instance.patch("/users/me", value),
       onSuccess: () => {
-        setModal((prev: MyInfoModal) => ({ ...prev, message: "수정되었습니다" }));
+        setModal((prev: MyInfoModal) => ({
+          ...prev,
+          message: "수정되었습니다"
+        }));
         modal.modal.showModal();
+      },
+      onError: (err: any) => {
+        console.log(err);
+      }
+    }),
+  createImageURL: (setValue: any) =>
+    useMutation({
+      mutationFn: (value: any) =>
+        instance.post("/users/me/image", value, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }),
+      onSuccess: (response: any) => {
+        console.log(response);
+        setValue("profileImageURL", response.data.profileImageUrl)
+      },
+      onError: (err: any) => {
+        console.log(err);
       }
     })
 };
