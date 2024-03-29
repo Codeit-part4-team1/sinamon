@@ -4,35 +4,38 @@ import Link from "next/link";
 
 import { useActivities } from "@/hooks/activities";
 import { ActivityList } from "@/types/activities";
+import Pagination from "../common/Pagination/Pagination";
 
 interface CardListProps {
   selectedCategory: string | null;
-  setTotalPages: any;
-  selectPage: number;
   sort: string;
 }
 
 const CardList = ({
   selectedCategory,
-  setTotalPages,
-  selectPage,
   sort
 }: CardListProps) => {
   const [size, setSize] = useState(8);
+  const [selectedPage, setSelectedPage] = useState(1);
 
   const { data } = useActivities.getActivitiesList(
     "offset",
-    selectPage,
+    selectedPage,
     size,
     selectedCategory,
     sort
   );
 
+  const totalPages = Math.ceil((data?.totalCount ?? 0) / size)
+  const hasNextPage = selectedPage * size <= (data?.totalCount ?? 0)
+  const hasPreviousPage = selectedPage !== 1
+
+  const goNext = () => setSelectedPage(prev => prev + 1)
+  const goPrev = () => setSelectedPage(prev => prev - 1)
+
   useEffect(() => {
-    if (data) {
-      setTotalPages(Math.ceil(data?.pages[0].totalCount / size));
-    }
-  }, [data, size]);
+    setSelectedPage(1)
+  }, [selectedCategory]) 
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,52 +57,63 @@ const CardList = ({
     };
   }, [size]);
 
-  const { activities } = data?.pages[0] || [];
+  const { activities } = data ?? [];
 
   return (
-    <ul className="min-h-[500px] mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">
-      {activities?.map(
-        ({
-          id,
-          bannerImageUrl,
-          reviewCount,
-          rating,
-          title,
-          price
-        }: ActivityList) => (
-          <li key={id} className="group">
-            <Link href={`/activities/${id}`}>
-              <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square border-2 border-transparent group-hover:border-main">
-                <Image
-                  className="object-cover"
-                  src={bannerImageUrl}
-                  alt="모임 이미지"
-                  fill
-                  sizes="100%"
-                />
-              </div>
-              <div className="flex flex-col gap-[2px] md:gap-1">
-                <p className="text-xs md:text-sm">
-                  <span className="text-black font-semibold">⭐ {rating} </span>
-                  <span className="text-gray-a4a1aa">({reviewCount})</span>
-                </p>
-                <p className="text-black text-sm md:text-base leading-4 md:leading-5 font-semibold">
-                  {title}
-                </p>
-                <p>
-                  <span className="text-black text-xs md:text-sm font-bold">
-                    ₩ {price.toLocaleString()}
-                  </span>
-                  <span className="text-gray-79747e text-xs md:text-sm">
-                    &nbsp;/ 인
-                  </span>
-                </p>
-              </div>
-            </Link>
-          </li>
-        )
-      )}
-    </ul>
+    <>
+      <ul className="min-h-[500px] mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">
+        {activities?.map(
+          ({
+            id,
+            bannerImageUrl,
+            reviewCount,
+            rating,
+            title,
+            price
+          }: ActivityList) => (
+            <li key={id} className="group">
+              <Link href={`/activities/${id}`}>
+                <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square border-2 border-transparent group-hover:border-main">
+                  <Image
+                    className="object-cover"
+                    src={bannerImageUrl}
+                    alt="모임 이미지"
+                    fill
+                    sizes="100%"
+                  />
+                </div>
+                <div className="flex flex-col gap-[2px] md:gap-1">
+                  <p className="text-xs md:text-sm">
+                    <span className="text-black font-semibold">⭐ {rating} </span>
+                    <span className="text-gray-a4a1aa">({reviewCount})</span>
+                  </p>
+                  <p className="text-black text-sm md:text-base leading-4 md:leading-5 font-semibold">
+                    {title}
+                  </p>
+                  <p>
+                    <span className="text-black text-xs md:text-sm font-bold">
+                      ₩ {price.toLocaleString()}
+                    </span>
+                    <span className="text-gray-79747e text-xs md:text-sm">
+                      &nbsp;/ 인
+                    </span>
+                  </p>
+                </div>
+              </Link>
+            </li>
+          )
+        )}
+      </ul>
+      <Pagination
+        totalPages={totalPages}
+        selectPage={selectedPage}
+        setSelectPage={setSelectedPage}
+        canGoNext={hasNextPage}
+        canGoPrev={hasPreviousPage}
+        goNext={goNext}
+        goPrev={goPrev}
+      />
+    </>
   );
 };
 

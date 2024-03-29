@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { activities, getAcitivity } from "@/api/activities";
 import { queryKey } from "@/constants/queryKeys";
@@ -16,9 +16,8 @@ export const useActivities = {
     selectedCategory: string | null,
     sort: string
   ) =>
-    useInfiniteQuery({
+    useQuery({
       queryKey: queryKey.getActivitiesList(selectedCategory, sort, page, size),
-      initialPageParam: 1,
       queryFn: () =>
         activities.getActivitiesList(
           method,
@@ -27,8 +26,6 @@ export const useActivities = {
           size,
           selectedCategory
         ),
-      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-        lastPage.cursorId ? lastPageParam + 1 : undefined
     }),
 
   getCurationActivitiesList: (method: string, sort: string, size: number) =>
