@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
@@ -5,13 +6,14 @@ import { useActivities } from "@/hooks/useActivities";
 
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
-const SubImageUrlsField = () => {
+const SubImageUrlsField = ({ data }: any) => {
   const { control, register, watch, getValues, setValue } = useFormContext();
 
   const {
     fields: subImageUrlListFields,
     append: subImageUrlListAppend,
-    remove: subImageUrlListRemove
+    remove: subImageUrlListRemove,
+    replace: subImageUrlListRePlace
   } = useFieldArray({
     control,
     name: "subImageUrlList"
@@ -31,6 +33,18 @@ const SubImageUrlsField = () => {
       mutate(formData);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      subImageUrlListRePlace(data);
+      data.forEach((subImage: any, index: any) => {
+        setValue(`subImageUrlList.${index}.subImagePreview`, subImage.imageUrl);
+        setValue(`subImageUrlList.${index}.subImageUrl`, subImage.imageUrl);
+        setValue(`subImageUrls`, subImage.imageUrl);
+      });
+      setValue(`subImageiInitial`, getValues(`subImageUrlList`));
+    }
+  }, [data]);
 
   return (
     <div className="mt-1">
@@ -63,12 +77,15 @@ const SubImageUrlsField = () => {
             key={item.id}
           >
             <div className="w-[156px] aspect-square relative">
-              <Image
-                className="object-cover"
-                src={watch(`subImageUrlList.${index}.subImagePreview`)}
-                alt="모임 소개 이미지"
-                fill
-              />
+              {watch(`subImageUrlList.${index}.subImagePreview`) && (
+                <Image
+                  className="object-cover"
+                  src={watch(`subImageUrlList.${index}.subImagePreview`)}
+                  alt="모임 소개 이미지"
+                  fill
+                  sizes="100%"
+                />
+              )}
             </div>
             <button
               className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 rounded-md group-hover:flex"

@@ -15,71 +15,14 @@ import {
   SelectItem,
   SelectTrigger
 } from "@/components/ui/select";
+import { getAcitivity } from "@/api/activities";
+import { getUser } from "@/api/users";
+import { deleteActivity } from "@/api/myActivities";
 
-export type Category =
-  | "문화 · 예술"
-  | "식음료"
-  | "스포츠"
-  | "투어"
-  | "관광"
-  | "웰빙"
-  | "";
-
-export interface Activity {
-  id: number;
-  userId: number;
-  title: string;
-  description: string;
-  category: Category;
-  price: number;
-  address: string;
-  bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
 const DetailHeader = () => {
   const router = useRouter();
   const { id } = router.query;
   const queryClient = useQueryClient();
-
-  // async function getAcitivity() {
-  //   try {
-  //     const res = await instance.get(`/activities/${id}`);
-  //     return res.data;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  const getAcitivity = async (id: any): Promise<Activity> => {
-    const res = await instance.get(`/activities/${id}`);
-    return res.data;
-  };
-  // async function getUser() {
-  //   try {
-  //     const res = await instance.get("/users/me");
-  //     return res.data;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  const getUser = async () => {
-    const res = await instance.get("/users/me");
-    return res.data;
-  };
-
-  // async function deleteActivity() {
-  //   try {
-  //     const res = await instance.delete(`/my-activities/${id}`);
-  //     return res.data;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  const deleteActivity = async ({ id }: any) => {
-    return await instance.delete(`/my-activities/${id}`);
-  };
 
   const { data: activityData } = useQuery({
     queryKey: [queryKey.activity],

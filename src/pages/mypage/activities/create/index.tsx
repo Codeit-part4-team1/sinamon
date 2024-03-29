@@ -27,11 +27,6 @@ const CreatePage: NextPageWithLayout = () => {
       price: "",
       description: "",
       address: "",
-      addressObject: {
-        postcode: "",
-        roadAddress: "",
-        detailAddress: ""
-      },
       dateSelect: new Date(),
       startTimeSelect: new Date(new Date().setMinutes(0)),
       endTimeSelect: new Date(
@@ -46,20 +41,10 @@ const CreatePage: NextPageWithLayout = () => {
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.price = Number(form.watch("price"));
-    values.address = `${values.addressObject.roadAddress} ${values.addressObject.detailAddress}`;
     values.subImageUrls = values.subImageUrlList.map((url) => url.subImageUrl);
-    values.schedules.forEach((schedule) => {
-      const [year, month, day] = schedule.date
-        .replace("년", "")
-        .replace("월", "")
-        .replace("일", "")
-        .split(" ");
-      const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-      schedule.date = formattedDate;
-    });
 
     const {
-      addressObject,
+      schedulesInitial,
       dateSelect,
       startTimeSelect,
       endTimeSelect,
@@ -67,6 +52,7 @@ const CreatePage: NextPageWithLayout = () => {
       bannerImagePreview,
       subImageSelect,
       subImageUrlList,
+      subImageiInitial,
       ...newCreateData
     } = values;
 
