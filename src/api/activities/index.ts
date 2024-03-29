@@ -18,5 +18,16 @@ export const activities = {
       params: { method, category, sort, page, size }
     });
     return res.data;
+  },
+
+  getCurationActivitiesList: async (
+    method: string,
+    sort: string,
+    size: number
+  ) => {
+    const res = await instance.get("activities", {
+      params: { method, sort, size }
+    });
+    return res.data;
   }
 };

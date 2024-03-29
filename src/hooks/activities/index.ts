@@ -29,5 +29,11 @@ export const useActivities = {
         ),
       getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
         lastPage.cursorId ? lastPageParam + 1 : undefined
+    }),
+
+  getCurationActivitiesList: (method: string, sort: string, size: number) =>
+    useQuery({
+      queryKey: ["activity"],
+      queryFn: () => activities.getCurationActivitiesList(method, sort, size)
     })
 };
