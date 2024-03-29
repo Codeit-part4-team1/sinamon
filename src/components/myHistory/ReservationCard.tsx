@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Button from "@/components/common/Button/Button";
-import { ReservationType } from "@/types/reservationTypes";
+import { ReservationType } from "@/types/MyReservationTypes";
 import { useState } from "react";
 import { useMyReservations } from "@/hooks/useMyReservations";
 import AlertModal from "../common/Modal/AlertModal";
@@ -30,16 +30,20 @@ const ReservationCard: React.FC<ReservationType> = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(bannerImageUrl);
   const [isCancelModalVisible, setCancelModalVisible] = useState(false);
+  const [isReviewModalVisible, setReviewModalVisible] = useState(false);
 
   const { cancelMyReservations } = useMyReservations();
 
   const handleToggleCancelModal = () => {
     setCancelModalVisible((prev) => !prev);
   };
-  console.log(id);
   const handleCancelToggleModal = (id: number) => {
     setCancelModalVisible(false);
     cancelMyReservations.mutate(id);
+  };
+
+  const handleToggleReviewModal = () => {
+    setReviewModalVisible((prev) => !prev);
   };
 
   const defaultImage = "/images/temp-active-preview.png"; // 기본 이미지 경로 설정
@@ -93,12 +97,28 @@ const ReservationCard: React.FC<ReservationType> = ({
             </span>
             <div className="h-8">
               {status === "completed" && !reviewSubmitted && (
-                <Button text="후기 작성" size="sm" type="submit" />
+                <div onClick={handleToggleReviewModal}>
+                  <Button text="후기 작성" size="sm" type="submit" />
+                </div>
               )}
               {status === "pending" && (
                 <div onClick={handleToggleCancelModal}>
                   <Button text="예약 취소" size="sm" type="submit" />
                 </div>
+              )}
+              {isReviewModalVisible && (
+                <ReviewModal
+                  onCancel={handleToggleReviewModal}
+                  destination={document.body}
+                  id={id}
+                  bannerImageUrl={imageSrc}
+                  title={title}
+                  date={date}
+                  startTime={startTime}
+                  endTime={endTime}
+                  headCount={headCount}
+                  totalPrice={totalPrice}
+                />
               )}
             </div>
           </div>
@@ -120,7 +140,6 @@ const ReservationCard: React.FC<ReservationType> = ({
           </div>
         </div>
       )}
-      <ReviewModal />
     </li>
   );
 };

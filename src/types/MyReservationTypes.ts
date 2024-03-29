@@ -22,3 +22,8 @@ export interface ReservationType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ReservationReviewBodyType {
+  rating: number;
+  content: string;
+}

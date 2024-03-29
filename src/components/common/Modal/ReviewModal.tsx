@@ -1,18 +1,26 @@
 import React, { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Image from "next/image";
 import ReactDOM from "react-dom";
 
 import { FaXmark } from "react-icons/fa6";
 import { IoIosStar } from "react-icons/io";
-import { AuthContext } from "@/contexts/AuthProvider";
 import Button from "@/components/common/Button/Button";
 import AlertModal from "@/components/common/Modal/AlertModal";
+import { useMyReservations } from "@/hooks/useMyReservations";
 
-const ReviewModal = ({ onCancel, destination }: any) => {
-  const { userCookie } = useContext(AuthContext);
-
+const ReviewModal = ({
+  onCancel,
+  destination,
+  id,
+  bannerImageUrl,
+  title,
+  date,
+  startTime,
+  endTime,
+  headCount,
+  totalPrice
+}: any) => {
   const {
     register,
     handleSubmit,
@@ -20,10 +28,17 @@ const ReviewModal = ({ onCancel, destination }: any) => {
   } = useForm<{ rating: number; content: string }>({ mode: "onChange" });
 
   const [rating, setRating] = useState<number>(1);
+  const { reviewMyReservations } = useMyReservations();
+  const { mutate } = reviewMyReservations(id);
 
   const submit = {
     onSubmit: async (data: any) => {
       dialogRef.current.showModal();
+      const reviewBody = {
+        rating: rating,
+        ...data
+      };
+      mutate(reviewBody);
     },
     onError: async (errors: any) => {
       undefined;
@@ -62,8 +77,8 @@ const ReviewModal = ({ onCancel, destination }: any) => {
               <div className="flex flex-row justify-center gap-[24px] h-[127px]">
                 <div className="w-[100px] h-[100px] rounded-lg md:w-[126px] md:h-[127px]">
                   <Image
-                    src={"/images/icon-category-culture.svg"}
-                    alt="temp-active-preview"
+                    src={bannerImageUrl}
+                    alt="bannerImageUrl"
                     width={126}
                     height={126}
                     className="rounded-lg"
@@ -71,17 +86,19 @@ const ReviewModal = ({ onCancel, destination }: any) => {
                 </div>
                 <div className="flex flex-col gap-[12px]">
                   <p className="h-[26px] font-bold sm:text-[14px] md:text-[18px]">
-                    함께 배우면 즐거운 스트릿 댄스
+                    {title}
                   </p>
                   <div className="flex felx-row gap-[3px] md:gap-[8px] font-semibold text-[14px] md:font-bold md:text-[16px]">
-                    <p>2023.12.14</p>
+                    <p>{date}</p>
                     <p>·</p>
-                    <p>11:00-12:30</p>
+                    <p>
+                      {startTime}-{endTime}
+                    </p>
                     <p>·</p>
-                    <p>10명</p>
+                    <p>{headCount}명</p>
                   </div>
                   <div className="pt-[12px] border-t border-gray-300 font-bold text-[32px]">
-                    ₩10,000
+                    ￦{totalPrice.toLocaleString()}
                   </div>
                 </div>
               </div>

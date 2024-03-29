@@ -5,7 +5,7 @@ import ReservationCard from "@/components/myHistory/ReservationCard";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import { useMyReservations } from "@/hooks/useMyReservations";
-import type { ReservationType } from "@/types/reservationTypes";
+import type { ReservationType } from "@/types/MyReservationTypes";
 
 import {
   Select,
@@ -48,7 +48,7 @@ const MyHistory: NextPageWithLayout = () => {
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="pending"
             >
-              예약 신청
+              승인 대기
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
@@ -60,7 +60,7 @@ const MyHistory: NextPageWithLayout = () => {
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="confirmed"
             >
-              예약 승인
+              예약 완료
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
