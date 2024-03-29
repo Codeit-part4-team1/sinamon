@@ -12,7 +12,7 @@ export const useUsers = {
       queryFn: () => instance.get("/users/me")
     }),
 
-  signUp: (setModal: any, successDialog: any, failDialog: any) =>
+  signUp: (modal: any, setModal: any) =>
     useMutation({
       mutationFn: (value: SignUpRequest) => instance.post("/users", value),
       onSuccess: () => {
@@ -20,14 +20,14 @@ export const useUsers = {
           ...prev,
           message: "가입이 완료되었습니다!"
         }));
-        successDialog.current.showModal();
+        modal.success.current.showModal();
       },
       onError: (err: any) => {
         setModal((prev: SignUpModal) => ({
           ...prev,
           message: err.response.data.message
         }));
-        failDialog.current.showModal();
+        modal.fail.current.showModal();
       }
     }),
   edit: (modal: MyInfoModal, setModal: any) =>
