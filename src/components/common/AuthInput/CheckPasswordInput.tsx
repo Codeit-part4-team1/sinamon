@@ -32,7 +32,7 @@ const CheckPasswordInput = ({ whatFor }: WhatFor) => {
           validate: (field: string) => {
             return !field
               ? "비밀번호를 확인해 주세요"
-              : field.length > 0 && field === watch("password")
+              : field.length > 0 && field === watch(whatFor === "edit" ? "newPassword" : "password")
                 ? undefined
                 : "비밀번호가 일치하지 않습니다";
           }

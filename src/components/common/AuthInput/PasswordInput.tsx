@@ -13,7 +13,9 @@ const PasswordInput = ({ whatFor }: WhatFor) => {
 
   const [eyes, setEyes] = useState<boolean>(false);
 
-  const toggleEyes = () => {setEyes(!eyes);}
+  const toggleEyes = () => {
+    setEyes(!eyes);
+  };
 
   return (
     <div className="relative flex flex-col gap-1">
@@ -28,12 +30,13 @@ const PasswordInput = ({ whatFor }: WhatFor) => {
             : "8자 이상 입력해 주세요"
         }
         type={eyes ? "text" : "password"}
-        {...register("password", {
+        {...register(whatFor === "edit" ? "newPassword" : "password", {
           required: "비밀번호를 입력해 주세요",
           minLength: { value: 8, message: "8자 이상 입력해 주세요" }
         })}
         className={`border rounded-md h-[48px] p-5 w-full focus:outline-none ${
-          watch("password")?.length === 0 || !errors.password
+          watch(whatFor === "edit" ? "newPassword" : "password")?.length ===
+            0 || !errors.password
             ? "border-input"
             : "border-red-500"
         }`}
@@ -49,9 +52,13 @@ const PasswordInput = ({ whatFor }: WhatFor) => {
         )}
       </div>
       <div className="h-4">
-        {errors.password && (
-          <small className="pl-3 text-red-500">{errors.password.message?.toString()}</small>
-        )}
+        {errors.newPassword || errors.password ? (
+          <small className="pl-3 text-red-500">
+            {whatFor === "edit"
+              ? errors.newPassword?.message?.toString()
+              : errors.password?.message?.toString()}
+          </small>
+        ) : undefined}
       </div>
     </div>
   );
