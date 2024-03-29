@@ -1,7 +1,15 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useActivities } from "@/hooks/useActivities";
+import { useActivities } from "@/hooks/activities";
+
+interface CardListProps {
+  selectedCategory: string | null;
+  setTotalPages: any;
+  selectPage: number;
+  sort: string;
+}
 
 interface CardList {
   id: number;
@@ -12,12 +20,52 @@ interface CardList {
   price: number;
 }
 
-const CardList = () => {
-  const { data } = useActivities.getActivitiesList();
-  const { activities } = data?.data || [];
+const CardList = ({
+  selectedCategory,
+  setTotalPages,
+  selectPage,
+  sort
+}: CardListProps) => {
+  const [size, setSize] = useState(8);
+
+  const { data } = useActivities.getActivitiesList(
+    "offset",
+    selectPage,
+    size,
+    selectedCategory,
+    sort
+  );
+
+  useEffect(() => {
+    if (data) {
+      setTotalPages(Math.ceil(data?.pages[0].totalCount / size));
+    }
+  }, [data, size]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const currentWindowSize = window.innerWidth;
+
+      if (currentWindowSize > 767 && size === 6) {
+        setSize(8);
+      } else if (currentWindowSize <= 767 && size === 8) {
+        setSize(6);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [size]);
+
+  const { activities } = data?.pages[0] || [];
 
   return (
-    <ul className="mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">
+    <ul className="min-h-[500px] mb-16 md:mb-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-2 md:gap-x-5 gap-y-7 md:gap-y-10">
       {activities?.map(
         ({
           id,
