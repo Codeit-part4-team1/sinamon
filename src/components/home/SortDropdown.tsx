@@ -7,10 +7,8 @@ import {
 } from "@/components/ui/select";
 
 interface SortDropdownProps {
-  sort: any;
-  // sort: string;
-  setSort: any;
-  // setSort: (prev: string) => void;
+  sort: string;
+  setSort: (prev: string) => void;
 }
 
 const SortDropdown = ({ sort, setSort }: SortDropdownProps) => {
