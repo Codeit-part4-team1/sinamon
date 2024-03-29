@@ -8,6 +8,7 @@ import IconCategoryWellbeing from "/public/images/icon-category-wellbeing.svg";
 import { cn } from "@/lib/utils";
 
 interface CategoryListProps {
+// interface CategoryListProps {
   selectedCategory: any;
   // selectedCategory: string | null;
   setSelectedCategory: any;
@@ -16,6 +17,7 @@ interface CategoryListProps {
   // setSelectPage: (prev: number) => void;
 }
 interface CategoryList {
+// interface CategoryList {
   id: number;
   name: string;
   size: string;
@@ -61,8 +63,10 @@ const CategoryList = ({
   setSelectedCategory,
   setSelectPage
 }: CategoryListProps) => {
-  const handleCategoryClick = (category: CategoryList) => {
-    setSelectedCategory((prevSelectedCategory: string) =>
+  const handleCategoryClick = (category: any) => {
+  // const handleCategoryClick = (category: CategoryList) => {
+    setSelectedCategory((prevSelectedCategory: any) =>
+    // setSelectedCategory((prevSelectedCategory: string) =>
       prevSelectedCategory === category.name ? null : category.name
     );
     setSelectPage(1);
@@ -95,3 +99,4 @@ const CategoryList = ({
 };
 
 export default CategoryList;
+// export default CategoryList;
