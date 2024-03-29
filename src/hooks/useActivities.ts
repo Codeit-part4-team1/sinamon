@@ -4,12 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 import { instance } from "@/lib/axios";
 
 export const useActivities = {
-  getActivitiesList: () =>
-    useQuery({
-      queryKey: ["activities"],
-      queryFn: () => instance.get("/activities?method=cursor&page=1&size=20")
-    }),
-
   postActivities: () =>
     useMutation({
       mutationFn: (value: any) => instance.post("/activities", value),
