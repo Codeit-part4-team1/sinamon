@@ -8,5 +8,11 @@ export const queryKey = {
     month
   ],
   myReservations: ["myReservations"],
-  myActivities: ["myActivities"]
+  myActivities: ["myActivities"],
+  getActivitiesList: (
+    selectedCategory: string | null,
+    sort: string,
+    page: number,
+    size: number
+  ) => ["activities", selectedCategory, sort, page, size]
 };

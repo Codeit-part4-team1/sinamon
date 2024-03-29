@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 interface CategoryListProps {
   selectedCategory: string | null;
   setSelectedCategory: (prev: any) => void;
+  setSelectPage: (prev: number) => void;
 }
 interface CategoryList {
   id: number;
@@ -21,7 +22,7 @@ interface CategoryList {
 const categories = [
   {
     id: 1,
-    name: "문화·예술",
+    name: "문화 · 예술",
     size: "w-[24px] md:w-[50px]",
     icon: IconCategoryCulture
   },
@@ -54,12 +55,14 @@ const categories = [
 
 const CategoryList = ({
   selectedCategory,
-  setSelectedCategory
+  setSelectedCategory,
+  setSelectPage
 }: CategoryListProps) => {
   const handleCategoryClick = (category: CategoryList) => {
     setSelectedCategory((prevSelectedCategory: string) =>
       prevSelectedCategory === category.name ? null : category.name
     );
+    setSelectPage(1);
   };
 
   return (
@@ -89,3 +92,4 @@ const CategoryList = ({
 };
 
 export default CategoryList;
+// export default CategoryList;

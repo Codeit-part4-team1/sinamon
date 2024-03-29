@@ -1,9 +1,11 @@
-export interface GroupType {
+import { Category } from "@/types/common";
+
+export interface MyActivitiesType {
   id: number;
   userId: number;
   title: string;
   description: string;
-  category: string;
+  category: Category;
   price: number;
   address: string;
   bannerImageUrl: string;
