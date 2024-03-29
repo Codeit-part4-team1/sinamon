@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 interface PaginationProps {
   totalPages: number;
   selectPage: number;
-  setSelectPage: (prev: number) => void;
+  setSelectPage: any;
+  // setSelectPage: (prev: number) => void;
 }
 
 const Pagination = ({

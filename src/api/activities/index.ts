@@ -12,7 +12,8 @@ export const activities = {
     sort: string,
     page: number,
     size: number,
-    category: string | null
+    category: any
+    // category: string | null
   ) => {
     const res = await instance.get("activities", {
       params: { method, category, sort, page, size }

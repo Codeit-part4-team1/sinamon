@@ -10,8 +10,10 @@ import { cn } from "@/lib/utils";
 interface CategoryListProps {
   selectedCategory: any;
   // selectedCategory: string | null;
-  setSelectedCategory: (prev: any) => void;
-  setSelectPage: (prev: number) => void;
+  setSelectedCategory: any;
+  // setSelectedCategory: (prev: any) => void;
+  setSelectPage: any;
+  // setSelectPage: (prev: number) => void;
 }
 interface CategoryList {
   id: number;

@@ -8,7 +8,8 @@ import {
 
 interface SortDropdownProps {
   sort: string;
-  setSort: (prev: string) => void;
+  setSort: any;
+  // setSort: (prev: string) => void;
 }
 
 const SortDropdown = ({ sort, setSort }: SortDropdownProps) => {
