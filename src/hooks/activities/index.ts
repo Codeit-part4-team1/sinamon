@@ -32,6 +32,7 @@ export const useActivities = {
           size,
           selectedCategory
         ),
-      getNextPageParam: (lastPage) => lastPage.cursorId
+      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
+        lastPage.cursorId ? lastPageParam + 1 : undefined
     })
 };
