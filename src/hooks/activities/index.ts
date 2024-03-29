@@ -13,7 +13,8 @@ export const useActivities = {
     method: string,
     page: number,
     size: number,
-    selectedCategory: string | null,
+    selectedCategory: any,
+    // selectedCategory: string | null,
     sort: string
   ) =>
     useInfiniteQuery({

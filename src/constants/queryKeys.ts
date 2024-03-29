@@ -9,7 +9,8 @@ export const queryKey = {
   ],
   myActivities: ["myActivities"],
   getActivitiesList: (
-    selectedCategory: string | null,
+    selectedCategory: any,
+    // selectedCategory: string | null,
     sort: string,
     page: number,
     size: number

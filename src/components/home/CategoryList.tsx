@@ -8,7 +8,8 @@ import IconCategoryWellbeing from "/public/images/icon-category-wellbeing.svg";
 import { cn } from "@/lib/utils";
 
 interface CategoryListProps {
-  selectedCategory: string | null;
+  selectedCategory: any;
+  // selectedCategory: string | null;
   setSelectedCategory: (prev: any) => void;
   setSelectPage: (prev: number) => void;
 }
