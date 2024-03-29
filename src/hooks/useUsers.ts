@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
-import { SignUp, Modal } from "@/types/auth";
+import { SignUpRequest, SignUpModal } from "@/types/auth";
 
 export const useUsers = {
   get: () =>
@@ -11,22 +11,22 @@ export const useUsers = {
       queryFn: () => instance.get("/users/me")
     }),
 
-  signUp: (setModal: any, successDialog: any, failDialog: any) =>
+  signUp: (modal: any, setModal: any) =>
     useMutation({
-      mutationFn: (value: SignUp) => instance.post("/users", value),
+      mutationFn: (value: SignUpRequest) => instance.post("/users", value),
       onSuccess: () => {
-        setModal((prev: Modal) => ({
+        setModal((prev: SignUpModal) => ({
           ...prev,
           message: "가입이 완료되었습니다!"
         }));
-        successDialog.current.showModal();
+        modal.success.current.showModal();
       },
       onError: (err: any) => {
-        setModal((prev: Modal) => ({
+        setModal((prev: SignUpModal) => ({
           ...prev,
           message: err.response.data.message
         }));
-        failDialog.current.showModal();
+        modal.fail.current.showModal();
       }
     })
 };
