@@ -7,5 +7,11 @@ export const queryKey = {
     year,
     month
   ],
-  myActivities: ["myActivities"]
+  myActivities: ["myActivities"],
+  getActivitiesList: (
+    selectedCategory: string | null,
+    sort: string,
+    page: number,
+    size: number
+  ) => ["activities", selectedCategory, sort, page, size]
 };
