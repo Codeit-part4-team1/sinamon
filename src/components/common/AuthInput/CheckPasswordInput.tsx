@@ -1,12 +1,21 @@
 import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const CheckPasswordInput = ({ whatFor, errors, watch, register }: any) => {
-  const [eyesIcon, setEyesIcon] = useState<boolean>(false);
+import { WhatFor } from "@/types/auth";
 
-  function togglesEyesIcon() {
-    setEyesIcon(!eyesIcon);
-  }
+const CheckPasswordInput = ({ whatFor }: WhatFor) => {
+  const {
+    formState: { errors },
+    register,
+    watch
+  } = useFormContext();
+
+  const [eyes, setEyes] = useState<boolean>(false);
+
+  const toggleEyes = () => {
+    setEyes(!eyes);
+  };
 
   return (
     <div className="relative flex flex-col gap-1">
@@ -14,16 +23,16 @@ const CheckPasswordInput = ({ whatFor, errors, watch, register }: any) => {
         {whatFor === "signUp" ? "비밀번호 확인" : "비밀번호 재입력"}
       </label>
       <input
-        name="checkPassword"
+        id="checkPassword"
         placeholder="비밀번호를 한번 더 입력해 주세요"
         autoComplete="off"
-        type={eyesIcon ? "text" : "password"}
+        type={eyes ? "text" : "password"}
         {...register("checkPassword", {
           required: "비밀번호를 확인해 주세요",
           validate: (field: string) => {
             return !field
               ? "비밀번호를 확인해 주세요"
-              : field.length > 0 && field === watch("password")
+              : field.length > 0 && field === watch(whatFor === "edit" ? "newPassword" : "password")
                 ? undefined
                 : "비밀번호가 일치하지 않습니다";
           }
@@ -35,10 +44,10 @@ const CheckPasswordInput = ({ whatFor, errors, watch, register }: any) => {
         }`}
       />
       <div
-        onClick={togglesEyesIcon}
+        onClick={toggleEyes}
         className="absolute right-5 bottom-9 hover:cursor-pointer"
       >
-        {eyesIcon ? (
+        {eyes ? (
           <BsEye width={25} height={23} />
         ) : (
           <BsEyeSlash width={25} height={23} />
@@ -47,7 +56,7 @@ const CheckPasswordInput = ({ whatFor, errors, watch, register }: any) => {
       <div className="h-4">
         {errors.checkPassword && (
           <small className="pl-3 text-red-500">
-            {errors.checkPassword.message}
+            {errors.checkPassword.message?.toString()}
           </small>
         )}
       </div>
