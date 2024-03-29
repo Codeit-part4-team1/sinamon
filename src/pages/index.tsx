@@ -10,6 +10,9 @@ import Pagination from "@/components/common/Pagination/Pagination";
 
 const Home: NextPageWithLayout = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectPage, setSelectPage] = useState(1);
+  const [sort, setSort] = useState("latest");
 
   return (
     <>
@@ -18,15 +21,25 @@ const Home: NextPageWithLayout = () => {
       <CategoryList
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+        setSelectPage={setSelectPage}
       />
       <div className="mb-4 md:mb-6 flex justify-between items-center">
         <span className="text-2xl md:text-3xl font-bold">
           {selectedCategory || "전체"}
         </span>
-        <SortDropdown />
+        <SortDropdown sort={sort} setSort={setSort} />
       </div>
-      <CardList />
-      <Pagination />
+      <CardList
+        selectedCategory={selectedCategory}
+        setTotalPages={setTotalPages}
+        selectPage={selectPage}
+        sort={sort}
+      />
+      <Pagination
+        totalPages={totalPages}
+        selectPage={selectPage}
+        setSelectPage={setSelectPage}
+      />
     </>
   );
 };
