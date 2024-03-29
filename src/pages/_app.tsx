@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
+import Script from "next/script";
 
 import "@/styles/globals.css";
 import "@/styles/datePicker.css";
@@ -41,21 +42,31 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <div className={`${pretendard.className}`}>
-            {getLayout(<Component {...pageProps} />)}
-          </div>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <>
+      <Script
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=o0z5l4v6xl"
+        strategy="beforeInteractive"
+      />
+      <Script
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=o0z5l4v6xl&submodules=geocoder"
+        strategy="beforeInteractive"
+      />
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="light"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <div className={`${pretendard.className}`}>
+              {getLayout(<Component {...pageProps} />)}
+            </div>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </>
   );
 };
 

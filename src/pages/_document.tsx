@@ -1,5 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { pretendard } from "@/pages/_app";
+import Script from "next/script";
 
 export default function Document() {
   return (
