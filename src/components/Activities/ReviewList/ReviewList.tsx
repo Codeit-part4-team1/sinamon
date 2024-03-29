@@ -3,8 +3,49 @@ import Image from "next/image";
 import { profile } from "console";
 import profileImage from "../../../../public/images/temp-profile.png";
 import Pagination from "@/components/common/Pagination/Pagination";
+import { getReviews } from "@/api/activities";
+import { GetReviewsParams } from "@/types/activities";
+import { queryKey } from "@/constants/queryKeys";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
-const ReviewList = () => {
+const ReviewList = ({ activityId }: { activityId: number }) => {
+  const useGetReviewPageQeury = ({
+    activityId,
+    page,
+    size
+  }: GetReviewsParams) => {
+    return useInfiniteQuery({
+      queryKey: queryKey.getReviewList(activityId, page, size),
+      initialPageParam: null,
+      queryFn: () => getReviews({ activityId, page, size }),
+      getNextPageParam: (lastPage) => lastPage.data,
+      getPreviousPageParam: (firstPage) => firstPage.data
+    });
+  };
+  const useGetReviewListQeury = ({
+    activityId,
+    page,
+    size
+  }: GetReviewsParams) => {
+    return useQuery({
+      queryKey: queryKey.getReviewList(activityId, page, size),
+      queryFn: () => getReviews({ activityId, page: 1, size: 3 })
+    });
+  };
+  // const { data: reviewData } = useGetReviewListQeury({
+  //   activityId,
+  //   page: 1,
+  //   size: 3
+  // });
+  // const { data, hasNextPage, fetchNextPage } = useGetReviewPageQeury({
+  //   activityId,
+  //   page: 1,
+  //   size: 3
+  // });
+  // console.log(hasNextPage);
+  // console.log(fetchNextPage);
+
   return (
     <section className="flex flex-col gap-6">
       <h2 className="md:font-bold md:text-[20px]">후기</h2>

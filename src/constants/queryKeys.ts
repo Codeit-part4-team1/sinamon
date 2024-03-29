@@ -7,6 +7,13 @@ export const queryKey = {
     year,
     month
   ],
+  getReviewList: (activityId: number, page?: number, size?: 3) => [
+    "activities",
+    "reviews",
+    activityId,
+    page,
+    size
+  ],
   myActivities: ["myActivities"],
   getActivitiesList: (
     selectedCategory: string | null,

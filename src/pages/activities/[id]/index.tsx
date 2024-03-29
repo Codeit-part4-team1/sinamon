@@ -35,19 +35,24 @@ const Activity = ({
   if (!activityData) return;
 
   return (
-    <div className="flex justify-center bg-gray-[#f9f9f9]">
+    <div className="flex  justify-center bg-gray-[#f9f9f9]">
       <div className="flex flex-col w-[1200px] ">
-        <DetailHeader />
-        <main className="flex ">
-          <div>
+        <DetailHeader data={activityData} />
+        <main className="flex w-full gap-[17px] md:gap-6">
+          <div className="flex flex-col gap-10 w-[327px] md:w-[428px] lg:w-[790px]">
             <hr />
-            <section>
-              <h2>모집 설명</h2>
-              <p>{activityData.description}</p>
+            <section className="flex flex-col gap-4">
+              <h2 className="text-[20px] font-bold leading-[26px]">
+                모집 설명
+              </h2>
+              <p className="text-[16px] leading-[26px]">
+                {activityData.description}
+              </p>
             </section>
+            <hr />
             <Map ativityAddress={activityData.address} />
             <hr />
-            <ReviewList />
+            <ReviewList activityId={activityId} />
           </div>
           <ReservationDatePicker />
         </main>

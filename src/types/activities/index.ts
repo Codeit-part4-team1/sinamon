@@ -29,3 +29,9 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface GetReviewsParams {
+  activityId: number;
+  page?: number;
+  size?: 3;
+}

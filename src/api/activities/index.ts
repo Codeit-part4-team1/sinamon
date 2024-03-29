@@ -1,5 +1,5 @@
 import { instance } from "@/lib/axios";
-import { Activity } from "@/types/activities";
+import { Activity, GetReviewsParams } from "@/types/activities";
 
 export const getAcitivity = async (id: any): Promise<Activity> => {
   const res = await instance.get(`/activities/${id}`);
@@ -19,4 +19,15 @@ export const activities = {
     });
     return res.data;
   }
+};
+
+export const getReviews = async ({
+  activityId,
+  page,
+  size
+}: GetReviewsParams) => {
+  const res = await instance.get(
+    `/activities/${activityId}/reviews?page=${page}&size=${size}`
+  );
+  return res.data;
 };
