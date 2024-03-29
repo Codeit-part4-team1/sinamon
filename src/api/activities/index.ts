@@ -8,10 +8,14 @@ export const getAcitivity = async (id: any): Promise<Activity> => {
 
 export const activities = {
   getActivitiesList: async (
-    method: string,
-    sort: string,
-    page: number,
-    size: number,
+    method: any,
+    // method: string,
+    sort: any,
+    // sort: string,
+    page: any,
+    // page: number,
+    size: any,
+    // size: number,
     category: any
     // category: string | null
   ) => {

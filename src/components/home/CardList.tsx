@@ -8,8 +8,10 @@ interface CardListProps {
   selectedCategory: any;
   // selectedCategory: string | null;
   setTotalPages: any;
-  selectPage: number;
-  sort: string;
+  selectPage: any;
+  // selectPage: number;
+  sort: any;
+  // sort: string;
 }
 
 interface CardList {

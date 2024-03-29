@@ -3,8 +3,10 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { cn } from "@/lib/utils";
 
 interface PaginationProps {
-  totalPages: number;
-  selectPage: number;
+  totalPages: any;
+  // totalPages: number;
+  selectPage: any;
+  // selectPage: number;
   setSelectPage: any;
   // setSelectPage: (prev: number) => void;
 }

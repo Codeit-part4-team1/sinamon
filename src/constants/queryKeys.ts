@@ -11,8 +11,11 @@ export const queryKey = {
   getActivitiesList: (
     selectedCategory: any,
     // selectedCategory: string | null,
-    sort: string,
-    page: number,
-    size: number
+    sort: any,
+    // sort: string,
+    page: any,
+    // page: number,
+    size: any
+    // size: number
   ) => ["activities", selectedCategory, sort, page, size]
 };

@@ -10,12 +10,16 @@ import { queryKey } from "@/constants/queryKeys";
 
 export const useActivities = {
   getActivitiesList: (
-    method: string,
-    page: number,
-    size: number,
+    method: any,
+    // method: string,
+    page: any,
+    // page: number,
+    size: any,
+    // size: number,
     selectedCategory: any,
     // selectedCategory: string | null,
-    sort: string
+    sort: any
+    // sort: string
   ) =>
     useInfiniteQuery({
       queryKey: queryKey.getActivitiesList(selectedCategory, sort, page, size),
