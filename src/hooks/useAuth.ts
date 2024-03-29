@@ -16,7 +16,7 @@ export const useAuth = {
         Router.push("/");
       },
       onError(err: any) {
-        setResMessage(err.response.data.message);
+        setResMessage(err.response.message);
         dialogRef.current.showModal();
       }
     }),

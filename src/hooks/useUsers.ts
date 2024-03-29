@@ -32,15 +32,23 @@ export const useUsers = {
     }),
   edit: (modal: MyInfoModal, setModal: any) =>
     useMutation({
-      mutationFn: (value: MyInfoValue) => instance.patch("/users/me", value),
+      mutationFn: (value: MyInfoValue) => {
+        console.log(value);
+        return instance.patch("/users/me", value);
+      },
       onSuccess: () => {
         setModal((prev: MyInfoModal) => ({
           ...prev,
           message: "수정되었습니다"
         }));
-        modal.modal.showModal();
+        modal.modal.current.showModal();
       },
       onError: (err: any) => {
+        setModal((prev: MyInfoModal) => ({
+          ...prev,
+          message: "수정에 실패했습니다"
+        }));
+        modal.modal.current.showModal();
         console.log(err);
       }
     }),
@@ -53,8 +61,7 @@ export const useUsers = {
           }
         }),
       onSuccess: (response: any) => {
-        console.log(response);
-        setValue("profileImageURL", response.data.profileImageUrl)
+        setValue("profileImageURL", response.data.profileImageUrl);
       },
       onError: (err: any) => {
         console.log(err);
