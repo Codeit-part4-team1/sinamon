@@ -22,7 +22,8 @@ export const useActivities = {
     // sort: string
   ) =>
     useInfiniteQuery({
-      queryKey: queryKey.getActivitiesList(selectedCategory, sort, page, size),
+      queryKey: ["activities", selectedCategory, sort, page, size],
+      // queryKey: queryKey.getActivitiesList(selectedCategory, sort, page, size),
       initialPageParam: 1,
       queryFn: () =>
         activities.getActivitiesList(
