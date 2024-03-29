@@ -4,11 +4,8 @@ import { cn } from "@/lib/utils";
 
 interface PaginationProps {
   totalPages?: any;
-  // totalPages: number;
-  selectPage?: any;
-  // selectPage: number;
+  selectPage?: number;
   setSelectPage?: any;
-  // setSelectPage: (prev: number) => void;
 }
 
 const Pagination = ({

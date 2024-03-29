@@ -5,13 +5,10 @@ import Link from "next/link";
 import { useActivities } from "@/hooks/activities";
 
 interface CardListProps {
-  selectedCategory: any;
-  // selectedCategory: string | null;
+  selectedCategory: string | null;
   setTotalPages: any;
-  selectPage: any;
-  // selectPage: number;
-  sort: any;
-  // sort: string;
+  selectPage: number;
+  sort: string;
 }
 
 interface CardList {
