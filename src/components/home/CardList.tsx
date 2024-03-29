@@ -3,21 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useActivities } from "@/hooks/activities";
+import { ActivityList } from "@/types/activities";
 
 interface CardListProps {
   selectedCategory: string | null;
   setTotalPages: any;
   selectPage: number;
   sort: string;
-}
-
-interface CardList {
-  id: number;
-  bannerImageUrl: string;
-  reviewCount: number;
-  rating: number;
-  title: string;
-  price: number;
 }
 
 const CardList = ({
@@ -74,10 +66,10 @@ const CardList = ({
           rating,
           title,
           price
-        }: CardList) => (
+        }: ActivityList) => (
           <li key={id} className="group">
             <Link href={`/activities/${id}`}>
-              <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square border border-transparent group-hover:border-main group-hover:border">
+              <div className="w-full mb-2 relative rounded-xl overflow-hidden aspect-square border-2 border-transparent group-hover:border-main">
                 <Image
                   className="object-cover"
                   src={bannerImageUrl}
