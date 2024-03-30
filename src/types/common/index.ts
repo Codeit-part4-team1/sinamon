@@ -6,3 +6,11 @@ export type Category =
   | "관광"
   | "웰빙"
   | "";
+
+export type Status =
+  | "pending"
+  | "confirmed"
+  | "declined"
+  | "canceled"
+  | "completed"
+  | "";
