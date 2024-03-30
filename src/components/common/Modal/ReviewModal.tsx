@@ -19,7 +19,8 @@ const ReviewModal = ({
   startTime,
   endTime,
   headCount,
-  totalPrice
+  totalPrice,
+  setReviewModalVisible
 }: any) => {
   const {
     register,
@@ -39,6 +40,7 @@ const ReviewModal = ({
         ...data
       };
       mutate(reviewBody);
+      setReviewModalVisible((prev: boolean) => !prev);
     },
     onError: async (errors: any) => {
       undefined;
