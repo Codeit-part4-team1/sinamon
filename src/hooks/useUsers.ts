@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
-import { SignUp, Modal, SignUpRequest, SignUpModal } from "@/types/auth";
+import { SignUpRequest, SignUpModal } from "@/types/auth";
 import { getCookie } from "@/utils/cookie";
 
 export const useUsers = {
