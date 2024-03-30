@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { createPageSchema } from "@/constants/schema";
 import type { NextPageWithLayout } from "@/pages/_app";
-import { useActivities } from "@/hooks/useActivities";
+import { useGetActivityDetail } from "@/hooks/activities";
 import { patchMyActivityEdit } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -26,7 +26,7 @@ const EditPage: NextPageWithLayout = () => {
   const { id: stringId } = router.query;
   const id = Number(stringId);
 
-  const { data } = useActivities.getActivitiesDetail(id);
+  const { data } = useGetActivityDetail(id);
 
   const form = useForm<z.infer<typeof createPageSchema>>({
     resolver: zodResolver(createPageSchema),
@@ -44,23 +44,22 @@ const EditPage: NextPageWithLayout = () => {
       bannerImageUrl: "",
       bannerImagePreview: "",
       subImageUrlList: [{ subImagePreview: "", subImageUrl: "" }],
-
       subImageUrls: [],
       subImageIdsToRemove: []
     }
   });
 
   useEffect(() => {
-    if (data?.data) {
-      form.setValue("title", data.data.title);
-      form.setValue("category", data.data.category);
-      form.setValue("price", data.data.price);
-      form.setValue("description", data.data.description);
-      form.setValue("address", data.data.address);
-      form.setValue("bannerImageUrl", data.data.bannerImageUrl);
-      form.setValue("bannerImagePreview", data.data.bannerImageUrl);
+    if (data) {
+      form.setValue("title", data.title);
+      form.setValue("category", data.category);
+      form.setValue("price", data.price);
+      form.setValue("description", data.description);
+      form.setValue("address", data.address);
+      form.setValue("bannerImageUrl", data.bannerImageUrl);
+      form.setValue("bannerImagePreview", data.bannerImageUrl);
     }
-  }, [data?.data.title]);
+  }, [data?.title]);
 
   const handleError = (status: number) => {
     if (status === 409) {
@@ -68,7 +67,9 @@ const EditPage: NextPageWithLayout = () => {
     }
   };
 
-  const { mutate } = patchMyActivityEdit(id, handleError);
+  const handleSuccess = () => {};
+
+  const { mutate } = patchMyActivityEdit(id, handleSuccess, handleError);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.schedulesToAdd = values.schedules.filter(
@@ -151,9 +152,9 @@ const EditPage: NextPageWithLayout = () => {
           </div>
           <DescriptionField />
           <AddressField />
-          <SchedulesField data={data?.data.schedules} />
+          <SchedulesField data={data?.schedules} />
           <BannerImageUrlField />
-          <SubImageUrlsField edit={"edit"} data={data?.data.subImages} />
+          <SubImageUrlsField edit={"edit"} data={data?.subImages} />
           <Button
             text="수정하기"
             className="w-full md:w-96 h-12 mx-auto mt-8"
