@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 interface CategoryListProps {
   selectedCategory: string | null;
   setSelectedCategory: (prev: any) => void;
-  setSelectPage: (prev: number) => void;
 }
 interface CategoryList {
   id: number;
@@ -56,13 +55,11 @@ const categories = [
 const CategoryList = ({
   selectedCategory,
   setSelectedCategory,
-  setSelectPage
 }: CategoryListProps) => {
   const handleCategoryClick = (category: CategoryList) => {
     setSelectedCategory((prevSelectedCategory: string) =>
       prevSelectedCategory === category.name ? null : category.name
     );
-    setSelectPage(1);
   };
 
   return (

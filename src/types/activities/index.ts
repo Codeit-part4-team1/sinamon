@@ -29,3 +29,12 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ActivityList {
+  id: number;
+  bannerImageUrl: string;
+  reviewCount: number;
+  rating: number;
+  title: string;
+  price: number;
+}

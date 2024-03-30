@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 
-import { useActivities } from "@/hooks/useActivities";
+import { usePostCreateImageUrl } from "@/hooks/activities";
 
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
 const BannerImageUrlField = () => {
   const { formState, register, watch, getValues, setValue } = useFormContext();
 
-  const { mutate } = useActivities.createImageUrl(setValue, "bannerImageUrl");
+  const { mutate } = usePostCreateImageUrl(setValue, "bannerImageUrl");
 
   const handleCreateImageUrl = () => {
     setValue(

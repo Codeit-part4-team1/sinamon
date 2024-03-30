@@ -7,12 +7,14 @@ import { useRouter } from "next/router";
 
 export const patchMyActivityEdit = (
   id: number,
+  handleSuccess: () => void,
   handleError: (status: number) => void
 ) =>
   useMutation({
     mutationFn: (value: any) => instance.patch(`/my-activities/${id}`, value),
     onSuccess(data) {
       console.log(data);
+      handleSuccess();
     },
     onError(err: any) {
       console.log(err);

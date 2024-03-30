@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 import { queryKey } from "@/constants/queryKeys";
@@ -14,25 +14,18 @@ import {
   SelectItem,
   SelectTrigger
 } from "@/components/ui/select";
-
-import { getAcitivity } from "@/api/activities";
-import { getUser } from "@/api/users";
 import { deleteActivity } from "@/api/myActivities";
+import { useGetActivityDetail } from "@/hooks/activities";
+import { useGetUser } from "@/hooks/users";
 
 const DetailHeader = () => {
   const router = useRouter();
   const { id } = router.query;
   const queryClient = useQueryClient();
 
-  const { data: activityData } = useQuery({
-    queryKey: [queryKey.activity],
-    queryFn: () => getAcitivity(id)
-  });
+  const { data: activityData } = useGetActivityDetail(Number(id));
 
-  const { data: userData } = useQuery({
-    queryKey: [queryKey.usersMe],
-    queryFn: () => getUser()
-  });
+  const { data: userData } = useGetUser();
 
   const deleteActivityMutation = useMutation({
     mutationFn: () => deleteActivity(activityData?.id),

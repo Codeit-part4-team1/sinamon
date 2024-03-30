@@ -4,12 +4,14 @@ import { useMutation } from "@tanstack/react-query";
 import { instance } from "@/lib/axios";
 import { SignUpRequest, SignUpModal } from "@/types/auth";
 import { MyInfoRequest, MyInfoModal } from "@/types/users";
+import { getCookie } from "@/utils/cookie";
 
 export const useUsers = {
   get: () =>
     useQuery({
       queryKey: ["user"],
-      queryFn: () => instance.get("/users/me")
+      queryFn: () => instance.get("/users/me"),
+      enabled: !!getCookie("accessToken")
     }),
 
   signUp: (modal: any, setModal: any) =>

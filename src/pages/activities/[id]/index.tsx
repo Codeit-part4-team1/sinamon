@@ -2,7 +2,7 @@ import DetailHeader from "@/components/Activities/DetailHeader/DetailHeader";
 import Map from "@/components/Activities/Map/Map";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useQuery } from "@tanstack/react-query";
-import { getAcitivity } from "@/api/activities";
+import { getActivityDetail } from "@/api/activities";
 import { queryKey } from "@/constants/queryKeys";
 import { Activity } from "@/types/activities";
 import ReviewList from "@/components/Activities/ReviewList/ReviewList";
@@ -30,7 +30,7 @@ const Activity = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: activityData } = useQuery<Activity>({
     queryKey: [queryKey.activity],
-    queryFn: () => getAcitivity(activityId)
+    queryFn: () => getActivityDetail(activityId)
   });
   if (!activityData) return;
 
