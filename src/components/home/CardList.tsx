@@ -2,23 +2,20 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useActivities } from "@/hooks/activities";
+import { useGetActivitiesList } from "@/hooks/activities";
 import { ActivityList } from "@/types/activities";
-import Pagination from "../common/Pagination/Pagination";
+import Pagination from "@/components/common/Pagination/Pagination";
 
 interface CardListProps {
   selectedCategory: string | null;
   sort: string;
 }
 
-const CardList = ({
-  selectedCategory,
-  sort
-}: CardListProps) => {
+const CardList = ({ selectedCategory, sort }: CardListProps) => {
   const [size, setSize] = useState(8);
   const [selectedPage, setSelectedPage] = useState(1);
 
-  const { data } = useActivities.getActivitiesList(
+  const { data } = useGetActivitiesList(
     "offset",
     selectedPage,
     size,
@@ -26,16 +23,16 @@ const CardList = ({
     sort
   );
 
-  const totalPages = Math.ceil((data?.totalCount ?? 0) / size)
-  const hasNextPage = selectedPage * size <= (data?.totalCount ?? 0)
-  const hasPreviousPage = selectedPage !== 1
+  const totalPages = Math.ceil((data?.totalCount ?? 0) / size);
+  const hasNextPage = selectedPage * size <= (data?.totalCount ?? 0);
+  const hasPreviousPage = selectedPage !== 1;
 
-  const goNext = () => setSelectedPage(prev => prev + 1)
-  const goPrev = () => setSelectedPage(prev => prev - 1)
+  const goNext = () => setSelectedPage((prev) => prev + 1);
+  const goPrev = () => setSelectedPage((prev) => prev - 1);
 
   useEffect(() => {
-    setSelectedPage(1)
-  }, [selectedCategory]) 
+    setSelectedPage(1);
+  }, [selectedCategory]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,7 +81,9 @@ const CardList = ({
                 </div>
                 <div className="flex flex-col gap-[2px] md:gap-1">
                   <p className="text-xs md:text-sm">
-                    <span className="text-black font-semibold">⭐ {rating} </span>
+                    <span className="text-black font-semibold">
+                      ⭐ {rating}
+                    </span>
                     <span className="text-gray-a4a1aa">({reviewCount})</span>
                   </p>
                   <p className="text-black text-sm md:text-base leading-4 md:leading-5 font-semibold">

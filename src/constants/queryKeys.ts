@@ -13,5 +13,6 @@ export const queryKey = {
     sort: string,
     page: number,
     size: number
-  ) => ["activities", selectedCategory, sort, page, size]
+  ) => ["activities", selectedCategory, sort, page, size],
+  curationActivitiesList: ["curation"]
 };

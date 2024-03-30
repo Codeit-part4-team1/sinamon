@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-import { useActivities } from "@/hooks/useActivities";
+import { usePostCreateImageUrl } from "@/hooks/activities";
 
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
@@ -19,7 +19,7 @@ const SubImageUrlsField = ({ data }: any) => {
     name: "subImageUrlList"
   });
 
-  const { mutate } = useActivities.createImageUrl(
+  const { mutate } = usePostCreateImageUrl(
     setValue,
     "subImageUrl",
     getValues,

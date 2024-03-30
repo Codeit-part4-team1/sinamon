@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useActivities } from "@/hooks/activities";
+import { useGetCurationActivitiesList } from "@/hooks/activities";
 import { ActivityList } from "@/types/activities";
 import {
   Carousel,
@@ -12,11 +12,7 @@ import {
 } from "@/components/ui/carousel";
 
 const CurationCardList = () => {
-  const { data } = useActivities.getCurationActivitiesList(
-    "offset",
-    "most_reviewed",
-    6
-  );
+  const { data } = useGetCurationActivitiesList("offset", "most_reviewed", 6);
 
   const { activities } = data || [];
 
