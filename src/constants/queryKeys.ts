@@ -7,6 +7,7 @@ export const queryKey = {
     year,
     month
   ],
+  myReservations: ["myReservations"],
   myActivities: ["myActivities"],
   getActivitiesList: (
     selectedCategory: string | null,

@@ -18,9 +18,10 @@ const ReservationDatePicker = () => {
   const handelReserveModalClose = () => {
     setisModalOpend((prev) => !prev);
   };
+  // md:absolute md:top-1
   return (
     <>
-      <div className="sm:hidden md:block md:flex-col md:border md:gap-6 md:rounded-sm bg-white-ffffff lg:top-0 lg:w-96 md:p-6 md:absolute md:top-1 md:w-[251px]">
+      <div className="sm:hidden md:block md:flex-col md:border md:gap-6 md:rounded-sm bg-white-ffffff lg:top-0 lg:w-96 md:p-6  md:w-[251px]">
         <p className="md:flex md:font-bold md:text-[24px] md:gap-[5px] center lg:text-[28px]">
           ￦ 1,000
           <span className=" md:text-gray-4b4b4b md:self-center md:font-normal md:text-[16px] lg:text-[20px]">
