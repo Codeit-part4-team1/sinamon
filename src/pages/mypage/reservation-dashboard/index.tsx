@@ -1,6 +1,13 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, { ReactNode, useState, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  Dispatch,
+  ReactNode,
+  SetStateAction
+} from "react";
 
 import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -9,6 +16,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
+import ReservationInfoModal from "@/components/common/Modal/ReservationInfoModal";
 import {
   Select,
   SelectContent,
@@ -21,97 +29,64 @@ import MenuLayout from "@/components/layout/MenuLayout";
 
 const ReservationStatus: NextPageWithLayout = () => {
   const localizer = momentLocalizer(moment);
-  const today = new Date();
+  const [modal, setModal] = useState({
+    show: false,
+    modal: useRef<HTMLDivElement>(),
+    destination: null
+  });
 
+  useEffect(() => {
+    setModal((prev: any) => ({ ...prev, destination: document.body }));
+  }, []);
+
+  const today = new Date();
   const [date, setDate] = useState({
     year: today.getFullYear(),
     month: today.getMonth() + 1
   });
-
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [activitesId, setActiviesId] = useState<number>(0);
   const { data: activites } = reservationDashboard.getActivities();
   const { data: monthlyActivites } = reservationDashboard.getMonthlyActivites(
-    456,
+    activitesId,
     date.year.toString(),
     date.month.toString().padStart(2, "0")
   );
 
-  console.log(activites);
-  console.log(monthlyActivites);
-
-  const test = [
-    {
-      date: "2024-04-1",
-      reservations: {
-        confirmed: 1,
-        pending: 1
-      }
-    },
-    {
-      date: "2024-04-2",
-      reservations: {
-        pending: 1
-      }
-    },
-    {
-      date: "2024-04-5",
-      reservations: {
-        confirmed: 3,
-        pending: 1
-      }
-    },
-    {
-      date: "2024-04-10",
-      reservations: {
-        confirmed: 3,
-        pending: 1
-      }
-    },
-    {
-      date: "2024-04-14",
-      reservations: {
-        completed: 1,
-        confirmed: 3,
-        pending: 1
-      }
-    },
-    {
-      date: "2024-04-22",
-      reservations: {
-        completed: 1,
-        confirmed: 3,
-        pending: 1
-      }
-    }
-  ];
-
-  const event = test.flatMap((item, index) => {
-    const entries = Object.entries(item.reservations);
-    return entries.map(([key, value], idx) => {
-      return {
-        id: index * entries.length + idx, // 중복되지 않는 id 생성
-        title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
-        start: new Date(item.date),
-        end: new Date(item.date)
-      };
-    });
-  });
-
-  console.log(event);
-
-  // const event = [
-  //   {
-  //     id: 1,
-  //     title: "예약 5",
-  //     start: new Date("2024-3-20"),
-  //     end: new Date("2024-3-20")
-  //   }
-  // ];
+  const event = isSelected
+    ? monthlyActivites?.data.flatMap((item: any, index: number) => {
+        const entries = Object.entries(item.reservations);
+        return Object.entries(item.reservations).map(
+          ([key, value], idx) =>
+            Number(value) > 0 && {
+              id: index * entries.length + idx,
+              title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
+              start: new Date(item.date),
+              end: new Date(item.date)
+            }
+        );
+      })
+    : undefined;
 
   return (
     <div className="flex flex-col gap-[40px]">
+      {modal.show && (
+        <ReservationInfoModal
+          destination={modal.destination}
+          onCancel={() => {
+            setModal((prev: any) => ({ ...prev, show: false }));
+          }}
+          ref={modal.modal}
+        />
+      )}
       <div className="relative flex flex-col gap-[32px]">
         <h1 className="text-[28px] font-bold">모집 현황</h1>
-        <Select onValueChange={() => {}}>
+        <Select
+          onValueChange={(e) => {
+            !isSelected && setIsSelected(true);
+            setActiviesId(Number(e));
+          }}
+        >
           <SelectTrigger className="border border-gray-500 h-[56px] rounded-md pl-[30px] text-base font-normal focus:outline-none placeholder:font-bold">
             <SelectValue placeholder="어떤 모임의 예약 현황을 확인할까요?" />
             <SelectContent>
@@ -135,13 +110,15 @@ const ReservationStatus: NextPageWithLayout = () => {
             endAccessor="end"
             view="month"
             style={{ height: 670 }}
-            showAllEvents={true}
             components={{
               toolbar: (toolbarProps) => (
                 <MyToolbar {...toolbarProps} date={date} setDate={setDate} />
               )
             }}
             events={event}
+            onSelectEvent={() => {
+              setModal((prev: any) => ({ ...prev, show: !modal.show }));
+            }}
             eventPropGetter={(event: any) => {
               if (event.title.includes("예약")) {
                 return {
@@ -181,25 +158,30 @@ const ReservationStatus: NextPageWithLayout = () => {
   );
 };
 
+interface Date {
+  year: number;
+  month: number;
+}
+
 interface MyToolbarProps {
-  date: any;
-  setDate: any;
+  date: Date;
+  setDate: Dispatch<SetStateAction<{ year: number; month: number }>>;
   onNavigate: (direction: string) => void;
 }
 
-const MyToolbar: React.FC<MyToolbarProps> = ({ date, setDate, onNavigate }) => {
+const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
   return (
     <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
       <div
         onClick={() => {
           date.month === 1
-            ? (setDate((prev: any) => ({
+            ? (setDate((prev: Date) => ({
                 ...prev,
                 year: prev.year - 1,
                 month: 12
               })),
               onNavigate("PREV"))
-            : (setDate((prev: any) => ({ ...prev, month: prev.month - 1 })),
+            : (setDate((prev: Date) => ({ ...prev, month: prev.month - 1 })),
               onNavigate("PREV"));
         }}
         className="hover:cursor-pointer"
@@ -207,18 +189,18 @@ const MyToolbar: React.FC<MyToolbarProps> = ({ date, setDate, onNavigate }) => {
         <MdKeyboardDoubleArrowLeft size={35} />
       </div>
       <div>
-        <h1 className="text-[20px] font-bold">{`${date.year}년 ${date.month}월`}</h1>
+        <h1 className="w-[150px] text-center text-[20px] font-bold">{`${date.year}년 ${date.month}월`}</h1>
       </div>
       <div
         onClick={() => {
           date.month === 12
-            ? (setDate((prev: any) => ({
+            ? (setDate((prev: Date) => ({
                 ...prev,
                 year: prev.year + 1,
                 month: 1
               })),
               onNavigate("PREV"))
-            : (setDate((prev: any) => ({ ...prev, month: prev.month + 1 })),
+            : (setDate((prev: Date) => ({ ...prev, month: prev.month + 1 })),
               onNavigate("NEXT"));
         }}
         className="hover:cursor-pointer"

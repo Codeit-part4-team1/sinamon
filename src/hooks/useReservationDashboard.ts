@@ -1,5 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
-
+import { useQuery } from "@tanstack/react-query";
 import { instance } from "@/lib/axios";
 import { getCookie } from "@/utils/cookie";
 
@@ -12,12 +11,12 @@ export const reservationDashboard = {
     }),
   getMonthlyActivites: (activityId: number, year: string, month: string) =>
     useQuery({
-      queryKey: ["monthlyReservationDashboard"],
+      queryKey: ["monthlyReservationDashboard", activityId, year, month],
       queryFn: () =>
         instance.get(
           `/my-activities/${activityId}/reservation-dashboard?year=${year}&month=${month}`
         ),
-      enabled: !!getCookie("accessToken"),
+      enabled: !!getCookie("accessToken") && activityId !== 0,
       throwOnError: true
     })
 };
