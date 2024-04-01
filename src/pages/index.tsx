@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+
 import type { NextPageWithLayout } from "@/pages/_app";
 import MainPageLayout from "@/components/layout/MainPageLayout";
 import Searchbar from "@/components/home/Searchbar";
@@ -6,16 +7,28 @@ import CurationCardList from "@/components/home/CurationCardList";
 import CategoryList from "@/components/home/CategoryList";
 import SortDropdown from "@/components/home/SortDropdown";
 import CardList from "@/components/home/CardList";
-import Pagination from "@/components/common/Pagination/Pagination";
 
 const Home: NextPageWithLayout = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sort, setSort] = useState("latest");
+  const [keyword, setKeyword] = useState("");
+  const [totalDataCount, setTotalDataCount] = useState(0);
 
   return (
     <>
-      <Searchbar />
-      <CurationCardList />
+      <Searchbar setKeyword={setKeyword} />
+      {keyword && (
+        <p className="text-md md:text-xl mb-7 md:mb-11">
+          {selectedCategory && (
+            <>
+              <span className="font-semibold">{selectedCategory}</span> 모임{" "}
+            </>
+          )}
+          <span className="font-bold">{keyword}</span>에 대해 총{" "}
+          {totalDataCount}건의 검색결과가 있습니다.
+        </p>
+      )}
+      {keyword ? <></> : <CurationCardList />}
       <CategoryList
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
@@ -29,6 +42,8 @@ const Home: NextPageWithLayout = () => {
       <CardList
         selectedCategory={selectedCategory}
         sort={sort}
+        keyword={keyword}
+        setTotalDataCount={setTotalDataCount}
       />
     </>
   );
