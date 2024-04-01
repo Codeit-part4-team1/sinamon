@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import DetailHeader from "@/components/Activities/DetailHeader/DetailHeader";
 import Map from "@/components/Activities/Map/Map";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
@@ -7,6 +8,7 @@ import { queryKey } from "@/constants/queryKeys";
 import { Activity } from "@/types/activities";
 import ReviewList from "@/components/Activities/ReviewList/ReviewList";
 import ReservationDatePicker from "@/components/Activities/ReservationPicker/ReservationDatePicker";
+import BaseLayout from "@/components/layout/BaseLayout";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -25,7 +27,7 @@ export const getServerSideProps = async (
   // }
 };
 
-const Activity = ({
+const Activity: any = ({
   activityId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data: activityData, isSuccess } = useQuery<Activity>({
@@ -64,6 +66,10 @@ const Activity = ({
       </div>
     </div>
   );
+};
+
+Activity.getLayout = function getLayout(page: ReactNode) {
+  return <BaseLayout>{page}</BaseLayout>;
 };
 
 export default Activity;
