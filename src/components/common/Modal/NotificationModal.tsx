@@ -1,11 +1,8 @@
-import React, { useState, useContext } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
 import { FaXmark } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { GoDotFill } from "react-icons/go";
-
-import { AuthContext } from "@/contexts/AuthProvider";
 
 type NotificationType = {
   id: number;
@@ -19,23 +16,21 @@ type NotificationType = {
 
 type NotificationArrayType = NotificationType[];
 
-const NotificationModal = ({ onCancel }: any) => {
-  const { userCookie } = useContext(AuthContext);
+const NotificationModal = () => {
   const [notifications, setNotifications] = useState<NotificationArrayType>([]);
 
-  const arr = [1, 2, 3];
+  const arr = [1, 2, 3, 4, 5, 6];
 
   return (
     <div className="flex-col rounded-lg bg-sub w-[368px] h-[469px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
         <h1 className="text-[20px] w-[75px] font-bold">알림 6개</h1>
-        <div onClick={onCancel}>
+        <div>
           <FaXmark width={24} height={24} />
         </div>
       </div>
-      <div className="flex flex-col gap-[8px]">
+      <div className="flex flex-col h-[376px] gap-[8px] overflow-auto scrollbar-hide">
         {arr.map((item, index) => {
-          index < 3;
           return (
             <div className="flex flex-col gap-[4px] bg-zinc-50 rounded-md w-[328px] h-[120px] px-[12px] py-[16px]">
               <div>

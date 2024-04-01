@@ -15,6 +15,7 @@ import PasswordInput from "@/components/common/AuthInput/PasswordInput";
 import CheckPasswordInput from "@/components/common/AuthInput/CheckPasswordInput";
 import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
+import NotificationModal from "@/components/common/Modal/NotificationModal";
 
 const MyInfo: NextPageWithLayout = () => {
   const { data } = useUsers.get();
@@ -85,6 +86,7 @@ const MyInfo: NextPageWithLayout = () => {
             }}
           />
         </dialog>
+        <NotificationModal />
         <div className="mx-auto pt-[20px] md:pt-[50px]">
           <div className="flex-col gap-5 mx-auto">
             <form
