@@ -68,11 +68,11 @@ const CardList = ({
     };
   }, [size]);
 
+  const { activities } = data ?? [];
+
   useEffect(() => {
     setTotalDataCount(data?.totalCount);
-  }, [setTotalDataCount]);
-
-  const { activities } = data ?? [];
+  }, [activities]);
 
   return (
     <>
