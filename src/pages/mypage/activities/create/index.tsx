@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createPageSchema } from "@/constants/schema";
+import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { usePostActivities } from "@/hooks/activities";
 import BaseLayout from "@/components/layout/BaseLayout";
@@ -40,9 +42,14 @@ const CreatePage: NextPageWithLayout = () => {
   });
 
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleSuccess = () => {
     dialogRef.current.showModal();
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
   };
 
   const { mutate } = usePostActivities(handleSuccess);

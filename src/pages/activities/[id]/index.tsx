@@ -1,7 +1,7 @@
 import DetailHeader from "@/components/Activities/DetailHeader/DetailHeader";
 import Map from "@/components/Activities/Map/Map";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getActivityDetail } from "@/api/activities";
 import { queryKey } from "@/constants/queryKeys";
 import { Activity } from "@/types/activities";
@@ -28,10 +28,20 @@ export const getServerSideProps = async (
 const Activity = ({
   activityId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data: activityData } = useQuery<Activity>({
-    queryKey: [queryKey.activity],
+  const { data: activityData, isSuccess } = useQuery<Activity>({
+    queryKey: queryKey.activity,
     queryFn: () => getActivityDetail(activityId)
   });
+
+  const queryClient = useQueryClient();
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.activity,
+      refetchType: "inactive"
+    });
+  }
+
   if (!activityData) return;
 
   return (
