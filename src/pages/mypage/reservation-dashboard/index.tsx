@@ -1,13 +1,6 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  Dispatch,
-  ReactNode,
-  SetStateAction
-} from "react";
+import React, { useState, useRef, useEffect, ReactNode } from "react";
 
 import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -16,6 +9,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
+import { Modal, DateType } from "@/types/reservation-dashboard";
 import ReservationInfoModal from "@/components/common/Modal/ReservationInfoModal";
 import {
   Select,
@@ -29,18 +23,19 @@ import MenuLayout from "@/components/layout/MenuLayout";
 
 const ReservationStatus: NextPageWithLayout = () => {
   const localizer = momentLocalizer(moment);
-  const [modal, setModal] = useState({
+  const [modal, setModal] = useState<Modal>({
     show: false,
-    modal: useRef<HTMLDivElement>(),
+    modal: useRef<HTMLDivElement>(null),
+    date: "",
     destination: null
   });
 
   useEffect(() => {
-    setModal((prev: any) => ({ ...prev, destination: document.body }));
+    setModal((prev: Modal) => ({ ...prev, destination: document.body }));
   }, []);
 
   const today = new Date();
-  const [date, setDate] = useState({
+  const [date, setDate] = useState<DateType>({
     year: today.getFullYear(),
     month: today.getMonth() + 1
   });
@@ -74,7 +69,7 @@ const ReservationStatus: NextPageWithLayout = () => {
         <ReservationInfoModal
           destination={modal.destination}
           onCancel={() => {
-            setModal((prev: any) => ({ ...prev, show: false }));
+            setModal((prev: Modal) => ({ ...prev, show: false }));
           }}
           ref={modal.modal}
         />
@@ -116,8 +111,17 @@ const ReservationStatus: NextPageWithLayout = () => {
               )
             }}
             events={event}
-            onSelectEvent={() => {
-              setModal((prev: any) => ({ ...prev, show: !modal.show }));
+            onSelectEvent={(e) => {
+              const dateObject = new Date(e.start.toString());
+              const year = dateObject.getFullYear();
+              const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+              const day = String(dateObject.getDate()).padStart(2, "0");
+              const formattedDateString = `${year}-${month}-${day}`;
+              setModal((prev: Modal) => ({
+                ...prev,
+                date: formattedDateString,
+                show: !modal.show
+              }));
             }}
             eventPropGetter={(event: any) => {
               if (event.title.includes("예약")) {
@@ -158,30 +162,19 @@ const ReservationStatus: NextPageWithLayout = () => {
   );
 };
 
-interface Date {
-  year: number;
-  month: number;
-}
-
-interface MyToolbarProps {
-  date: Date;
-  setDate: Dispatch<SetStateAction<{ year: number; month: number }>>;
-  onNavigate: (direction: string) => void;
-}
-
 const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
   return (
     <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
       <div
         onClick={() => {
           date.month === 1
-            ? (setDate((prev: Date) => ({
+            ? (setDate((prev: DateType) => ({
                 ...prev,
                 year: prev.year - 1,
                 month: 12
               })),
               onNavigate("PREV"))
-            : (setDate((prev: Date) => ({ ...prev, month: prev.month - 1 })),
+            : (setDate((prev: DateType) => ({ ...prev, month: prev.month - 1 })),
               onNavigate("PREV"));
         }}
         className="hover:cursor-pointer"
@@ -194,13 +187,13 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
       <div
         onClick={() => {
           date.month === 12
-            ? (setDate((prev: Date) => ({
+            ? (setDate((prev: DateType) => ({
                 ...prev,
                 year: prev.year + 1,
                 month: 1
               })),
               onNavigate("PREV"))
-            : (setDate((prev: Date) => ({ ...prev, month: prev.month + 1 })),
+            : (setDate((prev: DateType) => ({ ...prev, month: prev.month + 1 })),
               onNavigate("NEXT"));
         }}
         className="hover:cursor-pointer"
