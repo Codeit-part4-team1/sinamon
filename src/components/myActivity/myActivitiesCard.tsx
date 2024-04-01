@@ -61,7 +61,7 @@ const MyActivitiesCard: React.FC<MyActivitiesType> = ({
             <div className="font-bold text-lg leading-6">{title}</div>
           </div>
           <div className="py-[1px] flex justify-between">
-            <span className="text-base font-medium flex justify-center items-center text-gray-4b4b4b">
+            <span className="text-base font-medium flex justify-center items-center text-gray-4b4b4b dark:text-zinc-300">
               ￦{price.toLocaleString()}
             </span>
             <DropdownMenu>
