@@ -4,20 +4,10 @@ import { FaXmark } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { GoDotFill } from "react-icons/go";
 
-type NotificationType = {
-  id: number;
-  teamId: string;
-  userId: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
-};
-
-type NotificationArrayType = NotificationType[];
+import { Notification, Notifications } from "@/types/myNotifications";
 
 const NotificationModal = () => {
-  const [notifications, setNotifications] = useState<NotificationArrayType>([]);
+  const [notifications, setNotifications] = useState<Notifications>([null]);
 
   const arr = [1, 2, 3, 4, 5, 6];
 
