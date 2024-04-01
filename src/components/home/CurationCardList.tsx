@@ -39,16 +39,16 @@ const CurationCardList = () => {
                 className="sm:basis-1/2 md:basis-1/3 pl-4 md:pl-5"
               >
                 <Link href={`/activities/${id}`}>
-                  <div className="relative flex-1 aspect-square rounded-xl overflow-hidden after:w-full after:h-full after:absolute after:bg-gradient-to-tr after:to-60% after:from-black after:top-0 after:left-0 border-2 border-transparent hover:border-main">
+                  <div className="relative flex-1 aspect-square rounded-xl overflow-hidden after:w-full after:h-full after:absolute after:bg-gradient-to-tr after:to-60% after:from-zinc-950 after:top-0 after:left-0 border-2 border-transparent hover:border-main">
                     <div className="absolute w-36 md:w-52 bottom-0 pl-4 md:pl-5 pb-3 md:pb-4 flex flex-col gap-1 md:gap-2 z-10">
-                      <p className="text-white-ffffff text-xs md:text-sm font-medium">
+                      <p className="text-gray-200 text-xs md:text-sm font-medium">
                         ⭐ {rating} ({reviewCount})
                       </p>
-                      <p className="text-white-ffffff text-base md:text-xl font-semibold break-keep">
+                      <p className="text-gray-200 text-base md:text-xl font-semibold break-keep">
                         {title}
                       </p>
                       <p>
-                        <span className="text-white-ffffff text-sm md:text-base font-bold">
+                        <span className="text-gray-200 text-sm md:text-base font-bold">
                           ₩ {price.toLocaleString()}
                         </span>
                         <span className="text-gray-a4a1aa text-xs md:text-sm">

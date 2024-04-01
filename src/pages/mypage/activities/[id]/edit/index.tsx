@@ -3,8 +3,10 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createPageSchema } from "@/constants/schema";
+import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { useGetActivityDetail } from "@/hooks/activities";
 import { patchMyActivityEdit } from "@/hooks/useMyActivites";
@@ -19,14 +21,33 @@ import AddressField from "@/components/create/AddressField";
 import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
-import AlertModal from "@/components/common/Modal/AlertModal";
+import ConfirmModal from "@/components/common/Modal/ConfirmModal";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+
 
 const EditPage: NextPageWithLayout = () => {
+  const [dialogopen, setDialogOpen] = useState({
+    successDialog: false,
+    errorDialog: false
+  });
   const router = useRouter();
   const { id: stringId } = router.query;
   const id = Number(stringId);
 
-  const { data } = useGetActivityDetail(id);
+  const queryClient = useQueryClient();
+
+  const { data, isSuccess } = useGetActivityDetail(id);
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
+    queryClient.invalidateQueries({
+      queryKey: queryKey.activity,
+      refetchType: "inactive"
+    });
+  }
 
   const form = useForm<z.infer<typeof createPageSchema>>({
     resolver: zodResolver(createPageSchema),
@@ -63,11 +84,23 @@ const EditPage: NextPageWithLayout = () => {
 
   const handleError = (status: number) => {
     if (status === 409) {
-      dialogRef.current.showModal();
+      setDialogOpen((prev) => ({
+        ...prev,
+        errorDialog: !prev.errorDialog
+      }));
     }
   };
 
-  const handleSuccess = () => {};
+  const handleSuccess = () => {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
+    setDialogOpen((prev) => ({
+      ...prev,
+      successDialog: !prev.successDialog
+    }));
+  };
 
   const { mutate } = patchMyActivityEdit(id, handleSuccess, handleError);
 
@@ -128,16 +161,29 @@ const EditPage: NextPageWithLayout = () => {
   return (
     <>
       <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 수정</p>
-      <dialog ref={dialogRef} className="rounded-lg">
-        <AlertModal
-          type="alert"
-          size="sm"
-          text="겹치는 시간대가 존재합니다"
-          handlerAlertModal={() => {
-            dialogRef.current.close();
-          }}
-        />
-      </dialog>
+      <Dialog
+        open={dialogopen.errorDialog}
+        onOpenChange={(value) =>
+          setDialogOpen({ ...dialogopen, errorDialog: value })
+        }
+      >
+        <DialogContent>
+          <ConfirmModal text="겹치는 시간대가 존재합니다" status="error" />
+        </DialogContent>
+
+        <DialogTrigger asChild></DialogTrigger>
+      </Dialog>
+      <Dialog
+        open={dialogopen.successDialog}
+        onOpenChange={(value) =>
+          setDialogOpen({ ...dialogopen, successDialog: value })
+        }
+      >
+        <DialogContent onClick={() => router.push("/mypage/activities")}>
+          <ConfirmModal text="모임이 수정되었습니다" status="success" />
+        </DialogContent>
+        <DialogTrigger asChild></DialogTrigger>
+      </Dialog>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"

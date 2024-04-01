@@ -29,7 +29,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onClick, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -41,12 +41,23 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <div className="h-12 px-8 flex items-center text-base rounded-md font-medium border border-transparent bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main cursor-pointer">
-          닫기
+      {onClick ? (
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <div
+            className="w-fit h-12 px-8 flex items-center text-base rounded-md font-medium border border-transparent bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main cursor-pointer"
+            onClick={onClick}
+          >
+            확인
+          </div>
         </div>
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
+      ) : (
+        <DialogPrimitive.Close className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <div className="h-12 px-8 flex items-center text-base rounded-md font-medium border border-transparent bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main cursor-pointer">
+            확인
+          </div>
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      )}
     </DialogPrimitive.Content>
   </DialogPortal>
 ));

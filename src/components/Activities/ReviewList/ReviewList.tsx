@@ -46,7 +46,7 @@ const ReviewList = () => {
         </div>
         <hr />
       </div>
-      <Pagination />
+      <Pagination selectPage={1} />
     </section>
   );
 };
