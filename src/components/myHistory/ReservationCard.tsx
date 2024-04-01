@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useMyReservations } from "@/hooks/useMyReservations";
 import AlertModal from "../common/Modal/AlertModal";
 import ReviewModal from "../common/Modal/ReviewModal";
-import ReservationInfoModal from "../common/Modal/ReservationInfoModal";
 
 const getStatusLabel = (status: ReservationType["status"]) => {
   const statusLabels: { [key: string]: string } = {
@@ -127,24 +126,20 @@ const ReservationCard: React.FC<ReservationType> = ({
         </div>
       </div>
       {isCancelModalVisible && (
-        <ReservationInfoModal
-          onCancel={handleToggleCancelModal}
-          destination={document.body}
-        />
-        // <div className="absolute flex align-middle justify-center">
-        //   <div className="fixed inset-0 z-10 flex items-center justify-center">
-        //     <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
-        //     <div className="z-30">
-        //       {/* <AlertModal
-        //         type="decide"
-        //         size="decide"
-        //         text="예약을 취소하시겠습니까?"
-        //         handlerDicideNo={handleToggleCancelModal}
-        //         handelerDicideYes={() => handleCancel(id)}
-        //       /> */}
-        //     </div>
-        //   </div>
-        // </div>
+        <div className="absolute flex align-middle justify-center">
+          <div className="fixed inset-0 z-10 flex items-center justify-center">
+            <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
+            <div className="z-30">
+              <AlertModal
+                type="decide"
+                size="decide"
+                text="예약을 취소하시겠습니까?"
+                handlerDicideNo={handleToggleCancelModal}
+                handelerDicideYes={() => handleCancel(id)}
+              />
+            </div>
+          </div>
+        </div>
       )}
     </li>
   );

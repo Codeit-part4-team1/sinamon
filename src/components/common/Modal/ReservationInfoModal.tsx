@@ -40,13 +40,9 @@ const ReservationInfoModal = ({
   ACTIVITYID,
   ACTIVITYDATE
 }: any) => {
-  // const ACTIVITYID = 434;
-  // const ACTIVITYDATE = "2024-03-31";
-
   const { GetActivityReservedSchedules } = useMyActivities();
   const { data } = GetActivityReservedSchedules(ACTIVITYID, ACTIVITYDATE);
   const dateReservations = data?.data || [];
-  console.log(dateReservations);
 
   const sumCounts = (dateReservations: dateReservations) => {
     return dateReservations.reduce<Count>(
@@ -76,7 +72,6 @@ const ReservationInfoModal = ({
   const [view, setView] = useState("pending");
   const [scheduleId, setScheduleId] = useState(dateReservations[0]?.scheduleId);
 
-  console.log(scheduleId);
   const currentView = (e: any) => {
     setView(e.target.id);
     () => GetActivityReservedSchedules(ACTIVITYID, ACTIVITYDATE);
@@ -85,8 +80,6 @@ const ReservationInfoModal = ({
   let filteredDateReservations = dateReservations.filter(
     (dateReservations: any) => dateReservations.count[view] > 0
   );
-
-  console.log(filteredDateReservations);
 
   return ReactDOM.createPortal(
     <>

@@ -20,7 +20,6 @@ const ReservationInfoModalDetail: React.FC<{
     status
   );
   const { reservations } = data?.data || [];
-  console.log(reservations);
 
   const [isApproveModalVisible, setIsApproveModalVisible] = useState(false);
   const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
@@ -90,8 +89,8 @@ const ReservationInfoModalDetail: React.FC<{
           )}
           {view === "confirmed" && (
             <div className="flex flex-row gap-[8px] justify-end">
-              <div className="flex justify-center items-center rounded-xl w-[85px] h-[32px] bg-red-ffe4e0">
-                <p className="font-bold text-red-ff472e">예약 승인</p>
+              <div className="flex justify-center items-center rounded-xl w-[85px] h-[32px] bg-orange-fff4e8">
+                <p className="font-bold text-orange-ff7c1d">예약 승인</p>
               </div>
             </div>
           )}
