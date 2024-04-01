@@ -18,7 +18,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 dark:bg-white-ffffff/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       {onClick ? (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-7 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
           <div
             className="w-fit h-12 px-8 flex items-center text-base rounded-md font-medium border border-transparent bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main cursor-pointer"
             onClick={onClick}
@@ -51,9 +51,9 @@ const DialogContent = React.forwardRef<
           </div>
         </div>
       ) : (
-        <DialogPrimitive.Close className="absolute left-1/2 -translate-x-1/2 bottom-4 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <DialogPrimitive.Close className="absolute left-1/2 -translate-x-1/2 bottom-7 rounded-sm ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
           <div className="h-12 px-8 flex items-center text-base rounded-md font-medium border border-transparent bg-main text-white-ffffff hover:bg-sub hover:text-main hover:border-main cursor-pointer">
-            확인
+            닫기
           </div>
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

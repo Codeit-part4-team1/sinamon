@@ -12,9 +12,9 @@ const ConfirmModal = ({ text, status }: ConfirmModalProps) => {
       <div className="flex flex-col justify-center gap-1 text-center">
         <div className="flex justify-center">
           {status === "success" ? (
-            <MdCheckCircle size={25} color="#531" />
+            <MdCheckCircle size={25} className="text-main" />
           ) : (
-            <MdCancel size={25} color="#531" />
+            <MdCancel size={25} className="text-main" />
           )}
         </div>
         <p className="h-[100px] flex justify-center items-center">{text}</p>
