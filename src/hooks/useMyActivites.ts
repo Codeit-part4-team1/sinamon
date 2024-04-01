@@ -39,7 +39,7 @@ export const useMyActivities = () => {
 
   const GetActivityReservedSchedules = (id: number, date: string) =>
     useQuery({
-      queryKey: queryKey.getReservationByDate,
+      queryKey: [queryKey.getReservationByDate, id, date],
       queryFn: () =>
         instance.get(`/my-activities/${id}/reserved-schedule?date=${date}`)
     });
@@ -50,7 +50,7 @@ export const useMyActivities = () => {
     status: string
   ) =>
     useQuery({
-      queryKey: queryKey.getReservationByScheduleId,
+      queryKey: [queryKey.getReservationByScheduleId, id, scheduleId, status],
       queryFn: () =>
         instance.get(
           `/my-activities/${id}/reservations?scheduleId=${scheduleId}&status=${status}`
