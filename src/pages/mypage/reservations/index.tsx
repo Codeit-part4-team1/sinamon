@@ -46,7 +46,7 @@ const MyHistory: NextPageWithLayout = () => {
   };
 
   function aggregateStatusCounts(data: ReservationType[]) {
-    return data.reduce((acc: StatusCounts, { status }) => {
+    return data?.reduce((acc: StatusCounts, { status }) => {
       if (!acc[status]) {
         acc[status] = 0;
       }
@@ -70,37 +70,37 @@ const MyHistory: NextPageWithLayout = () => {
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="all"
             >
-              모두 ({reservations.length})
+              모두 ({reservations?.length})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="pending"
             >
-              승인 대기 ({statusCounts.pending})
+              승인 대기 ({statusCounts?.pending})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="canceled"
             >
-              예약 취소 ({statusCounts.canceled})
+              예약 취소 ({statusCounts?.canceled})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="confirmed"
             >
-              예약 완료 ({statusCounts.completed})
+              예약 완료 ({statusCounts?.completed})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="declined"
             >
-              예약 거절 ({statusCounts.declined})
+              예약 거절 ({statusCounts?.declined})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="completed"
             >
-              체험 완료 ({statusCounts.completed})
+              체험 완료 ({statusCounts?.completed})
             </SelectItem>
           </SelectContent>
         </Select>
