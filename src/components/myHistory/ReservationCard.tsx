@@ -46,13 +46,11 @@ const ReservationCard: React.FC<ReservationType> = ({
     setReviewModalVisible((prev) => !prev);
   };
 
-  const defaultImage = "/images/temp-active-preview.png"; // 기본 이미지 경로 설정
+  const defaultImage = "/images/temp-active-preview.png";
 
   const handleError = () => {
-    setImageSrc(defaultImage); // 이미지 로드 실패 시 기본 이미지로 변경
+    setImageSrc(defaultImage);
   };
-
-  console.log(status);
 
   return (
     <li className="w-full aspect-[1/1.4] max-h-[500px] flex flex-col rounded-b-xl shadow-lg bg-white-ffffff cursor-pointer">

@@ -87,7 +87,7 @@ const MyHistory: NextPageWithLayout = () => {
         <div className=" flex flex-col justify-center items-center gap-8">
           <MdOutlineFindInPage size={180} />
           <p className="flex text-xl font-bold justify-center">
-            아직 등록한 체험이 없어요
+            아직 신청한 체험이 없어요
           </p>
         </div>
       )}
