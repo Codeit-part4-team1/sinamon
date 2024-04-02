@@ -31,7 +31,7 @@ const NotificationModal = () => {
   return (
     <div className="flex-col rounded-lg bg-sub w-[368px] h-[469px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
-        <h1 className="text-[20px] w-[75px] font-bold">
+        <h1 className="text-[20px] w-[100px] font-bold">
           알림 {notifications?.data.totalCount}개
         </h1>
         <div className="hover:cursor-pointer w-[25px]">
