@@ -65,7 +65,7 @@ const ReservationCard: React.FC<ReservationType> = ({
       </div>
       <div className="flex-[1.2] flex flex-col justify-between">
         <div className="h-full px-4 py-3 flex flex-col justify-between">
-          <div className="flex flex-col gap-1 justify-between">
+          <div className="flex flex-col gap-3 justify-between">
             <span
               className={`text-sm font-bold  ${
                 status === "pending"

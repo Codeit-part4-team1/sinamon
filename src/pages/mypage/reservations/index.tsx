@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import type { NextPageWithLayout } from "@/pages/_app";
 
 import ReservationCard from "@/components/myHistory/ReservationCard";
@@ -17,25 +17,39 @@ import {
 } from "@/components/ui/select";
 
 const MyHistory: NextPageWithLayout = () => {
-  const { getMyReservations } = useMyReservations();
-  const { data } = getMyReservations();
-  const { reservations } = data?.data || [];
-
   const [value, setValue] = useState("all");
 
-  let filteredReservations = reservations;
-  if (value !== "all") {
-    filteredReservations = reservations.filter(
-      (reservation: ReservationType) => reservation.status === value
-    );
+  const { getMyReservations } = useMyReservations();
+  const { data, isLoading } = getMyReservations();
+  const { reservations } = data?.data || [];
+
+  let filteredReservations = reservations?.filter(
+    (reservation: ReservationType) =>
+      value === "all" || reservation.status === value
+  );
+
+  type StatusCounts = {
+    [key: string]: number;
+  };
+
+  function aggregateStatusCounts(data: ReservationType[]) {
+    return data.reduce((acc: StatusCounts, { status }) => {
+      if (!acc[status]) {
+        acc[status] = 0;
+      }
+      acc[status]++;
+      return acc;
+    }, {});
   }
+
+  const statusCounts = aggregateStatusCounts(reservations);
 
   return (
     <div>
       <div className="mb-5 md:mb-8 flex justify-between items-center">
         <span className="text-2xl md:text-3xl font-bold">전체</span>
         <Select defaultValue="all" value={value} onValueChange={setValue}>
-          <SelectTrigger className="w-[110px] md:w-[120px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
+          <SelectTrigger className="w-[110px] md:w-[130px] h-10 md:h-12 px-3 md:py-3 md:px-3 text-sm md:text-base font-medium">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -43,44 +57,44 @@ const MyHistory: NextPageWithLayout = () => {
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="all"
             >
-              모두
+              모두 ({reservations.length})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="pending"
             >
-              승인 대기
+              승인 대기 ({statusCounts.pending})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="canceled"
             >
-              예약 취소
+              예약 취소 ({statusCounts.canceled})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="confirmed"
             >
-              예약 완료
+              예약 완료 ({statusCounts.completed})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="declined"
             >
-              예약 거절
+              예약 거절 ({statusCounts.declined})
             </SelectItem>
             <SelectItem
               className="text-sm md:text-base font-medium focus:bg-sub"
               value="completed"
             >
-              체험 완료
+              체험 완료 ({statusCounts.completed})
             </SelectItem>
           </SelectContent>
         </Select>
       </div>
       <ul className="relative justify-between w-full grid gap-4 md:gap-5 grid-cols-[repeat(auto-fill,_minmax(260px,_1fr))]">
         {filteredReservations?.map((reservation: ReservationType) => (
-          <ReservationCard key={reservation.id} {...reservation} />
+          <ReservationCard key={`key-${reservation.id}`} {...reservation} />
         ))}
       </ul>
       {filteredReservations?.length === 0 && (
