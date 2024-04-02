@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { useLogout } from "@/hooks/auth";
 import Avatar from "@/components/common/Avatar/Avatar";
 import Button from "@/components/common/Button/Button";
 
@@ -73,7 +74,9 @@ const ProfileModal = ({ user }: ProfileModalProps) => {
             </li>
           </Link>
         </ul>
-        <Button text="로그아웃" size="full" type="button" />
+        <div onClick={useLogout}>
+          <Button text="로그아웃" size="full" type="button" />
+        </div>
       </div>
     </div>
   );
