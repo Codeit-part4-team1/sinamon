@@ -1,18 +1,29 @@
 import { ReactNode, useContext } from "react";
+import { useRouter } from "next/router";
 import type { NextPageWithLayout } from "@/pages/_app";
 
+import { getCookie } from "@/utils/cookie";
 import MyActivitiesCard from "@/components/myActivity/myActivitiesCard";
 import Button from "@/components/common/Button/Button";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import { useMyActivities } from "@/hooks/useMyActivites";
+import { useGetMyActivities, useMyActivities } from "@/hooks/useMyActivites";
 import type { MyActivitiesType } from "@/types/MyActivitiesType";
 import Link from "next/link";
 
 const myActivity: NextPageWithLayout = () => {
-  const { getMyActivities } = useMyActivities();
-  const { data } = getMyActivities();
-  const { activities } = data?.data || [];
+  const router = useRouter();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
+  const { data } = useGetMyActivities();
+  const { activities } = data || [];
 
   return (
     <>

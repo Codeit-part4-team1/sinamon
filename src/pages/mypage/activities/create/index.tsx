@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createPageSchema } from "@/constants/schema";
 import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
+import { getCookie } from "@/utils/cookie";
 import { usePostActivities } from "@/hooks/activities";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -43,6 +44,14 @@ const CreatePage: NextPageWithLayout = () => {
 
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
 
   const handleSuccess = () => {
     dialogRef.current.showModal();

@@ -1,6 +1,8 @@
 import { ReactNode, useState } from "react";
+import { useRouter } from "next/router";
 import type { NextPageWithLayout } from "@/pages/_app";
 
+import { getCookie } from "@/utils/cookie";
 import ReservationCard from "@/components/myHistory/ReservationCard";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -16,6 +18,17 @@ import {
 } from "@/components/ui/select";
 
 const MyHistory: NextPageWithLayout = () => {
+  const router = useRouter();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+    return;
+  }
+
   const { getMyReservations } = useMyReservations();
   const { data } = getMyReservations();
   const { reservations } = data?.data || [];
