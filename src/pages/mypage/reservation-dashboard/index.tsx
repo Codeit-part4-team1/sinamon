@@ -72,6 +72,8 @@ const ReservationStatus: NextPageWithLayout = () => {
             setModal((prev: Modal) => ({ ...prev, show: false }));
           }}
           ref={modal.modal}
+          ACTIVITYID={activitesId}
+          ACTIVITYDATE={modal.date}
         />
       )}
       <div className="relative flex flex-col gap-[32px]">
@@ -174,7 +176,10 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
                 month: 12
               })),
               onNavigate("PREV"))
-            : (setDate((prev: DateType) => ({ ...prev, month: prev.month - 1 })),
+            : (setDate((prev: DateType) => ({
+                ...prev,
+                month: prev.month - 1
+              })),
               onNavigate("PREV"));
         }}
         className="hover:cursor-pointer"
@@ -193,7 +198,10 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
                 month: 1
               })),
               onNavigate("PREV"))
-            : (setDate((prev: DateType) => ({ ...prev, month: prev.month + 1 })),
+            : (setDate((prev: DateType) => ({
+                ...prev,
+                month: prev.month + 1
+              })),
               onNavigate("NEXT"));
         }}
         className="hover:cursor-pointer"

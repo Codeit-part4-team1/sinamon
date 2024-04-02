@@ -1,9 +1,10 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import type { NextPageWithLayout } from "@/pages/_app";
 
 import { getCookie } from "@/utils/cookie";
 import MyActivitiesCard from "@/components/myActivity/myActivitiesCard";
+import { MdOutlineFindInPage } from "react-icons/md";
 import Button from "@/components/common/Button/Button";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -38,6 +39,14 @@ const myActivity: NextPageWithLayout = () => {
           <MyActivitiesCard key={groups.id} {...groups} />
         ))}
       </ul>
+      {activities?.length === 0 && (
+        <div className=" flex flex-col justify-center items-center gap-8">
+          <MdOutlineFindInPage size={180} />
+          <p className="flex text-xl font-bold justify-center">
+            아직 등록한 모임이 없어요
+          </p>
+        </div>
+      )}
     </>
   );
 };

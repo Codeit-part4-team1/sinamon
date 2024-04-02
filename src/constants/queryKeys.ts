@@ -9,6 +9,8 @@ export const queryKey = {
   ],
   myReservations: ["myReservations"],
   myActivities: ["myActivities"],
+  getReservationByDate: ["getReservationByDate"],
+  getReservationByScheduleId: ["getReservationByScheduleId"],
   getActivitiesList: (
     selectedCategory: string | null,
     sort: string,

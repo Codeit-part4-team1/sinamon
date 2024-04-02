@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { myNotifications } from "@/hooks/useMyNotifications";
 import { useUsers } from "@/hooks/useUsers";
 import Button from "@/components/common/Button/Button";
 import Avatar from "@/components/common/Avatar/Avatar";
+import NotificationModal from "../common/Modal/NotificationModal";
 import ProfileModal from "@/components/common/Modal/ProfileModal";
 import {
   Popover,
@@ -12,10 +14,12 @@ import {
   PopoverAnchor
 } from "@/components/ui/popover";
 
+import { GoDotFill } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 const Header = () => {
   const { data: user } = useUsers.get();
+  const { data: notifications } = myNotifications.get();
 
   return (
     <div className="w-full h-[60px] md:h-20 px-4 md:px-6 flex justify-center bg-white-f9f9f9 border-b-gray-dddddd border-b">
@@ -33,12 +37,28 @@ const Header = () => {
         </Link>
         {user ? (
           <div className="flex gap-4 items-center">
-            <div className="relative cursor-pointer">
-              <IoNotificationsOutline
-                color="#a4a1aa"
-                className="text-2xl md:text-3xl"
-              />
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div className="relative cursor-pointer">
+                  <IoNotificationsOutline
+                    color="#a4a1aa"
+                    className="text-2xl md:text-3xl"
+                  />
+                  {notifications?.data.notifications.length > 0 && (
+                    <GoDotFill
+                      size={12}
+                      color={"red"}
+                      className="absolute top-0 left-[25px]"
+                    />
+                  )}
+                </div>
+              </PopoverTrigger>
+              <PopoverAnchor className="relative">
+                <PopoverContent className="absolute top-5 right-[-160px] md:right-0 z-50">
+                  <NotificationModal />
+                </PopoverContent>
+              </PopoverAnchor>
+            </Popover>
             <Popover>
               <div className="w-[1px] h-5 md:h-6 bg-gray-a4a1aa"></div>
               <PopoverTrigger asChild>
