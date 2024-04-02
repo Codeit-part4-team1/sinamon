@@ -20,6 +20,9 @@ export const useMyReservations = () => {
       instance.patch(`/my-reservations/${id}`, CancelBody),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKey.myReservations });
+    },
+    onError(err: any) {
+      alert(err.response.data.message);
     }
   });
   const reviewMyReservations = (id: number) =>
@@ -27,8 +30,10 @@ export const useMyReservations = () => {
       mutationFn: (reviewBody: ReservationReviewBodyType) =>
         instance.post(`/my-reservations/${id}/reviews`, reviewBody),
       onSuccess: () => {
-        const queryClient = useQueryClient();
         queryClient.invalidateQueries({ queryKey: queryKey.myReservations });
+      },
+      onError(err: any) {
+        alert(err.response.data.message);
       }
     });
 

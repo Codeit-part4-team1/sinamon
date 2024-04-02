@@ -37,7 +37,7 @@ const ReservationCard: React.FC<ReservationType> = ({
   const handleToggleCancelModal = () => {
     setCancelModalVisible((prev) => !prev);
   };
-  const handleCancelToggleModal = (id: number) => {
+  const handleCancel = (id: number) => {
     setCancelModalVisible(false);
     cancelMyReservations.mutate(id);
   };
@@ -46,13 +46,11 @@ const ReservationCard: React.FC<ReservationType> = ({
     setReviewModalVisible((prev) => !prev);
   };
 
-  const defaultImage = "/images/temp-active-preview.png"; // 기본 이미지 경로 설정
+  const defaultImage = "/images/temp-active-preview.png";
 
   const handleError = () => {
-    setImageSrc(defaultImage); // 이미지 로드 실패 시 기본 이미지로 변경
+    setImageSrc(defaultImage);
   };
-
-  console.log(status);
 
   return (
     <li className="w-full aspect-[1/1.4] max-h-[500px] flex flex-col rounded-b-xl shadow-lg bg-white-ffffff cursor-pointer">
@@ -110,6 +108,7 @@ const ReservationCard: React.FC<ReservationType> = ({
                 <ReviewModal
                   onCancel={handleToggleReviewModal}
                   destination={document.body}
+                  setReviewModalVisible={setReviewModalVisible}
                   id={id}
                   bannerImageUrl={imageSrc}
                   title={title}
@@ -134,7 +133,7 @@ const ReservationCard: React.FC<ReservationType> = ({
                 size="decide"
                 text="예약을 취소하시겠습니까?"
                 handlerDicideNo={handleToggleCancelModal}
-                handelerDicideYes={() => handleCancelToggleModal(id)}
+                handelerDicideYes={() => handleCancel(id)}
               />
             </div>
           </div>
