@@ -6,8 +6,8 @@ import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
 import { Modal, DateType } from "@/types/reservation-dashboard";
 import ReservationInfoModal from "@/components/common/Modal/ReservationInfoModal";
@@ -34,6 +34,7 @@ const ReservationStatus: NextPageWithLayout = () => {
     setModal((prev: Modal) => ({ ...prev, destination: document.body }));
   }, []);
 
+
   const today = new Date();
   const [date, setDate] = useState<DateType>({
     year: today.getFullYear(),
@@ -48,23 +49,34 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
+  // monthlyActivites?.data" [{date: '2024-04-03', reservations: {…}}, {date: '2024-04-03', reservations: {…}} ...]
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
-        const entries = Object.entries(item.reservations);
-        return Object.entries(item.reservations).map(
-          ([key, value], idx) =>
-            Number(value) > 0 && {
-              id: index * entries.length + idx,
-              title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
-              start: new Date(item.date),
-              end: new Date(item.date)
-            }
-        );
+        const isPastDate = new Date(item.date);
+        if (isPastDate < today) {
+          return {
+            id: index * 111,
+            title: `완료: ${item.reservations.completed + item.reservations.confirmed + item.reservations.pending}`,
+            start: new Date(item.date),
+            end: new Date(item.date)
+          };
+        } else {
+          const entries = Object.entries(item.reservations);
+          return Object.entries(item.reservations).map(
+            ([key, value], idx) =>
+              Number(value) > 0 && {
+                id: index * entries.length + idx,
+                title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
+                start: new Date(item.date),
+                end: new Date(item.date)
+              }
+          );
+        }
       })
     : undefined;
 
   return (
-    <div className="flex flex-col gap-[40px]">
+    <div className="flex flex-col gap-[50px]">
       {modal.show && (
         <ReservationInfoModal
           destination={modal.destination}
@@ -156,7 +168,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                 };
               }
             }}
-            className="flex flex-col gap-[30px] rouned-lg"
+            className="flex flex-col gap-[50px] rouned-lg"
           />
         </div>
       </div>
@@ -166,7 +178,7 @@ const ReservationStatus: NextPageWithLayout = () => {
 
 const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
   return (
-    <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
+    <div className="flex flex-row justify-center gap-[30px] md:gap-[50px]">
       <div
         onClick={() => {
           date.month === 1
@@ -184,7 +196,7 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
         }}
         className="hover:cursor-pointer"
       >
-        <MdKeyboardDoubleArrowLeft size={35} />
+        <IoIosArrowBack size={35} />
       </div>
       <div>
         <h1 className="w-[150px] text-center text-[20px] font-bold">{`${date.year}년 ${date.month}월`}</h1>
@@ -206,7 +218,7 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
         }}
         className="hover:cursor-pointer"
       >
-        <MdKeyboardDoubleArrowRight size={35} />
+        <IoIosArrowForward size={35} />
       </div>
     </div>
   );
