@@ -9,7 +9,6 @@ import { myNotifications } from "@/hooks/useMyNotifications";
 const NotificationModal = () => {
   const { data: notifications } = myNotifications.get();
   const { mutate } = myNotifications.delete();
-  console.log(notifications);
 
   const elapsedTime = (rfc: string) => {
     const currentDate = new Date();
