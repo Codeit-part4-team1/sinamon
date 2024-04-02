@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { instance } from "@/lib/axios";
 import { queryKey } from "@/constants/queryKeys";
-import { ReservationStatusBodyType } from "@/types/MyActivitiesType";
+import { getMyActivities } from "@/api/myActivities";
 
 const ApproveBody = {
   status: "confirmed"
@@ -10,8 +11,6 @@ const ApproveBody = {
 const DeclineBody = {
   status: "declined"
 };
-import { useRouter } from "next/router";
-import { getMyActivities } from "@/api/myActivities";
 
 export const patchMyActivityEdit = (
   id: number,
