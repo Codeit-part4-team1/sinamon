@@ -1,11 +1,13 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
 import React, { useState, useEffect, useRef, ReactNode } from "react";
+import Router from "next/router";
 import Image from "next/image";
 import { useForm, FormProvider } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
 
 import { MyInfoRequest, MyInfoModal } from "@/types/users";
+import { getCookie } from "@/utils/cookie";
 import { useUsers } from "@/hooks/useUsers";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -17,6 +19,14 @@ import AlertModal from "@/components/common/Modal/AlertModal";
 import Button from "@/components/common/Button/Button";
 
 const MyInfo: NextPageWithLayout = () => {
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      Router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
   const { data } = useUsers.get();
 
   const form = useForm({
