@@ -46,7 +46,7 @@ const AlertModal = ({
     <div className={`${sizeClass[size]}`}>
       <div className="flex flex-col justify-center gap-1 text-center">
         <div className="flex justify-center h-[30px]">
-          {type === "decide" && <MdCheckCircle size={25} color="#531" />}
+          {type === "decide" && <MdCheckCircle size={25} className="text-main" />}
         </div>
         <div className="pt-[10px] h-[25px]">{text}</div>
       </div>

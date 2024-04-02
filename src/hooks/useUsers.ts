@@ -11,7 +11,7 @@ export const useUsers = {
     useQuery({
       queryKey: ["user"],
       queryFn: () => instance.get("/users/me"),
-      enabled: !!getCookie("accessToken")
+      enabled: !!getCookie("refreshToken")
     }),
 
   signUp: (modal: any, setModal: any) =>
