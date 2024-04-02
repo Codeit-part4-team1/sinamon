@@ -28,7 +28,7 @@ const EmailInput = ({ whatFor }: WhatFor) => {
           !errors.email
             ? "border-input"
             : "border-red-500"
-        } ${whatFor === "edit" ? "bg-gray-200" : undefined}`}
+        } ${whatFor === "edit" ? "bg-gray-200 cursor-default dark:bg-zinc-900 dark:text-zinc-500" : undefined}`}
       />
       <div className="h-4">
         {errors.email && (

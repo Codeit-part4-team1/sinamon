@@ -5,10 +5,21 @@ export const getActivitiesList = async (
   sort: string,
   page: number,
   size: number,
-  category: string | null
+  category: string | null,
+  keyword: string
 ) => {
+  const params: any = {
+    method: method,
+    category: category,
+    sort: sort,
+    page: page,
+    size: size
+  };
+
+  keyword && (params["keyword"] = keyword);
+
   const res = await instance.get("activities", {
-    params: { method, category, sort, page, size }
+    params
   });
   return res.data;
 };

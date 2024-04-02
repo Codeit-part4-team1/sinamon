@@ -30,7 +30,7 @@ const SelectHeadcount = ({
           <FaMinus />
         </button>
         <input
-          className="text-center w-[30px]"
+          className="text-center w-[30px] bg-white-ffffff"
           aria-labelledby="participants"
           value={Headcount}
           onChange={handleHeadcountChange}

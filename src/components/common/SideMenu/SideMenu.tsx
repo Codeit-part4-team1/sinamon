@@ -12,8 +12,8 @@ interface SideMenuProps {
 const SideMenu = ({ path }: SideMenuProps) => {
   return (
     <ul className="md:sticky w-full md:w-44 h-fit top-0 md:pt-6 p-2 md:p-0 flex md:flex-col flex-shrink-0 justify-between gap-1 md:gap-3 bg-white-ffffff md:bg-transparent border border-gray-cbc9cf md:border-none rounded-md">
-      <Link href={"/mypage"}>
-        <li className="sm:flex-1">
+      <Link className="sm:flex-1" href={"/mypage"}>
+        <li>
           <button
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path || "border border-main bg-sub"}`}
           >
@@ -28,8 +28,8 @@ const SideMenu = ({ path }: SideMenuProps) => {
           </button>
         </li>
       </Link>
-      <Link href={"/mypage/reservations"}>
-        <li className="sm:flex-1">
+      <Link className="sm:flex-1" href={"/mypage/reservations"}>
+        <li>
           <button
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "reservations" && "border border-main bg-sub"}`}
           >
@@ -44,8 +44,8 @@ const SideMenu = ({ path }: SideMenuProps) => {
           </button>
         </li>
       </Link>
-      <Link href={"/mypage/activities"}>
-        <li className="sm:flex-1">
+      <Link className="sm:flex-1" href={"/mypage/activities"}>
+        <li>
           <button
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "activities" && "border border-main bg-sub"}`}
           >
@@ -60,8 +60,8 @@ const SideMenu = ({ path }: SideMenuProps) => {
           </button>
         </li>
       </Link>
-      <Link href={"/mypage/reservation-dashboard"}>
-        <li className="sm:flex-1">
+      <Link className="sm:flex-1" href={"/mypage/reservation-dashboard"}>
+        <li>
           <button
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "reservation-dashboard" && "border border-main bg-sub"}`}
           >

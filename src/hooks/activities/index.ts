@@ -14,11 +14,19 @@ export const useGetActivitiesList = (
   page: number,
   size: number,
   selectedCategory: string | null,
-  sort: string
+  sort: string,
+  keyword: string
 ) =>
   useQuery({
-    queryKey: queryKey.getActivitiesList(selectedCategory, sort, page, size),
-    queryFn: () => getActivitiesList(method, sort, page, size, selectedCategory)
+    queryKey: queryKey.getActivitiesList(
+      selectedCategory,
+      sort,
+      page,
+      size,
+      keyword
+    ),
+    queryFn: () =>
+      getActivitiesList(method, sort, page, size, selectedCategory, keyword)
   });
 
 export const useGetCurationActivitiesList = (
