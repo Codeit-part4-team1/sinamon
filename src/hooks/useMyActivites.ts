@@ -4,6 +4,7 @@ import { instance } from "@/lib/axios";
 
 import { queryKey } from "@/constants/queryKeys";
 import { useRouter } from "next/router";
+import { getMyActivities } from "@/api/myActivities";
 
 export const patchMyActivityEdit = (
   id: number,
@@ -22,14 +23,14 @@ export const patchMyActivityEdit = (
     }
   });
 
+export const useGetMyActivities = () =>
+  useQuery({
+    queryKey: queryKey.myActivities,
+    queryFn: () => getMyActivities()
+  });
+
 export const useMyActivities = () => {
   const queryClient = useQueryClient();
-
-  const getMyActivities = () =>
-    useQuery({
-      queryKey: queryKey.myActivities,
-      queryFn: () => instance.get("/my-activities?size=999")
-    });
 
   const deleteMyActivity = useMutation({
     mutationFn: (id: number) => instance.delete(`/my-activities/${id}`),

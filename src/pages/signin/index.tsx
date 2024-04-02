@@ -4,7 +4,7 @@ import Router from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useLogin } from "@/hooks/auth";
 import { SignInModal } from "@/types/auth";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
 import PasswordInput from "@/components/common/AuthInput/PasswordInput";
@@ -29,7 +29,7 @@ const SignIn = () => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  const { mutate } = useAuth.login(modal, setModal);
+  const { mutate } = useLogin(modal, setModal);
 
   const submit = {
     onSubmit: async (value: any) => {
