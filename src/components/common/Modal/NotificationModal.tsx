@@ -2,7 +2,7 @@ import React from "react";
 
 import { RxCross2 } from "react-icons/rx";
 import { GoDotFill } from "react-icons/go";
-import { GoBellSlash } from "react-icons/go";
+import { PiBellSlashThin } from "react-icons/pi";
 
 import { myNotifications } from "@/hooks/useMyNotifications";
 
@@ -28,7 +28,7 @@ const NotificationModal = () => {
   };
 
   return (
-    <div className="flex-col rounded-lg bg-sub w-[330px] h-[350px] px-[20px] py-[24px]">
+    <div className="flex flex-col border border-gray-dddddd rounded-lg bg-sub w-[330px] h-[350px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
         <h1 className="text-[20px] w-[100px] font-bold">
           알림 {notifications?.data.totalCount}개
@@ -89,9 +89,9 @@ const NotificationModal = () => {
           })
         ) : (
           <div>
-            <div className="flex flex-col items-center pt-[25px] gap-[40px]">
-              <GoBellSlash size={100} />
-              <h1>새로운 알림이 없습니다.</h1>
+            <div className="flex flex-col items-center pt-[20px] gap-[30px]">
+              <PiBellSlashThin size={120} />
+              <h1 className="font-semibold">새로운 알림이 없습니다.</h1>
             </div>
           </div>
         )}
