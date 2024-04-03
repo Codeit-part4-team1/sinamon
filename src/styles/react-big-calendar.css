@@ -14,6 +14,10 @@
   display: none;
 }
 
-.rbc-now.rbc-current > .rbc-button-link {
+/* .rbc-now.rbc-current > .rbc-button-link {
   color: #ff8000;
+} */
+
+.rbc-now.rbc-current > .rbc-button-link {
+  color: hsl(var(--primary))
 }

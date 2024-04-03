@@ -34,10 +34,10 @@ const ReservationStatus: NextPageWithLayout = () => {
     setModal((prev: Modal) => ({ ...prev, destination: document.body }));
   }, []);
 
-  const today = new Date();
+  const currentDate = new Date();
   const [date, setDate] = useState<DateType>({
-    year: today.getFullYear(),
-    month: today.getMonth() + 1
+    year: currentDate.getFullYear(),
+    month: currentDate.getMonth() + 1
   });
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [activitesId, setActiviesId] = useState<number>(0);
@@ -48,20 +48,24 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
-  // monthlyActivites?.data" [{date: '2024-04-03', reservations: {…}}, {date: '2024-04-03', reservations: {…}} ...]
+  console.log(monthlyActivites);
+
+  /* monthlyActivites?.data
+  [{
+    date: '2024-04-03',
+    reservations: {
+      completed: 8,
+      confirmed: 0,
+      pending: 6
+    }
+  }, ...] */
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
         const isPastDate = new Date(item.date);
-        const date1 = moment(isPastDate);
-        const date2 = moment(today);
 
-        const diffInday = date2.diff(date1, "day");
-        console.log(isPastDate < today);
-        console.log(diffInday);
-
-        if (isPastDate < today) {
+        if (isPastDate.getDate() < currentDate.getDate()) {
           return {
-            id: index * 111,
+            id: index,
             title: `완료: ${item.reservations.completed + item.reservations.confirmed + item.reservations.pending}`,
             start: new Date(item.date),
             end: new Date(item.date)
@@ -69,9 +73,9 @@ const ReservationStatus: NextPageWithLayout = () => {
         } else {
           const entries = Object.entries(item.reservations);
           return Object.entries(item.reservations).map(
-            ([key, value], idx) =>
+            ([key, value], index) =>
               Number(value) > 0 && {
-                id: index * entries.length + idx,
+                id: index * entries.length + index,
                 title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
                 start: new Date(item.date),
                 end: new Date(item.date)
