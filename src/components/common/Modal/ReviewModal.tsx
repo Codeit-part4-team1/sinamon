@@ -50,7 +50,7 @@ const ReviewModal = ({
   const dialogRef = useRef<any>();
 
   return ReactDOM.createPortal(
-    <>
+    <div className="fixed top-0 left-0 w-full h-full">
       <div className="absolute top-0 bg-gray-400 opacity-40 w-full h-full">
         <dialog ref={dialogRef}>
           <AlertModal
@@ -132,7 +132,7 @@ const ReviewModal = ({
           </div>
         </form>
       </div>
-    </>,
+    </div>,
     destination
   );
 };

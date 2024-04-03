@@ -29,17 +29,31 @@ const MyHistory: NextPageWithLayout = () => {
     }
   }
 
-  const { data } = usegetMyReservations();
+  const [value, setValue] = useState("all");
+        
+  const { data, isLoading } = usegetMyReservations();
   const { reservations } = data || [];
 
-  const [value, setValue] = useState("all");
+  let filteredReservations = reservations?.filter(
+    (reservation: ReservationType) =>
+      value === "all" || reservation.status === value
+  );
 
-  let filteredReservations = reservations;
-  if (value !== "all") {
-    filteredReservations = reservations.filter(
-      (reservation: ReservationType) => reservation.status === value
-    );
+  type StatusCounts = {
+    [key: string]: number;
+  };
+
+  function aggregateStatusCounts(data: ReservationType[]) {
+    return data?.reduce((acc: StatusCounts, { status }) => {
+      if (!acc[status]) {
+        acc[status] = 0;
+      }
+      acc[status]++;
+      return acc;
+    }, {});
   }
+
+  const statusCounts = aggregateStatusCounts(reservations);
 
   return (
     <div>
@@ -94,7 +108,7 @@ const MyHistory: NextPageWithLayout = () => {
       </div>
       <ul className="relative justify-between w-full grid gap-4 md:gap-5 grid-cols-[repeat(auto-fill,_minmax(260px,_1fr))]">
         {filteredReservations?.map((reservation: ReservationType) => (
-          <ReservationCard key={reservation.id} {...reservation} />
+          <ReservationCard key={`key-${reservation.id}`} {...reservation} />
         ))}
       </ul>
       {filteredReservations?.length === 0 && (
