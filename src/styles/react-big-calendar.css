@@ -1,0 +1,23 @@
+.rbc-month-view {
+  border-radius: 10px;
+}
+
+.rbc-day-bg.rbc-off-range-bg {
+  background-color: inherit;
+}
+
+.rbc-day-bg.rbc-today {
+  background-color: inherit;
+}
+
+.rbc-off-range > .rbc-button-link {
+  display: none;
+}
+
+/* .rbc-now.rbc-current > .rbc-button-link {
+  color: #ff8000;
+} */
+
+.rbc-now.rbc-current > .rbc-button-link {
+  color: hsl(var(--primary))
+}

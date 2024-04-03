@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import "@/styles/globals.css";
 import "@/styles/datePicker.css";
+import "@/styles/react-big-calendar.css";
 
 const queryClient = new QueryClient({
   // 임시 기본값 추후 변경
