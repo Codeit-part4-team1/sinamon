@@ -34,7 +34,6 @@ const ReservationStatus: NextPageWithLayout = () => {
     setModal((prev: Modal) => ({ ...prev, destination: document.body }));
   }, []);
 
-
   const today = new Date();
   const [date, setDate] = useState<DateType>({
     year: today.getFullYear(),
@@ -49,10 +48,31 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
+  const currentDate = (date: any) => {
+    const currentDate = moment(date);
+    const isToday = currentDate.isSame(today, "day");
+
+    if (isToday) {
+      return {
+        style: {
+          background: "inherit"
+        }
+      };
+    }
+    return {};
+  };
+
   // monthlyActivites?.data" [{date: '2024-04-03', reservations: {…}}, {date: '2024-04-03', reservations: {…}} ...]
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
         const isPastDate = new Date(item.date);
+        const date1 = moment(isPastDate);
+        const date2 = moment(today);
+
+        const diffInday = date2.diff(date1, "day");
+        console.log(isPastDate < today);
+        console.log(diffInday);
+
         if (isPastDate < today) {
           return {
             id: index * 111,
@@ -112,7 +132,7 @@ const ReservationStatus: NextPageWithLayout = () => {
         </div>
       </div>
       <div>
-        <div>
+        <div className="calendar-wrapper">
           <Calendar
             localizer={localizer}
             startAccessor="start"
@@ -137,6 +157,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                 show: !modal.show
               }));
             }}
+            dayPropGetter={currentDate}
             eventPropGetter={(event: any) => {
               if (event.title.includes("예약")) {
                 return {
