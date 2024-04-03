@@ -58,11 +58,10 @@ export const useMyActivities = (date: string) => {
   ) =>
     useQuery({
       queryKey: [queryKey.getReservationByScheduleId, scheduleId, status],
-      queryFn: () => {
-        return instance.get(
+      queryFn: () =>
+        instance.get(
           `/my-activities/${id}/reservations?scheduleId=${scheduleId}&status=${status}`
-        );
-      }
+        )
     });
 
   const ApporveReservation = useMutation({

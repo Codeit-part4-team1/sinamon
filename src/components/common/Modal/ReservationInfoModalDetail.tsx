@@ -21,7 +21,6 @@ const ReservationInfoModalDetail: React.FC<{
     status
   );
   const { reservations } = data?.data || [];
-  console.log(reservations);
 
   const [isApproveModalVisible, setIsApproveModalVisible] = useState(false);
   const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
