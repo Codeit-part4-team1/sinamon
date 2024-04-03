@@ -19,12 +19,10 @@ export const patchMyActivityEdit = (
 ) =>
   useMutation({
     mutationFn: (value: any) => instance.patch(`/my-activities/${id}`, value),
-    onSuccess(data) {
-      console.log(data);
+    onSuccess() {
       handleSuccess();
     },
     onError(err: any) {
-      console.log(err);
       handleError(err.response.status);
     }
   });
