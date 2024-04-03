@@ -1,15 +1,13 @@
 import { ReactNode, useState } from "react";
 import { useRouter } from "next/router";
-import type { NextPageWithLayout } from "@/pages/_app";
 
+import type { NextPageWithLayout } from "@/pages/_app";
+import type { ReservationType } from "@/types/MyReservationTypes";
 import { getCookie } from "@/utils/cookie";
+import { usegetMyReservations } from "@/hooks/myReservaions";
 import ReservationCard from "@/components/myHistory/ReservationCard";
-import { MdOutlineFindInPage } from "react-icons/md";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import { useMyReservations } from "@/hooks/useMyReservations";
-import type { ReservationType } from "@/types/MyReservationTypes";
-
 import {
   Select,
   SelectContent,
@@ -17,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+
+import { PiFileMagnifyingGlass } from "react-icons/pi";
 
 const MyHistory: NextPageWithLayout = () => {
   const router = useRouter();
@@ -27,12 +27,10 @@ const MyHistory: NextPageWithLayout = () => {
     } catch (err) {
       console.error("Error occurred while redirecting to /signin:", err);
     }
-    return;
   }
 
-  const { getMyReservations } = useMyReservations();
-  const { data } = getMyReservations();
-  const { reservations } = data?.data || [];
+  const { data } = usegetMyReservations();
+  const { reservations } = data || [];
 
   const [value, setValue] = useState("all");
 
@@ -46,7 +44,7 @@ const MyHistory: NextPageWithLayout = () => {
   return (
     <div>
       <div className="mb-5 md:mb-8 flex justify-between items-center">
-        <span className="text-2xl md:text-3xl font-bold">전체</span>
+        <span className="text-2xl md:text-3xl font-bold">참여 내역</span>
         <Select defaultValue="all" value={value} onValueChange={setValue}>
           <SelectTrigger className="w-[110px] md:w-[120px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
             <SelectValue />
@@ -97,10 +95,10 @@ const MyHistory: NextPageWithLayout = () => {
         ))}
       </ul>
       {filteredReservations?.length === 0 && (
-        <div className=" flex flex-col justify-center items-center gap-8">
-          <MdOutlineFindInPage size={180} />
+        <div className="h-52 flex flex-col justify-center items-center gap-8">
+          <PiFileMagnifyingGlass className="font-light text-8xl text-gray-4b4b4b" />
           <p className="flex text-xl font-bold justify-center">
-            아직 신청한 체험이 없어요
+            아직 참여한 모임이 없어요
           </p>
         </div>
       )}
