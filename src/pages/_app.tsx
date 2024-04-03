@@ -4,7 +4,6 @@ import type { AppProps } from "next/app";
 import localFont from "next/font/local";
 import Script from "next/script";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -60,7 +59,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           <div className={`${pretendard.className}`}>
             {getLayout(<Component {...pageProps} />)}
           </div>
-          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>
     </>

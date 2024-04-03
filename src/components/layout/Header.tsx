@@ -36,7 +36,7 @@ const Header = () => {
           </div>
         </Link>
         {user ? (
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center">
             <Popover>
               <PopoverTrigger asChild>
                 <div className="relative cursor-pointer">
@@ -59,12 +59,12 @@ const Header = () => {
                 </PopoverContent>
               </PopoverAnchor>
             </Popover>
+            <div className="w-[1px] h-5 mx-2 md:mx-4 md:h-6 bg-gray-a4a1aa"></div>
             <Popover>
-              <div className="w-[1px] h-5 md:h-6 bg-gray-a4a1aa"></div>
               <PopoverTrigger asChild>
                 <div className="flex gap-2 items-center cursor-pointer">
                   <Avatar user={user} size="sm" />
-                  <span className="text-base font-medium text-black">
+                  <span className="text-sm md:text-base font-medium text-black">
                     {user?.nickname}
                   </span>
                 </div>
