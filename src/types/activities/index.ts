@@ -35,3 +35,14 @@ export interface GetReviewsParams {
   page?: number;
   size?: 3;
 }
+
+export interface GetAvailableDateParams {
+  activityId: number;
+  year: string;
+  month: string;
+}
+export interface PostReservationParams {
+  activityId: number;
+  scheduleId: number;
+  headCount: number;
+}

@@ -50,7 +50,7 @@ const DetailHeader = ({ data }: { data: Activity }) => {
   };
 
   return (
-    <header className="flex relative w-full gap-[10px] justify-between items-center">
+    <header className="flex relative w-full px-4 md:px-0 gap-[10px] justify-between items-center">
       <div className="flex flex-col gap-[10px]">
         <p className="text-[14px] opacity-75">{data?.category}</p>
         <h1 className="font-bold text-[32px] mb-[6px]">{data?.title}</h1>

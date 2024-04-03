@@ -23,6 +23,7 @@ const ReviewList = ({ activityId }: { activityId: number }) => {
       getPreviousPageParam: (firstPage) => firstPage.data
     });
   };
+
   const useGetReviewListQeury = ({
     activityId,
     page,
