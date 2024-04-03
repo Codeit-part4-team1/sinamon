@@ -48,20 +48,6 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
-  const currentDate = (date: any) => {
-    const currentDate = moment(date);
-    const isToday = currentDate.isSame(today, "day");
-
-    if (isToday) {
-      return {
-        style: {
-          background: "inherit"
-        }
-      };
-    }
-    return {};
-  };
-
   // monthlyActivites?.data" [{date: '2024-04-03', reservations: {…}}, {date: '2024-04-03', reservations: {…}} ...]
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
@@ -157,14 +143,14 @@ const ReservationStatus: NextPageWithLayout = () => {
                 show: !modal.show
               }));
             }}
-            dayPropGetter={currentDate}
             eventPropGetter={(event: any) => {
               if (event.title.includes("예약")) {
                 return {
                   style: {
                     color: "#FFF",
                     fontSize: "13px",
-                    backgroundColor: "#0085FF"
+                    backgroundColor: "#0085FF",
+                    paddingLeft: "10px"
                   }
                 };
               } else if (event.title.includes("승인")) {
@@ -172,7 +158,8 @@ const ReservationStatus: NextPageWithLayout = () => {
                   style: {
                     color: "#FF7C1D",
                     fontSize: "13px",
-                    backgroundColor: "#FFF4E8"
+                    backgroundColor: "#FFF4E8",
+                    paddingLeft: "10px"
                   }
                 };
               } else if (event.title.includes("완료")) {
@@ -180,7 +167,8 @@ const ReservationStatus: NextPageWithLayout = () => {
                   style: {
                     color: "#4B4B4B",
                     fontSize: "13px",
-                    backgroundColor: "#DDD"
+                    backgroundColor: "#DDD",
+                    paddingLeft: "10px"
                   }
                 };
               } else {
