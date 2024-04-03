@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Button from "@/components/common/Button/Button";
-import { ReservationType } from "@/types/MyReservationTypes";
 import { useState } from "react";
+import Image from "next/image";
+
+import { ReservationType } from "@/types/MyReservationTypes";
 import { useMyReservations } from "@/hooks/useMyReservations";
-import AlertModal from "../common/Modal/AlertModal";
-import ReviewModal from "../common/Modal/ReviewModal";
+import Button from "@/components/common/Button/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import ReviewModal from "@/components/common/Modal/ReviewModal";
 
 const getStatusLabel = (status: ReservationType["status"]) => {
   const statusLabels: { [key: string]: string } = {
@@ -37,7 +38,7 @@ const ReservationCard: React.FC<ReservationType> = ({
   const handleToggleCancelModal = () => {
     setCancelModalVisible((prev) => !prev);
   };
-  const handleCancelToggleModal = (id: number) => {
+  const handleCancel = (id: number) => {
     setCancelModalVisible(false);
     cancelMyReservations.mutate(id);
   };
@@ -46,13 +47,11 @@ const ReservationCard: React.FC<ReservationType> = ({
     setReviewModalVisible((prev) => !prev);
   };
 
-  const defaultImage = "/images/temp-active-preview.png"; // 기본 이미지 경로 설정
+  const defaultImage = "/images/temp-active-preview.png";
 
   const handleError = () => {
-    setImageSrc(defaultImage); // 이미지 로드 실패 시 기본 이미지로 변경
+    setImageSrc(defaultImage);
   };
-
-  console.log(status);
 
   return (
     <li className="w-full aspect-[1/1.4] max-h-[500px] flex flex-col rounded-b-xl shadow-lg bg-white-ffffff cursor-pointer">
@@ -62,12 +61,14 @@ const ReservationCard: React.FC<ReservationType> = ({
           src={imageSrc}
           alt="Activity"
           fill
+          sizes="100%"
+          priority
           onError={handleError}
         />
       </div>
       <div className="flex-[1.2] flex flex-col justify-between">
         <div className="h-full px-4 py-3 flex flex-col justify-between">
-          <div className="flex flex-col gap-1 justify-between">
+          <div className="flex flex-col gap-3 justify-between">
             <span
               className={`text-sm font-bold  ${
                 status === "pending"
@@ -110,6 +111,7 @@ const ReservationCard: React.FC<ReservationType> = ({
                 <ReviewModal
                   onCancel={handleToggleReviewModal}
                   destination={document.body}
+                  setReviewModalVisible={setReviewModalVisible}
                   id={id}
                   bannerImageUrl={imageSrc}
                   title={title}
@@ -134,7 +136,7 @@ const ReservationCard: React.FC<ReservationType> = ({
                 size="decide"
                 text="예약을 취소하시겠습니까?"
                 handlerDicideNo={handleToggleCancelModal}
-                handelerDicideYes={() => handleCancelToggleModal(id)}
+                handelerDicideYes={() => handleCancel(id)}
               />
             </div>
           </div>

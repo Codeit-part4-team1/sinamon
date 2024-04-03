@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
+import { useTheme } from "next-themes";
 
 import {
   FormControl,
@@ -12,6 +13,8 @@ import {
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 const AddressField = () => {
+  const { theme } = useTheme();
+
   const [dialogopen, setDialogOpen] = useState(false);
 
   const { control, setValue } = useFormContext();
@@ -25,12 +28,34 @@ const AddressField = () => {
     height: "500px"
   };
 
+  const light = {
+    bgColor: "",
+    searchBgColor: "",
+    contentBgColor: "",
+    pageBgColor: "",
+    textColor: "",
+    queryTextColor: "",
+    outlineColor: ""
+  };
+
+  const dark = {
+    bgColor: "#040202",
+    searchBgColor: "#0c0a09",
+    contentBgColor: "#0c0a09",
+    pageBgColor: "#0c0a09",
+    textColor: "#ccc",
+    queryTextColor: "#ccc",
+    outlineColor: "#444444"
+  };
+
   return (
     <div className="max-w-[700px]">
       <div className="flex flex-col gap-4">
         <Dialog open={dialogopen} onOpenChange={setDialogOpen}>
           <DialogContent>
             <DaumPostcode
+              className="bg-main"
+              theme={theme === "dark" ? dark : light}
               style={addressStyle}
               onComplete={handleComplete}
             ></DaumPostcode>

@@ -6,8 +6,8 @@ import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
 import { Modal, DateType } from "@/types/reservation-dashboard";
 import ReservationInfoModal from "@/components/common/Modal/ReservationInfoModal";
@@ -34,10 +34,10 @@ const ReservationStatus: NextPageWithLayout = () => {
     setModal((prev: Modal) => ({ ...prev, destination: document.body }));
   }, []);
 
-  const today = new Date();
+  const currentDate = new Date();
   const [date, setDate] = useState<DateType>({
-    year: today.getFullYear(),
-    month: today.getMonth() + 1
+    year: currentDate.getFullYear(),
+    month: currentDate.getMonth() + 1
   });
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [activitesId, setActiviesId] = useState<number>(0);
@@ -48,23 +48,45 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
+  console.log(monthlyActivites);
+
+  /* monthlyActivites?.data
+  [{
+    date: '2024-04-03',
+    reservations: {
+      completed: 8,
+      confirmed: 0,
+      pending: 6
+    }
+  }, ...] */
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
-        const entries = Object.entries(item.reservations);
-        return Object.entries(item.reservations).map(
-          ([key, value], idx) =>
-            Number(value) > 0 && {
-              id: index * entries.length + idx,
-              title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
-              start: new Date(item.date),
-              end: new Date(item.date)
-            }
-        );
+        const isPastDate = new Date(item.date);
+
+        if (isPastDate.getDate() < currentDate.getDate()) {
+          return {
+            id: index,
+            title: `완료: ${item.reservations.completed + item.reservations.confirmed + item.reservations.pending}`,
+            start: new Date(item.date),
+            end: new Date(item.date)
+          };
+        } else {
+          const entries = Object.entries(item.reservations);
+          return Object.entries(item.reservations).map(
+            ([key, value], index) =>
+              Number(value) > 0 && {
+                id: index * entries.length + index,
+                title: `${key === "completed" ? "완료" : key === "confirmed" ? "승인" : "예약"}: ${value}`,
+                start: new Date(item.date),
+                end: new Date(item.date)
+              }
+          );
+        }
       })
     : undefined;
 
   return (
-    <div className="flex flex-col gap-[40px]">
+    <div className="flex flex-col gap-[50px]">
       {modal.show && (
         <ReservationInfoModal
           destination={modal.destination}
@@ -72,6 +94,8 @@ const ReservationStatus: NextPageWithLayout = () => {
             setModal((prev: Modal) => ({ ...prev, show: false }));
           }}
           ref={modal.modal}
+          ACTIVITYID={activitesId}
+          ACTIVITYDATE={modal.date}
         />
       )}
       <div className="relative flex flex-col gap-[32px]">
@@ -98,7 +122,7 @@ const ReservationStatus: NextPageWithLayout = () => {
         </div>
       </div>
       <div>
-        <div>
+        <div className="calendar-wrapper">
           <Calendar
             localizer={localizer}
             startAccessor="start"
@@ -129,7 +153,8 @@ const ReservationStatus: NextPageWithLayout = () => {
                   style: {
                     color: "#FFF",
                     fontSize: "13px",
-                    backgroundColor: "#0085FF"
+                    backgroundColor: "#0085FF",
+                    paddingLeft: "10px"
                   }
                 };
               } else if (event.title.includes("승인")) {
@@ -137,7 +162,8 @@ const ReservationStatus: NextPageWithLayout = () => {
                   style: {
                     color: "#FF7C1D",
                     fontSize: "13px",
-                    backgroundColor: "#FFF4E8"
+                    backgroundColor: "#FFF4E8",
+                    paddingLeft: "10px"
                   }
                 };
               } else if (event.title.includes("완료")) {
@@ -145,7 +171,8 @@ const ReservationStatus: NextPageWithLayout = () => {
                   style: {
                     color: "#4B4B4B",
                     fontSize: "13px",
-                    backgroundColor: "#DDD"
+                    backgroundColor: "#DDD",
+                    paddingLeft: "10px"
                   }
                 };
               } else {
@@ -154,7 +181,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                 };
               }
             }}
-            className="flex flex-col gap-[30px] rouned-lg"
+            className="flex flex-col gap-[50px] rouned-lg"
           />
         </div>
       </div>
@@ -164,7 +191,7 @@ const ReservationStatus: NextPageWithLayout = () => {
 
 const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
   return (
-    <div className="flex flex-row justify-center gap-[30px] md:gap-[100px]">
+    <div className="flex flex-row justify-center gap-[30px] md:gap-[50px]">
       <div
         onClick={() => {
           date.month === 1
@@ -174,12 +201,15 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
                 month: 12
               })),
               onNavigate("PREV"))
-            : (setDate((prev: DateType) => ({ ...prev, month: prev.month - 1 })),
+            : (setDate((prev: DateType) => ({
+                ...prev,
+                month: prev.month - 1
+              })),
               onNavigate("PREV"));
         }}
         className="hover:cursor-pointer"
       >
-        <MdKeyboardDoubleArrowLeft size={35} />
+        <IoIosArrowBack size={35} />
       </div>
       <div>
         <h1 className="w-[150px] text-center text-[20px] font-bold">{`${date.year}년 ${date.month}월`}</h1>
@@ -193,12 +223,15 @@ const MyToolbar: React.FC<any> = ({ date, setDate, onNavigate }) => {
                 month: 1
               })),
               onNavigate("PREV"))
-            : (setDate((prev: DateType) => ({ ...prev, month: prev.month + 1 })),
+            : (setDate((prev: DateType) => ({
+                ...prev,
+                month: prev.month + 1
+              })),
               onNavigate("NEXT"));
         }}
         className="hover:cursor-pointer"
       >
-        <MdKeyboardDoubleArrowRight size={35} />
+        <IoIosArrowForward size={35} />
       </div>
     </div>
   );

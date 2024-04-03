@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createPageSchema } from "@/constants/schema";
 import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
+import { getCookie } from "@/utils/cookie";
 import { useGetActivityDetail } from "@/hooks/activities";
 import { patchMyActivityEdit } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
@@ -24,13 +25,21 @@ import SubImageUrlsField from "@/components/create/SubImageUrlsField";
 import ConfirmModal from "@/components/common/Modal/ConfirmModal";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
-
 const EditPage: NextPageWithLayout = () => {
+  const router = useRouter();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin", undefined, { shallow: true });
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
   const [dialogopen, setDialogOpen] = useState({
     successDialog: false,
     errorDialog: false
   });
-  const router = useRouter();
   const { id: stringId } = router.query;
   const id = Number(stringId);
 
@@ -167,11 +176,9 @@ const EditPage: NextPageWithLayout = () => {
           setDialogOpen({ ...dialogopen, errorDialog: value })
         }
       >
-        <DialogContent>
+        <DialogContent className="w-[360px] md:w-[500px]">
           <ConfirmModal text="겹치는 시간대가 존재합니다" status="error" />
         </DialogContent>
-
-        <DialogTrigger asChild></DialogTrigger>
       </Dialog>
       <Dialog
         open={dialogopen.successDialog}
@@ -179,10 +186,12 @@ const EditPage: NextPageWithLayout = () => {
           setDialogOpen({ ...dialogopen, successDialog: value })
         }
       >
-        <DialogContent onClick={() => router.push("/mypage/activities")}>
+        <DialogContent
+          className="w-[360px] md:w-[500px]"
+          onClick={() => router.push("/mypage/activities")}
+        >
           <ConfirmModal text="모임이 수정되었습니다" status="success" />
         </DialogContent>
-        <DialogTrigger asChild></DialogTrigger>
       </Dialog>
       <FormProvider {...form}>
         <form

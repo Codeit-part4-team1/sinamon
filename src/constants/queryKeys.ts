@@ -1,5 +1,6 @@
 export const queryKey = {
   usersMe: ["usersMe"],
+  usersMypage: ["usersMypage"],
   activity: ["activity"],
   reservation: (activitiesId: number, year: number, month: string) => [
     "activities",
@@ -9,6 +10,8 @@ export const queryKey = {
   ],
   myReservations: ["myReservations"],
   myActivities: ["myActivities"],
+  getReservationByDate: ["getReservationByDate"],
+  getReservationByScheduleId: ["getReservationByScheduleId"],
   getActivitiesList: (
     selectedCategory: string | null,
     sort: string,

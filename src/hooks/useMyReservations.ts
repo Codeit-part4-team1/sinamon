@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation,  useQueryClient } from "@tanstack/react-query";
+
 import { instance } from "@/lib/axios";
 import { queryKey } from "@/constants/queryKeys";
 import { ReservationReviewBodyType } from "@/types/MyReservationTypes";
@@ -9,17 +10,15 @@ const CancelBody = {
 
 export const useMyReservations = () => {
   const queryClient = useQueryClient();
-  const getMyReservations = () =>
-    useQuery({
-      queryKey: queryKey.myReservations,
-      queryFn: () => instance.get("/my-reservations?size=999")
-    });
 
   const cancelMyReservations = useMutation({
     mutationFn: (id: number) =>
       instance.patch(`/my-reservations/${id}`, CancelBody),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKey.myReservations });
+      queryClient.invalidateQueries({ queryKey: [queryKey.myReservations] });
+    },
+    onError(err: any) {
+      alert(err.response.data.message);
     }
   });
   const reviewMyReservations = (id: number) =>
@@ -27,10 +26,14 @@ export const useMyReservations = () => {
       mutationFn: (reviewBody: ReservationReviewBodyType) =>
         instance.post(`/my-reservations/${id}/reviews`, reviewBody),
       onSuccess: () => {
-        const queryClient = useQueryClient();
-        queryClient.invalidateQueries({ queryKey: queryKey.myReservations });
+        queryClient.invalidateQueries({
+          queryKey: [queryKey.myReservations]
+        });
+      },
+      onError(err: any) {
+        alert(err.response.data.message);
       }
     });
 
-  return { getMyReservations, cancelMyReservations, reviewMyReservations };
+  return { cancelMyReservations, reviewMyReservations };
 };
