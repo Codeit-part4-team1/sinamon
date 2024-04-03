@@ -1,5 +1,6 @@
 export const queryKey = {
   usersMe: ["usersMe"],
+  usersMypage: ["usersMypage"],
   activity: ["activity"],
   reservation: (activitiesId: number, year: number, month: string) => [
     "activities",

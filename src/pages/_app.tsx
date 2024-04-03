@@ -2,12 +2,11 @@ import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import AuthProvider from "@/contexts/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
-import Script from "next/script";
 
 import "@/styles/globals.css";
 import "@/styles/datePicker.css";
@@ -57,14 +56,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         enableSystem
         disableTransitionOnChange
       >
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            <div className={`${pretendard.className}`}>
-              {getLayout(<Component {...pageProps} />)}
-            </div>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <div className={`${pretendard.className}`}>
+            {getLayout(<Component {...pageProps} />)}
+          </div>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );

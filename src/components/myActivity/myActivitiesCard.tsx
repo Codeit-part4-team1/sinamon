@@ -71,14 +71,14 @@ const MyActivitiesCard: React.FC<MyActivitiesType> = ({
               <DropdownMenuContent>
                 <DropdownMenuRadioGroup>
                   <DropdownMenuRadioItem
-                    className="text-sm h-9 md:text-base font-medium focus:bg-sub"
+                    className="text-sm h-9 md:text-base font-medium focus:bg-sub cursor-pointer"
                     value="edit"
                     onSelect={handleEdit}
                   >
                     수정하기
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem
-                    className="text-sm h-9 md:text-base font-medium focus:bg-sub"
+                    className="text-sm h-9 md:text-base font-medium focus:bg-sub cursor-pointer"
                     value="delete"
                     onSelect={handleToggleModal}
                   >

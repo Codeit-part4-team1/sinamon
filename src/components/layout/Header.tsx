@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { myNotifications } from "@/hooks/useMyNotifications";
-import { useUsers } from "@/hooks/useUsers";
+import { useGetUser } from "@/hooks/users";
 import Button from "@/components/common/Button/Button";
 import Avatar from "@/components/common/Avatar/Avatar";
 import NotificationModal from "../common/Modal/NotificationModal";
@@ -18,7 +18,7 @@ import { GoDotFill } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 const Header = () => {
-  const { data: user } = useUsers.get();
+  const { data: user } = useGetUser();
   const { data: notifications } = myNotifications.get();
 
   return (
@@ -63,15 +63,15 @@ const Header = () => {
               <div className="w-[1px] h-5 md:h-6 bg-gray-a4a1aa"></div>
               <PopoverTrigger asChild>
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <Avatar user={user.data} size="sm" />
+                  <Avatar user={user} size="sm" />
                   <span className="text-base font-medium text-black">
-                    {user.data?.nickname}
+                    {user?.nickname}
                   </span>
                 </div>
               </PopoverTrigger>
               <PopoverAnchor className="relative">
                 <PopoverContent className="absolute top-5 right-0 z-50">
-                  <ProfileModal user={user.data} />
+                  <ProfileModal user={user} />
                 </PopoverContent>
               </PopoverAnchor>
             </Popover>

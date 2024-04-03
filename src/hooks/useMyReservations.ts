@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation,  useQueryClient } from "@tanstack/react-query";
+
 import { instance } from "@/lib/axios";
 import { queryKey } from "@/constants/queryKeys";
 import { ReservationReviewBodyType } from "@/types/MyReservationTypes";
@@ -9,14 +10,6 @@ const CancelBody = {
 
 export const useMyReservations = () => {
   const queryClient = useQueryClient();
-  const getMyReservations = () =>
-    useQuery({
-      queryKey: [queryKey.myReservations],
-      queryFn: () => {
-        const url = `/my-reservations?size=999`;
-        return instance.get(url);
-      }
-    });
 
   const cancelMyReservations = useMutation({
     mutationFn: (id: number) =>
@@ -42,5 +35,5 @@ export const useMyReservations = () => {
       }
     });
 
-  return { getMyReservations, cancelMyReservations, reviewMyReservations };
+  return { cancelMyReservations, reviewMyReservations };
 };
