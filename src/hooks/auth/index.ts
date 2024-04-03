@@ -12,7 +12,7 @@ export const useLogin = (modal: SignInModal, setModal: any) =>
       const { accessToken, refreshToken } = data;
       setCookie("accessToken", accessToken, {
         path: "/",
-        maxAge: 60 * 50
+        maxAge: 60 * 30
       });
       setCookie("refreshToken", refreshToken, {
         path: "/",
