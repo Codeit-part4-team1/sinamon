@@ -5,11 +5,12 @@ import { instance } from "@/lib/axios";
 import { SignUpRequest, SignUpModal } from "@/types/auth";
 import { MyInfoRequest, MyInfoModal } from "@/types/users";
 import { getCookie } from "@/utils/cookie";
+import { queryKey } from "@/constants/queryKeys";
 
 export const useUsers = {
   get: () =>
     useQuery({
-      queryKey: ["user"],
+      queryKey: queryKey.usersMe,
       queryFn: () => instance.get("/users/me"),
       enabled: !!getCookie("refreshToken")
     }),
@@ -35,7 +36,6 @@ export const useUsers = {
   edit: (modal: MyInfoModal, setModal: any) =>
     useMutation({
       mutationFn: (value: MyInfoRequest) => {
-        console.log(value);
         return instance.patch("/users/me", value);
       },
       onSuccess: () => {
@@ -62,11 +62,7 @@ export const useUsers = {
           }
         }),
       onSuccess: (response: any) => {
-        console.log(response);
         setValue("profileImageUrl", response.data.profileImageUrl);
-      },
-      onError: (err: any) => {
-        console.log(err);
       }
     })
 };

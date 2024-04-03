@@ -5,10 +5,13 @@ import Router from "next/router";
 import Image from "next/image";
 import { useForm, FormProvider } from "react-hook-form";
 import { HiPlus } from "react-icons/hi";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { MyInfoRequest, MyInfoModal } from "@/types/users";
+import { queryKey } from "@/constants/queryKeys";
 import { getCookie } from "@/utils/cookie";
 import { useUsers } from "@/hooks/useUsers";
+import { useGetUserMypage } from "@/hooks/users";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import EmailInput from "@/components/common/AuthInput/EmailInput";
@@ -27,7 +30,7 @@ const MyInfo: NextPageWithLayout = () => {
     }
   }
 
-  const { data } = useUsers.get();
+  const { data } = useGetUserMypage();
 
   const form = useForm({
     mode: "onChange"
@@ -41,25 +44,39 @@ const MyInfo: NextPageWithLayout = () => {
 
   useEffect(() => {
     form.reset({
-      profileImageUrl: data?.data.profileImageUrl,
-      nickname: data?.data.nickname,
-      email: data?.data.email
+      profileImageUrl: data?.profileImageUrl,
+      profileImagePreview: data?.profileImageUrl,
+      nickname: data?.nickname,
+      email: data?.email
     });
   }, [data]);
 
   const { mutate: createImageUrl } = useUsers.createImageUrl(form.setValue);
-  const { mutate } = useUsers.edit(modal, setModal);
+  const { mutate, isSuccess } = useUsers.edit(modal, setModal);
 
   const handleCreateImageUrl = () => {
+    form.setValue(
+      "profileImagePreview",
+      URL?.createObjectURL(form.getValues("profileImageUrl")[0])
+    );
+
     const formData = new FormData();
     formData.append("image", form.getValues("profileImageUrl")[0]);
 
     createImageUrl(formData);
   };
 
+  const queryClient = useQueryClient();
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.usersMe,
+      refetchType: "active"
+    });
+  }
+
   const submit = {
     onSubmit: async (value: any) => {
-      console.log(value);
       const body: MyInfoRequest = {
         nickname: value.nickname,
         profileImageUrl: value.profileImageUrl,
@@ -81,7 +98,7 @@ const MyInfo: NextPageWithLayout = () => {
             size="sm"
             text={modal.message}
             handlerAlertModal={() => {
-              window.location.reload();
+              modal.success.current.close();
             }}
           />
         </dialog>
@@ -104,10 +121,10 @@ const MyInfo: NextPageWithLayout = () => {
               <h1 className="text-[28px] font-bold">내 정보</h1>
               <div className="flex flex-col items-center gap-10 pt-[15px] md:pt-[0px] md:flex-row">
                 <div className="relative flex flex-col gap-5 items-center">
-                  <div className="relative border rounded-md bg-gray-300 h-[140px] w-[140px]">
-                    {form.getValues("profileImageUrl") ? (
+                  <div className="relative border rounded-md bg-gray-300 dark:bg-[rgb(59,59,59)] h-[140px] w-[140px] border-input">
+                    {form.watch("profileImagePreview") ? (
                       <Image
-                        src={form.getValues("profileImageUrl")}
+                        src={form.watch("profileImagePreview")}
                         alt="profileImage"
                         layout="fill"
                         className="rounded-md"
@@ -134,12 +151,9 @@ const MyInfo: NextPageWithLayout = () => {
                     )}
                   </div>
                   <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      form.setValue("profileImageUrl", "");
-                      const formData = new FormData();
-                      formData.append("profileImageUrl", "");
-                      createImageUrl(formData);
+                    onClick={() => {
+                      form.setValue("profileImagePreview", "");
+                      form.setValue("profileImageUrl", null);
                     }}
                     className="w-[138px]"
                   >

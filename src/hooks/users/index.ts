@@ -6,7 +6,14 @@ import { getCookie } from "@/utils/cookie";
 
 export const useGetUser = () =>
   useQuery({
-    queryKey: [queryKey.usersMe],
+    queryKey: queryKey.usersMe,
+    queryFn: () => getUser(),
+    enabled: !!getCookie("accessToken")
+  });
+
+export const useGetUserMypage = () =>
+  useQuery({
+    queryKey: queryKey.usersMypage,
     queryFn: () => getUser(),
     enabled: !!getCookie("accessToken")
   });
