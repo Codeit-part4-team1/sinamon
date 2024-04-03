@@ -89,7 +89,7 @@ export const useMyActivities = (date: string) => {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [queryKey.getReservationByDate]
+        queryKey: [queryKey.getReservationByDate, date]
       });
     },
     onError(err: any) {
