@@ -106,8 +106,8 @@ const ReservationStatus: NextPageWithLayout = () => {
             setActiviesId(Number(e));
           }}
         >
-          <SelectTrigger className="border border-gray-500 h-[56px] rounded-md pl-[30px] text-base font-normal focus:outline-none placeholder:font-bold">
-            <SelectValue placeholder="어떤 모임의 예약 현황을 확인할까요?" />
+          <SelectTrigger className="border border-gray-500 h-[56px] rounded-md pl-5 text-base font-normal focus:outline-none placeholder:font-bold">
+            <SelectValue placeholder="어떤 모임의 모집 현황을 확인할까요?" />
             <SelectContent>
               {activites?.data.activities.map((item: any) => (
                 <SelectItem key={item.id} value={item.id}>

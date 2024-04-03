@@ -47,8 +47,7 @@ const Header = () => {
                   {notifications?.data.notifications.length > 0 && (
                     <GoDotFill
                       size={12}
-                      color={"red"}
-                      className="absolute top-0 left-[25px]"
+                      className="text-red-ff472e absolute top-0 left-[25px]"
                     />
                   )}
                 </div>
