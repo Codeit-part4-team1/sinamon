@@ -54,7 +54,7 @@ export default function CheckPasswordInput({
       <input
         name="checkPassword"
         type={showEyesIcon ? "text" : "password"}
-        placeholder="비밀번호를 한번 더 입력해 주세요"
+        placeholder="비밀번호를 한 번 더 입력해 주세요"
         onChange={onChange}
         className={`border rounded-md h-12 p-5 ${
           checkPassword.length === 0 || inspection

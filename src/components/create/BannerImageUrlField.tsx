@@ -44,11 +44,11 @@ const BannerImageUrlField = () => {
               />
             </div>
             <button
-              className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 rounded-md group-hover:flex"
+              className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 dark:bg-zinc-800/50 rounded-md group-hover:flex"
               type="button"
               onClick={henaldeResetValue}
             >
-              <FaXmark className="text-white-ffffff text-xl md:text-2xl" />
+              <FaXmark className="text-white-ffffff dark:text-black text-xl md:text-2xl" />
             </button>
           </div>
         ) : (

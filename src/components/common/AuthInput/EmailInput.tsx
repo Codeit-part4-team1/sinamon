@@ -4,7 +4,11 @@ import { useFormContext } from "react-hook-form";
 import { WhatFor } from "@/types/auth";
 
 const EmailInput = ({ whatFor }: WhatFor) => {
-  const { formState: { errors }, register, watch } = useFormContext();
+  const {
+    formState: { errors },
+    register,
+    watch
+  } = useFormContext();
 
   return (
     <div className="relative flex flex-col gap-1">
@@ -24,11 +28,10 @@ const EmailInput = ({ whatFor }: WhatFor) => {
           }
         })}
         className={`border rounded-md h-[48px] p-5 w-full focus:outline-none ${
-          (whatFor !== "edit" && watch("email")?.length === 0) ||
-          !errors.email
+          (whatFor !== "edit" && watch("email")?.length === 0) || !errors.email
             ? "border-input"
             : "border-red-500"
-        } ${whatFor === "edit" ? "bg-gray-200 cursor-default dark:bg-zinc-900 dark:text-zinc-500" : undefined}`}
+        } ${whatFor === "edit" ? "bg-gray-200 cursor-default text-gray-79747e dark:bg-zinc-900 dark:text-zinc-500" : undefined}`}
       />
       <div className="h-4">
         {errors.email && (
@@ -42,4 +45,3 @@ const EmailInput = ({ whatFor }: WhatFor) => {
 };
 
 export default EmailInput;
-

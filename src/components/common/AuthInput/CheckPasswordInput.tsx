@@ -24,7 +24,7 @@ const CheckPasswordInput = ({ whatFor }: WhatFor) => {
       </label>
       <input
         id="checkPassword"
-        placeholder="비밀번호를 한번 더 입력해 주세요"
+        placeholder="비밀번호를 한 번 더 입력해 주세요"
         autoComplete="off"
         type={eyes ? "text" : "password"}
         {...register("checkPassword", {
@@ -32,7 +32,9 @@ const CheckPasswordInput = ({ whatFor }: WhatFor) => {
           validate: (field: string) => {
             return !field
               ? "비밀번호를 확인해 주세요"
-              : field.length > 0 && field === watch(whatFor === "edit" ? "newPassword" : "password")
+              : field.length > 0 &&
+                  field ===
+                    watch(whatFor === "edit" ? "newPassword" : "password")
                 ? undefined
                 : "비밀번호가 일치하지 않습니다";
           }
