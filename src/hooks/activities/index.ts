@@ -44,9 +44,6 @@ export const usePostActivities = (handleSuccess: () => void) =>
     mutationFn: (value: any) => postActivities(value),
     onSuccess() {
       handleSuccess();
-    },
-    onError(err: any) {
-      console.log(err);
     }
   });
 
@@ -80,8 +77,5 @@ export const usePostCreateImageUrl = (
             ),
             subImageUrl: data.activityImageUrl
           });
-    },
-    onError(err: any) {
-      console.log(err);
     }
   });

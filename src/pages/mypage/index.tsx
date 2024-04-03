@@ -126,7 +126,9 @@ const MyInfo: NextPageWithLayout = () => {
                       <Image
                         src={form.watch("profileImagePreview")}
                         alt="profileImage"
-                        layout="fill"
+                        fill
+                        priority
+                        sizes="100%"
                         className="rounded-md"
                       />
                     ) : (

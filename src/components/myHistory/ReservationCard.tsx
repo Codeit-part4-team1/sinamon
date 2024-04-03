@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Button from "@/components/common/Button/Button";
-import { ReservationType } from "@/types/MyReservationTypes";
 import { useState } from "react";
+import Image from "next/image";
+
+import { ReservationType } from "@/types/MyReservationTypes";
 import { useMyReservations } from "@/hooks/useMyReservations";
-import AlertModal from "../common/Modal/AlertModal";
-import ReviewModal from "../common/Modal/ReviewModal";
+import Button from "@/components/common/Button/Button";
+import AlertModal from "@/components/common/Modal/AlertModal";
+import ReviewModal from "@/components/common/Modal/ReviewModal";
 
 const getStatusLabel = (status: ReservationType["status"]) => {
   const statusLabels: { [key: string]: string } = {
@@ -60,6 +61,8 @@ const ReservationCard: React.FC<ReservationType> = ({
           src={imageSrc}
           alt="Activity"
           fill
+          sizes="100%"
+          priority
           onError={handleError}
         />
       </div>

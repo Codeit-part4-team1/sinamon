@@ -176,11 +176,9 @@ const EditPage: NextPageWithLayout = () => {
           setDialogOpen({ ...dialogopen, errorDialog: value })
         }
       >
-        <DialogContent>
+        <DialogContent className="w-[360px] md:w-[500px]">
           <ConfirmModal text="겹치는 시간대가 존재합니다" status="error" />
         </DialogContent>
-
-        <DialogTrigger asChild></DialogTrigger>
       </Dialog>
       <Dialog
         open={dialogopen.successDialog}
@@ -188,10 +186,12 @@ const EditPage: NextPageWithLayout = () => {
           setDialogOpen({ ...dialogopen, successDialog: value })
         }
       >
-        <DialogContent onClick={() => router.push("/mypage/activities")}>
+        <DialogContent
+          className="w-[360px] md:w-[500px]"
+          onClick={() => router.push("/mypage/activities")}
+        >
           <ConfirmModal text="모임이 수정되었습니다" status="success" />
         </DialogContent>
-        <DialogTrigger asChild></DialogTrigger>
       </Dialog>
       <FormProvider {...form}>
         <form

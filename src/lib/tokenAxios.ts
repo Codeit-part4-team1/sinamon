@@ -16,8 +16,5 @@ tokenInstance.interceptors.request.use(
     config.headers["Authorization"] = `Bearer ${refreshToken}`;
     return config;
   },
-  (error) => {
-    console.log(error);
-    Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
