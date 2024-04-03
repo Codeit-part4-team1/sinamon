@@ -26,13 +26,15 @@ const ReservationStatus: NextPageWithLayout = () => {
   const [modal, setModal] = useState<Modal>({
     show: false,
     modal: useRef<HTMLDivElement>(null),
-    date: "",
-    destination: null
+    date: ""
   });
 
   useEffect(() => {
-    setModal((prev: Modal) => ({ ...prev, destination: document.body }));
-  }, []);
+    if (!modal.modal || !modal.modal.current) return;
+
+    modal.modal.current.style.display = modal.show ? "inline-block" : "none";
+    modal.modal.current.style.transition = "all 0.5s ease-in-out";
+  }, [modal.show]);
 
   const currentDate = new Date();
   const [date, setDate] = useState<DateType>({
@@ -47,8 +49,6 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.year.toString(),
     date.month.toString().padStart(2, "0")
   );
-
-  console.log(monthlyActivites);
 
   /* monthlyActivites?.data
   [{
@@ -86,10 +86,15 @@ const ReservationStatus: NextPageWithLayout = () => {
     : undefined;
 
   return (
-    <div className="flex flex-col gap-[50px]">
-      {modal.show && (
+    <div className="relative flex flex-col gap-[50px] overflow-hidden">
+      <div
+        className={`absolute top-[152px] right-[480px] ${
+          !modal.show
+            ? "transition-transform transform translate-x-[980px]"
+            : "transition-transform transform translate-x-[480px]"
+        } duration-500 ease-in-out z-50`}
+      >
         <ReservationInfoModal
-          destination={modal.destination}
           onCancel={() => {
             setModal((prev: Modal) => ({ ...prev, show: false }));
           }}
@@ -97,7 +102,7 @@ const ReservationStatus: NextPageWithLayout = () => {
           ACTIVITYID={activitesId}
           ACTIVITYDATE={modal.date}
         />
-      )}
+      </div>
       <div className="relative flex flex-col gap-[32px]">
         <h1 className="text-[28px] font-bold">모집 현황</h1>
         <Select
