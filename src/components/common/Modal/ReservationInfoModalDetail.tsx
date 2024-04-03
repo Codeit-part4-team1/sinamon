@@ -6,20 +6,22 @@ import AlertModal from "./AlertModal";
 const ReservationInfoModalDetail: React.FC<{
   activityId: number;
   status: string;
-  scheduleId: number;
-  view: string;
-}> = ({ activityId, status, scheduleId, view }) => {
+  scheduleId: string | undefined;
+  setScheduleId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  ACTIVITYDATE: string;
+}> = ({ activityId, status, scheduleId, setScheduleId, ACTIVITYDATE }) => {
   const {
     GetActivityReservedSchedulesByTime,
     ApporveReservation,
     DeclineReservation
-  } = useMyActivities();
-  const { data } = GetActivityReservedSchedulesByTime(
+  } = useMyActivities(ACTIVITYDATE);
+  let { data } = GetActivityReservedSchedulesByTime(
     activityId,
     scheduleId,
     status
   );
   const { reservations } = data?.data || [];
+  console.log(reservations);
 
   const [isApproveModalVisible, setIsApproveModalVisible] = useState(false);
   const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
@@ -38,6 +40,7 @@ const ReservationInfoModalDetail: React.FC<{
       activityId: activityId,
       reservationId: reservationId
     });
+    setScheduleId(undefined);
   };
 
   const handleDecline = (reservationId: number) => {
@@ -46,6 +49,7 @@ const ReservationInfoModalDetail: React.FC<{
       activityId: activityId,
       reservationId: reservationId
     });
+    setScheduleId(undefined);
   };
 
   return (
@@ -65,7 +69,7 @@ const ReservationInfoModalDetail: React.FC<{
               <p>{reservations.headCount}명</p>
             </div>
           </div>
-          {view === "pending" && (
+          {status === "pending" && (
             <div className="flex flex-row gap-[8px] justify-end">
               <div onClick={handleToggleApproveModal}>
                 <Button text="승인하기" size="sm" type="submit" />
@@ -80,14 +84,14 @@ const ReservationInfoModalDetail: React.FC<{
               </div>
             </div>
           )}
-          {view === "declined" && (
+          {status === "declined" && (
             <div className="flex flex-row gap-[8px] justify-end">
               <div className="flex justify-center items-center rounded-xl w-[85px] h-[32px] bg-red-ffe4e0">
                 <p className="font-bold text-red-ff472e">예약 거절</p>
               </div>
             </div>
           )}
-          {view === "confirmed" && (
+          {status === "confirmed" && (
             <div className="flex flex-row gap-[8px] justify-end">
               <div className="flex justify-center items-center rounded-xl w-[85px] h-[32px] bg-orange-fff4e8">
                 <p className="font-bold text-orange-ff7c1d">예약 승인</p>

@@ -35,7 +35,7 @@ export const useGetMyActivities = () =>
     queryFn: () => getMyActivities()
   });
 
-export const useMyActivities = () => {
+export const useMyActivities = (date: string) => {
   const queryClient = useQueryClient();
 
   const getMyActivities = () =>
@@ -46,23 +46,23 @@ export const useMyActivities = () => {
 
   const GetActivityReservedSchedules = (id: number, date: string) =>
     useQuery({
-      queryKey: [queryKey.getReservationByDate, id, date],
+      queryKey: [queryKey.getReservationByDate, date],
       queryFn: () =>
         instance.get(`/my-activities/${id}/reserved-schedule?date=${date}`)
     });
 
   const GetActivityReservedSchedulesByTime = (
     id: number,
-    scheduleId: number,
+    scheduleId: string | undefined,
     status: string
   ) =>
     useQuery({
-      queryKey: [queryKey.getReservationByScheduleId, id, scheduleId, status],
-      queryFn: () =>
-        instance.get(
+      queryKey: [queryKey.getReservationByScheduleId, scheduleId, status],
+      queryFn: () => {
+        return instance.get(
           `/my-activities/${id}/reservations?scheduleId=${scheduleId}&status=${status}`
-        ),
-      enabled: scheduleId !== undefined
+        );
+      }
     });
 
   const ApporveReservation = useMutation({
@@ -72,11 +72,8 @@ export const useMyActivities = () => {
         ApproveBody
       ),
     onSuccess: () => {
-      [
-        queryKey.getReservationByDate,
-        queryKey.getReservationByScheduleId
-      ].forEach((key) => {
-        queryClient.invalidateQueries({ queryKey: key });
+      queryClient.invalidateQueries({
+        queryKey: [queryKey.getReservationByDate, date]
       });
     },
     onError(err: any) {
@@ -91,11 +88,8 @@ export const useMyActivities = () => {
         DeclineBody
       ),
     onSuccess: () => {
-      [
-        queryKey.getReservationByDate,
-        queryKey.getReservationByScheduleId
-      ].forEach((key) => {
-        queryClient.invalidateQueries({ queryKey: key });
+      queryClient.invalidateQueries({
+        queryKey: [queryKey.getReservationByDate]
       });
     },
     onError(err: any) {
