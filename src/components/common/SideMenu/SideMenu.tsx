@@ -18,10 +18,10 @@ const SideMenu = ({ path }: SideMenuProps) => {
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path || "border border-main bg-sub"}`}
           >
             <LuUser2
-              className={`hidden md:block text-xl text-gray-79747e group-hover:text-main ${path || "text-main"}`}
+              className={`hidden md:block text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main ${path || "text-main dark:text-main"}`}
             />
             <span
-              className={`text-sm md:text-base text-gray-79747e group-hover:text-main font-semibold ${path || "text-main"}`}
+              className={`text-sm md:text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold ${path || "text-main dark:text-main"}`}
             >
               내 정보
             </span>
@@ -34,10 +34,10 @@ const SideMenu = ({ path }: SideMenuProps) => {
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "reservations" && "border border-main bg-sub"}`}
           >
             <TbListCheck
-              className={`hidden md:block text-xl text-gray-79747e group-hover:text-main ${path === "reservations" && "text-main"}`}
+              className={`hidden md:block text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main ${path === "reservations" && "text-main dark:text-main"}`}
             />
             <span
-              className={`text-sm md:text-base text-gray-79747e group-hover:text-main font-semibold ${path === "reservations" && "text-main"}`}
+              className={`text-sm md:text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold ${path === "reservations" && "text-main dark:text-main"}`}
             >
               참여 내역
             </span>
@@ -50,10 +50,10 @@ const SideMenu = ({ path }: SideMenuProps) => {
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "activities" && "border border-main bg-sub"}`}
           >
             <AiOutlineSetting
-              className={`hidden md:block text-xl text-gray-79747e group-hover:text-main ${path === "activities" && "text-main"}`}
+              className={`hidden md:block text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main ${path === "activities" && "text-main dark:text-main"}`}
             />
             <span
-              className={`text-sm md:text-base text-gray-79747e group-hover:text-main font-semibold ${path === "activities" && "text-main"}`}
+              className={`text-sm md:text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold ${path === "activities" && "text-main dark:text-main"}`}
             >
               내 모임 관리
             </span>
@@ -66,10 +66,10 @@ const SideMenu = ({ path }: SideMenuProps) => {
             className={`group w-full py-1 md:py-2 px-2 sm:px-[2px] md:px-3 flex justify-center md:justify-start items-center gap-2 md:gap-3 rounded-md md:border-none ${path === "reservation-dashboard" && "border border-main bg-sub"}`}
           >
             <LuCalendarCheck
-              className={`hidden md:block text-xl text-gray-79747e group-hover:text-main ${path === "reservation-dashboard" && "text-main"}`}
+              className={`hidden md:block text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main ${path === "reservation-dashboard" && "text-main dark:text-main"}`}
             />
             <span
-              className={`text-sm md:text-base text-gray-79747e group-hover:text-main font-semibold ${path === "reservation-dashboard" && "text-main"}`}
+              className={`text-sm md:text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold ${path === "reservation-dashboard" && "text-main dark:text-main"}`}
             >
               모집 현황
             </span>

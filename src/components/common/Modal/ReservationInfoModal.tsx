@@ -83,7 +83,7 @@ const ReservationInfoModal = ({
 
   return ReactDOM.createPortal(
     <>
-      <div className="absolute top-0 bg-gray-400 opacity-40 w-full h-full z-10"></div>
+      <div className="absolute top-0 bg-gray-400 opacity-40 dark:bg-zinc-950 dark:opacity-70 w-full h-full z-10"></div>
       <div className="absolute top-0 w-full h-full z-20">
         <div className="bg-white-ffffff w-full h-full px-[12px] pt-[35px] pb-[30px] md:border-2 md:border-main md:w-[480px] md:h-[697px] md:px-[24px] md:pt-[28px] md:mx-auto md:my-[100px] md:rounded-lg">
           <div className="flex flex-col gap-[55px] md:gap-[25px]">
@@ -149,11 +149,12 @@ const ReservationInfoModal = ({
               />
             </div>
             <div className="flex flex-row justify-between h-[40px]">
-              <h1 className="font-bold text-[24px]">예약 현황</h1>
+              <h1 className="font-bold text-[24px]">예약 인원</h1>
               <h1 className="font-bold text-[24px]">
                 {ReservationsCount.pending +
                   ReservationsCount.confirmed +
                   ReservationsCount.declined}
+                명
               </h1>
             </div>
           </div>

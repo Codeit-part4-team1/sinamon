@@ -36,8 +36,8 @@ const ProfileModal = ({ user }: ProfileModalProps) => {
           <Link href={"/mypage"}>
             <li>
               <button className="group w-full py-2 px-3 flex items-center gap-3 rounded-md hover:bg-sub">
-                <LuUser2 className="text-xl text-gray-79747e group-hover:text-main" />
-                <span className="text-base text-gray-79747e group-hover:text-main font-semibold">
+                <LuUser2 className="text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main" />
+                <span className="text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold">
                   내 정보
                 </span>
               </button>
@@ -46,8 +46,8 @@ const ProfileModal = ({ user }: ProfileModalProps) => {
           <Link href={"/mypage/reservations"}>
             <li>
               <button className="group w-full py-2 px-3 flex items-center gap-3 rounded-md hover:bg-sub">
-                <TbListCheck className="text-xl text-gray-79747e group-hover:text-main" />
-                <span className="text-base text-gray-79747e group-hover:text-main font-semibold">
+                <TbListCheck className="text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main" />
+                <span className="text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold">
                   참여 내역
                 </span>
               </button>
@@ -56,8 +56,8 @@ const ProfileModal = ({ user }: ProfileModalProps) => {
           <Link href={"/mypage/activities"}>
             <li>
               <button className="group w-full py-2 px-3 flex items-center gap-3 rounded-md hover:bg-sub">
-                <AiOutlineSetting className="text-xl text-gray-79747e group-hover:text-main" />
-                <span className="text-base text-gray-79747e group-hover:text-main font-semibold">
+                <AiOutlineSetting className="text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main" />
+                <span className="text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold">
                   내 모임 관리
                 </span>
               </button>
@@ -66,8 +66,8 @@ const ProfileModal = ({ user }: ProfileModalProps) => {
           <Link href={"/mypage/reservation-dashboard"}>
             <li>
               <button className="group w-full py-2 px-3 flex items-center gap-3 rounded-md hover:bg-sub">
-                <LuCalendarCheck className="text-xl text-gray-79747e group-hover:text-main" />
-                <span className="text-base text-gray-79747e group-hover:text-main font-semibold">
+                <LuCalendarCheck className="text-xl text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main" />
+                <span className="text-base text-gray-79747e dark:text-gray-adaeb8 group-hover:text-main font-semibold">
                   모집 현황
                 </span>
               </button>
