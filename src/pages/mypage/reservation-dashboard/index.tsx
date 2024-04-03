@@ -88,7 +88,7 @@ const ReservationStatus: NextPageWithLayout = () => {
   return (
     <div className="relative flex flex-col gap-[50px] overflow-hidden">
       <div
-        className={`absolute top-[152px] right-[480px] ${
+        className={`absolute top-[150px] right-[480px] ${
           !modal.show
             ? "transition-transform transform translate-x-[980px]"
             : "transition-transform transform translate-x-[480px]"
