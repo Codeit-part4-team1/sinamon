@@ -1,7 +1,6 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, { useState, useRef, useEffect, ReactNode } from "react";
-
+import React, { useState, useRef, ReactNode } from "react";
 import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -23,18 +22,11 @@ import MenuLayout from "@/components/layout/MenuLayout";
 
 const ReservationStatus: NextPageWithLayout = () => {
   const localizer = momentLocalizer(moment);
-  const [modal, setModal] = useState<Modal>({
+  const [reservationInfoModal, setReservationInfoModal] = useState<Modal>({
     show: false,
     modal: useRef<HTMLDivElement>(null),
     date: ""
   });
-
-  useEffect(() => {
-    if (!modal.modal || !modal.modal.current) return;
-
-    modal.modal.current.style.display = modal.show ? "inline-block" : "none";
-    modal.modal.current.style.transition = "all 0.5s ease-in-out";
-  }, [modal.show]);
 
   const currentDate = new Date();
   const [date, setDate] = useState<DateType>({
@@ -50,15 +42,6 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
-  /* monthlyActivites?.data
-  [{
-    date: '2024-04-03',
-    reservations: {
-      completed: 8,
-      confirmed: 0,
-      pending: 6
-    }
-  }, ...] */
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
         const isPastDate = new Date(item.date);
@@ -89,18 +72,18 @@ const ReservationStatus: NextPageWithLayout = () => {
     <div className="relative flex flex-col gap-[50px] overflow-hidden">
       <div
         className={`absolute top-[150px] right-[480px] ${
-          !modal.show
+          !reservationInfoModal.show
             ? "transition-transform transform translate-x-[980px]"
             : "transition-transform transform translate-x-[480px]"
         } duration-500 ease-in-out z-50`}
       >
         <ReservationInfoModal
           onCancel={() => {
-            setModal((prev: Modal) => ({ ...prev, show: false }));
+            setReservationInfoModal((prev: Modal) => ({ ...prev, show: false }));
           }}
-          ref={modal.modal}
+          ref={reservationInfoModal.modal}
           ACTIVITYID={activitesId}
-          ACTIVITYDATE={modal.date}
+          ACTIVITYDATE={reservationInfoModal.date}
         />
       </div>
       <div className="relative flex flex-col gap-[32px]">
@@ -146,10 +129,10 @@ const ReservationStatus: NextPageWithLayout = () => {
               const month = String(dateObject.getMonth() + 1).padStart(2, "0");
               const day = String(dateObject.getDate()).padStart(2, "0");
               const formattedDateString = `${year}-${month}-${day}`;
-              setModal((prev: Modal) => ({
+              setReservationInfoModal((prev: Modal) => ({
                 ...prev,
                 date: formattedDateString,
-                show: !modal.show
+                show: !reservationInfoModal.show
               }));
             }}
             eventPropGetter={(event: any) => {
