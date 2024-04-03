@@ -11,10 +11,12 @@ export const useLogin = (modal: SignInModal, setModal: any) =>
     onSuccess(data) {
       const { accessToken, refreshToken } = data;
       setCookie("accessToken", accessToken, {
-        path: "/"
+        path: "/",
+        maxAge: 60 * 50
       });
       setCookie("refreshToken", refreshToken, {
-        path: "/"
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7
       });
       Router.push("/");
     },

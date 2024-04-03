@@ -20,10 +20,12 @@ instance.interceptors.request.use(
       const result = await postToken();
       removeCookie("accessToken");
       setCookie("accessToken", result.accessToken, {
-        path: "/"
+        path: "/",
+        maxAge: 60 * 50
       });
       setCookie("refreshToken", result.refreshToken, {
-        path: "/"
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7
       });
     }
     if (accessToken) {
