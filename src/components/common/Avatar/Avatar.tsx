@@ -3,11 +3,11 @@ import Image from "next/image";
 interface AvatarProps {
   user: {
     id: number;
-    email: string;
+    email?: string;
     nickname: string;
     profileImageUrl?: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
   };
   size: "lg" | "md" | "sm";
 }

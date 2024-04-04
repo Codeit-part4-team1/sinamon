@@ -54,7 +54,7 @@ const ReservationCard: React.FC<ReservationType> = ({
   };
 
   return (
-    <li className="w-full aspect-[1/1.4] max-h-[500px] flex flex-col rounded-b-xl shadow-lg bg-white-ffffff cursor-pointer">
+    <li className="w-full aspect-[1/1.4] max-h-[500px] flex flex-col rounded-b-xl shadow-lg bg-white-ffffff">
       <div className="relative flex-1 w-full rounded-t-xl overflow-hidden">
         <Image
           className="w-full object-cover"
@@ -85,7 +85,7 @@ const ReservationCard: React.FC<ReservationType> = ({
               {getStatusLabel(status)}
             </span>
             <div className="font-bold text-lg leading-6">{title}</div>
-            <div className="text-gray-700 font-medium text-sm leading-[18px]">
+            <div className="text-gray-700 dark:text-zinc-400 font-medium text-sm leading-[18px]">
               <p className="">{date}</p>
               <p className="">
                 {startTime} - {endTime} · {headCount}명
@@ -93,7 +93,7 @@ const ReservationCard: React.FC<ReservationType> = ({
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-base font-medium text-gray-4b4b4b">
+            <span className="text-base font-medium text-gray-4b4b4b dark:text-zinc-500">
               ￦{totalPrice.toLocaleString()}
             </span>
             <div className="h-8">

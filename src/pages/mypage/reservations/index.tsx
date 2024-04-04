@@ -30,7 +30,7 @@ const MyHistory: NextPageWithLayout = () => {
   }
 
   const [value, setValue] = useState("all");
-        
+
   const { data, isLoading } = usegetMyReservations();
   const { reservations } = data || [];
 
@@ -59,52 +59,51 @@ const MyHistory: NextPageWithLayout = () => {
     <div>
       <div className="mb-5 md:mb-8 flex justify-between items-center">
         <span className="text-2xl md:text-3xl font-bold">참여 내역</span>
-        {reservations ||
-          (reservations?.length === 0 && (
-            <Select defaultValue="all" value={value} onValueChange={setValue}>
-              <SelectTrigger className="w-[110px] md:w-[120px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="all"
-                >
-                  모두
-                </SelectItem>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="pending"
-                >
-                  승인 대기
-                </SelectItem>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="canceled"
-                >
-                  예약 취소
-                </SelectItem>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="confirmed"
-                >
-                  예약 완료
-                </SelectItem>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="declined"
-                >
-                  예약 거절
-                </SelectItem>
-                <SelectItem
-                  className="text-sm md:text-base font-medium focus:bg-sub"
-                  value="completed"
-                >
-                  체험 완료
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          ))}
+        {reservations?.length === 0 || (
+          <Select defaultValue="all" value={value} onValueChange={setValue}>
+            <SelectTrigger className="w-[110px] md:w-[120px] h-10 md:h-12 px-3 md:py-3 md:px-4 text-sm md:text-base font-medium">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="all"
+              >
+                모두
+              </SelectItem>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="pending"
+              >
+                승인 대기
+              </SelectItem>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="canceled"
+              >
+                예약 취소
+              </SelectItem>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="confirmed"
+              >
+                예약 완료
+              </SelectItem>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="declined"
+              >
+                예약 거절
+              </SelectItem>
+              <SelectItem
+                className="text-sm md:text-base font-medium focus:bg-sub"
+                value="completed"
+              >
+                체험 완료
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        )}
       </div>
       <ul className="relative justify-between w-full grid gap-4 md:gap-5 grid-cols-[repeat(auto-fill,_minmax(260px,_1fr))]">
         {filteredReservations?.map((reservation: ReservationType) => (

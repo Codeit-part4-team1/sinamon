@@ -48,13 +48,13 @@ const Header = () => {
                     <GoDotFill
                       size={12}
                       color={"red"}
-                      className="absolute top-0 left-[25px]"
+                      className="absolute top-[-3px] left-[17px] md:left-[20px]"
                     />
                   )}
                 </div>
               </PopoverTrigger>
               <PopoverAnchor className="relative">
-                <PopoverContent className="absolute top-5 right-[-160px] md:right-0 z-50">
+                <PopoverContent className="absolute top-5 right-[-120px] md:right-0 z-50">
                   <NotificationModal />
                 </PopoverContent>
               </PopoverAnchor>

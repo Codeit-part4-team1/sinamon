@@ -1,4 +1,4 @@
-import { useMutation,  useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { instance } from "@/lib/axios";
 import { queryKey } from "@/constants/queryKeys";
@@ -15,7 +15,7 @@ export const useMyReservations = () => {
     mutationFn: (id: number) =>
       instance.patch(`/my-reservations/${id}`, CancelBody),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKey.myReservations] });
+      queryClient.invalidateQueries({ queryKey: queryKey.myReservations });
     },
     onError(err: any) {
       alert(err.response.data.message);
@@ -27,7 +27,7 @@ export const useMyReservations = () => {
         instance.post(`/my-reservations/${id}/reviews`, reviewBody),
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [queryKey.myReservations]
+          queryKey: queryKey.myReservations
         });
       },
       onError(err: any) {

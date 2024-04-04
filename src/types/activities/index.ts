@@ -29,7 +29,42 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
 }
+export interface GetReviewsParams {
+  activityId: number;
+  page?: number;
+  size?: 3;
+}
 
+export interface GetAvailableDateParams {
+  activityId: number;
+  year: string;
+  month: string;
+}
+export interface PostReservationParams {
+  activityId: number;
+  scheduleId: number;
+  headCount: number;
+}
+interface UserInfo {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
+}
+
+export interface Review {
+  id: number;
+  user: UserInfo;
+  activityId: number;
+  content: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ReviewsData {
+  reviews: Review[];
+  aveerageRating: number;
+  totalCount: number;
+}
 export interface ActivityList {
   id: number;
   bannerImageUrl: string;
@@ -38,3 +73,28 @@ export interface ActivityList {
   title: string;
   price: number;
 }
+
+export type GetActivityDetail = {
+  address: string;
+  bannerImageUrl: string;
+  category: string;
+  createdAt: string;
+  description: string;
+  id: number;
+  price: number;
+  rating: number;
+  reviewCount: number;
+  schedules: {
+    id: number;
+    date: string;
+    startTime: string;
+    endTime: string;
+  }[];
+  subImages: {
+    id: number;
+    imageUrl: string;
+  }[];
+  title: string;
+  updatedAt: string;
+  userId: number;
+};

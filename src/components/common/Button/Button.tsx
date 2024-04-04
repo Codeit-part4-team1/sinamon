@@ -4,6 +4,7 @@ interface ButtonProps {
   type: "button" | "submit";
   status?: "default" | "inactive" | "second";
   className?: string;
+  onClick?: () => void;
 }
 const Button = ({
   text,

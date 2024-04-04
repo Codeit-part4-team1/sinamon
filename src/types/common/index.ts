@@ -6,7 +6,15 @@ export type Category =
   | "관광"
   | "웰빙"
   | "";
-
+export interface AvailableTime {
+  id: number;
+  startTime: string;
+  endTime: string;
+}
+export interface TimeSlot {
+  times: AvailableTime[];
+  date: string;
+}
 export type Status =
   | "pending"
   | "confirmed"

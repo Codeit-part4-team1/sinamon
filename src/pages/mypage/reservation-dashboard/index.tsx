@@ -1,7 +1,6 @@
 import type { NextPageWithLayout } from "@/pages/_app";
 
-import React, { useState, useRef, useEffect, ReactNode } from "react";
-
+import React, { useState, useRef, ReactNode } from "react";
 import { reservationDashboard } from "@/hooks/useReservationDashboard";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -23,16 +22,11 @@ import MenuLayout from "@/components/layout/MenuLayout";
 
 const ReservationStatus: NextPageWithLayout = () => {
   const localizer = momentLocalizer(moment);
-  const [modal, setModal] = useState<Modal>({
+  const [reservationInfoModal, setReservationInfoModal] = useState<Modal>({
     show: false,
     modal: useRef<HTMLDivElement>(null),
-    date: "",
-    destination: null
+    date: ""
   });
-
-  useEffect(() => {
-    setModal((prev: Modal) => ({ ...prev, destination: document.body }));
-  }, []);
 
   const currentDate = new Date();
   const [date, setDate] = useState<DateType>({
@@ -48,17 +42,6 @@ const ReservationStatus: NextPageWithLayout = () => {
     date.month.toString().padStart(2, "0")
   );
 
-  console.log(monthlyActivites);
-
-  /* monthlyActivites?.data
-  [{
-    date: '2024-04-03',
-    reservations: {
-      completed: 8,
-      confirmed: 0,
-      pending: 6
-    }
-  }, ...] */
   const event = isSelected
     ? monthlyActivites?.data.flatMap((item: any, index: number) => {
         const isPastDate = new Date(item.date);
@@ -86,18 +69,26 @@ const ReservationStatus: NextPageWithLayout = () => {
     : undefined;
 
   return (
-    <div className="flex flex-col gap-[50px]">
-      {modal.show && (
+    <div className="relative flex flex-col gap-[50px] overflow-hidden">
+      <div
+        className={`absolute top-[150px] right-[480px] ${
+          !reservationInfoModal.show
+            ? "transition-transform transform translate-x-[980px]"
+            : "transition-transform transform translate-x-[480px]"
+        } duration-500 ease-in-out z-50`}
+      >
         <ReservationInfoModal
-          destination={modal.destination}
           onCancel={() => {
-            setModal((prev: Modal) => ({ ...prev, show: false }));
+            setReservationInfoModal((prev: Modal) => ({
+              ...prev,
+              show: false
+            }));
           }}
-          ref={modal.modal}
+          ref={reservationInfoModal.modal}
           ACTIVITYID={activitesId}
-          ACTIVITYDATE={modal.date}
+          ACTIVITYDATE={reservationInfoModal.date}
         />
-      )}
+      </div>
       <div className="relative flex flex-col gap-[32px]">
         <h1 className="text-[28px] font-bold">모집 현황</h1>
         <Select
@@ -106,8 +97,8 @@ const ReservationStatus: NextPageWithLayout = () => {
             setActiviesId(Number(e));
           }}
         >
-          <SelectTrigger className="border border-gray-500 h-[56px] rounded-md pl-[30px] text-base font-normal focus:outline-none placeholder:font-bold">
-            <SelectValue placeholder="어떤 모임의 예약 현황을 확인할까요?" />
+          <SelectTrigger className="border border-gray-500 h-[56px] rounded-md pl-5 text-base font-normal focus:outline-none placeholder:font-bold">
+            <SelectValue placeholder="어떤 모임의 모집 현황을 확인할까요?" />
             <SelectContent>
               {activites?.data.activities.map((item: any) => (
                 <SelectItem key={item.id} value={item.id}>
@@ -141,10 +132,10 @@ const ReservationStatus: NextPageWithLayout = () => {
               const month = String(dateObject.getMonth() + 1).padStart(2, "0");
               const day = String(dateObject.getDate()).padStart(2, "0");
               const formattedDateString = `${year}-${month}-${day}`;
-              setModal((prev: Modal) => ({
+              setReservationInfoModal((prev: Modal) => ({
                 ...prev,
                 date: formattedDateString,
-                show: !modal.show
+                show: !reservationInfoModal.show
               }));
             }}
             eventPropGetter={(event: any) => {
@@ -154,7 +145,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#FFF",
                     fontSize: "13px",
                     backgroundColor: "#0085FF",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else if (event.title.includes("승인")) {
@@ -163,7 +154,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#FF7C1D",
                     fontSize: "13px",
                     backgroundColor: "#FFF4E8",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else if (event.title.includes("완료")) {
@@ -172,7 +163,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#4B4B4B",
                     fontSize: "13px",
                     backgroundColor: "#DDD",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else {
