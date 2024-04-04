@@ -81,7 +81,7 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
 
   return (
     <>
-      <div className="sm:hidden lg:min md:block md:flex-col md:border md:gap-6 md:rounded-sm bg-white-ffffff lg:w-96 md:p-6  md:w-[251px]">
+      <div className="sm:hidden md:block md:flex-col md:border  md:gap-4 md:rounded-sm bg-white-ffffff md:max-h-[500px] lg:max-h-[1000px] lg:w-96 md:p-6  md:w-[251px] md:px-5">
         <p className="md:flex md:font-bold md:text-[24px] md:gap-[5px] center lg:text-[28px]">
           ￦ {data.price.toLocaleString()}
           <span className=" md:text-gray-4b4b4b md:self-center md:font-normal md:text-[16px] lg:text-[20px]">
@@ -90,8 +90,8 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
         </p>
         <hr className="md:w-full md:bg-gray-dddddd md:my-4" />
         <form onSubmit={handleSubmit(handelOnSubmit)}>
-          <div>
-            <h2 className="md:font-bold md:text-[20px]">날짜</h2>
+          <div className="lg:flex lg:flex-col lg:gap-4">
+            <h2 className="md:font-bold  md:text-[20px]">날짜</h2>
             <button
               className="md:text-black md:underline md:font-semibold md:pb-[30px] md:text-[16px] lg:hidden"
               onClick={handelReserveModalOpen}
@@ -102,12 +102,10 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
               <ReservationCalendar
                 dateValue={selectedDateValue}
                 setDateValue={setSelectedDateValue}
-                register={register}
               />
             </div>
           </div>
-
-          <div className="lg:flex-col lg:pb-4 lg:block md:hidden">
+          <div className="lg:flex-col lg:pb-4 lg:pt-4 lg:block md:hidden">
             <ReservationTime
               setValue={setValue}
               control={control}
@@ -126,14 +124,18 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
         <hr className="md:w-full md:bg-gray-dddddd md:mt-6 md:mb-4" />
         <div>
           <div className="md:flex md:justify-between">
-            <h2 className="md:font-bold md:text-[20px]">총 합계</h2>
-            <p className="md:font-bold md:text-[20px]">￦ 10,000</p>
+            <h2 className="md:font-bold md:text-[16px] lg:text-[20px]">
+              총 합계
+            </h2>
+            <p className="md:font-bold md:text-[16px] lg:text-[20px]">
+              ￦ 10,000
+            </p>
           </div>
         </div>
       </div>
 
       {/* 모바일 */}
-      <div className="md:hidden flex border bg-white-ffffff justify-between w-full fixed bottom-0 p-4 h-20 ">
+      <div className="md:hidden flex border bg-white-ffffff justify-between w-full fixed -left-[2px] bottom-0 p-4 h-20 ">
         <div>
           <p className="flex font-bold text-[20px] gap-[6px]  ">
             ￦ {data.price.toLocaleString()}
@@ -144,7 +146,7 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
           </p>
           <button
             onClick={handelReserveModalOpen}
-            className="text-main underline font-semibold text-[14px]   "
+            className="text-main underline font-semibold text-[14px]"
           >
             날짜 선택하기
           </button>
@@ -154,12 +156,13 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
 
       {isModalOpend &&
         createPortal(
-          <form>
+          <form onSubmit={handleSubmit(handelOnSubmit)}>
             <ReservationModalUi
               dateValue={selectedDateValue}
               setDateValue={setSelectedDateValue}
               closeModal={handelReserveModalClose}
               availableTime={availableTime}
+              control={control}
             />
           </form>,
           document.getElementById("modal-root") as HTMLDivElement
