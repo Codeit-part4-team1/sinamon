@@ -68,8 +68,19 @@ const ReservationCalendar = ({
 
   //   return filteredTimes.length === 0;
   // };
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  const disabledDays = [{ from: new Date(2022, 4, 18), to: yesterday }];
+
   return (
-    <Calendar mode="single" selected={dateValue} onSelect={setDateValue} />
+    <Calendar
+      mode="single"
+      selected={dateValue}
+      onSelect={setDateValue}
+      disabled={disabledDays}
+    />
   );
 };
 
