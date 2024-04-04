@@ -36,19 +36,6 @@ export const useGetMyActivities = () =>
 export const useMyActivities = (date?: string) => {
   const queryClient = useQueryClient();
 
-  const getMyActivities = () =>
-    useQuery({
-      queryKey: queryKey.myActivities,
-      queryFn: () => instance.get("/my-activities?size=999")
-    });
-
-  const GetActivityReservedSchedules = (id: number, date: string) =>
-    useQuery({
-      queryKey: [queryKey.getReservationByDate, date],
-      queryFn: () =>
-        instance.get(`/my-activities/${id}/reserved-schedule?date=${date}`)
-    });
-
   const GetActivityReservedSchedulesByTime = (
     id: number,
     scheduleId: string | undefined,
@@ -62,6 +49,19 @@ export const useMyActivities = (date?: string) => {
         )
     });
 
+  const getMyActivities = () =>
+    useQuery({
+      queryKey: queryKey.myActivities,
+      queryFn: () => instance.get("/my-activities?size=999")
+    });
+
+  const GetActivityReservedSchedules = (id: number, date: string) =>
+    useQuery({
+      queryKey: [queryKey.getReservationByDate, { date }],
+      queryFn: () =>
+        instance.get(`/my-activities/${id}/reserved-schedule?date=${date}`)
+    });
+
   const ApporveReservation = useMutation({
     mutationFn: (data: any) =>
       instance.patch(
@@ -70,7 +70,7 @@ export const useMyActivities = (date?: string) => {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [queryKey.getReservationByDate, date]
+        queryKey: [queryKey.getReservationByDate]
       });
     },
     onError(err: any) {
@@ -86,7 +86,7 @@ export const useMyActivities = (date?: string) => {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [queryKey.getReservationByDate, date]
+        queryKey: [queryKey.getReservationByDate]
       });
     },
     onError(err: any) {
