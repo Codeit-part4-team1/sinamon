@@ -5,9 +5,11 @@ import {
   postActivities,
   getActivityDetail,
   getCurationActivitiesList,
-  postCreateImageUrl
+  postCreateImageUrl,
+  getReviews
 } from "@/api/activities";
 import { queryKey } from "@/constants/queryKeys";
+import { GetReviewsParams } from "@/types/activities";
 
 export const useGetActivitiesList = (
   method: string,
@@ -79,3 +81,13 @@ export const usePostCreateImageUrl = (
           });
     }
   });
+
+export const useGetReviewListQeury = ({
+  activityId,
+  page: currentPageNumber
+}: GetReviewsParams) => {
+  return useQuery({
+    queryKey: queryKey.getReviewList(activityId, currentPageNumber),
+    queryFn: () => getReviews({ activityId, page: currentPageNumber, size: 3 })
+  });
+};

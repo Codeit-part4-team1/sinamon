@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 import { queryKey } from "@/constants/queryKeys";
@@ -8,27 +8,28 @@ import { AxiosError } from "axios";
 import { HiMenu } from "react-icons/hi";
 import { FaStar } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger
-} from "@/components/ui/select";
-import { deleteActivity } from "@/api/myActivities";
-import { useGetActivityDetail } from "@/hooks/activities";
-import { useGetUser } from "@/hooks/users";
+import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 
-const DetailHeader = () => {
+import { getUser } from "@/api/users";
+import { deleteActivity } from "@/api/myActivities";
+import { Activity } from "@/types/activities";
+
+const DetailHeader = ({ data }: { data: Activity }) => {
   const router = useRouter();
-  const { id } = router.query;
   const queryClient = useQueryClient();
 
-  const { data: activityData } = useGetActivityDetail(Number(id));
+  // const { data: activityData } = useQuery({
+  //   queryKey: [queryKey.activity],
+  //   queryFn: () => getAcitivity(id)
+  // });
 
-  const { data: userData } = useGetUser();
+  const { data: userData } = useQuery({
+    queryKey: [queryKey.usersMe],
+    queryFn: () => getUser()
+  });
 
   const deleteActivityMutation = useMutation({
-    mutationFn: () => deleteActivity(activityData?.id),
+    mutationFn: () => deleteActivity(data?.id),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKey.myActivities });
@@ -48,32 +49,30 @@ const DetailHeader = () => {
   };
 
   return (
-    <header className="flex relative w-full gap-[10px] justify-between items-center">
+    <header className="flex relative w-full px-4 md:px-0 gap-[10px] justify-between items-center">
       <div className="flex flex-col gap-[10px]">
-        <p className="text-[14px] opacity-75">{activityData?.category}</p>
-        <h1 className="font-bold text-[32px] mb-[6px]">
-          {activityData?.title}
-        </h1>
+        <p className="text-[14px] opacity-75">{data?.category}</p>
+        <h1 className="font-bold text-[32px] mb-[6px]">{data?.title}</h1>
         <div className="flex gap-3">
           <p className="flex gap-[6px] text-black items-center text-[10px] md:text-[14px]">
             <FaStar className="text-yellow-300" />
-            {activityData?.rating} ({activityData?.reviewCount})
+            {data?.rating} ({data?.reviewCount})
           </p>
           <p className=" flex gap-[6px] text-[10px] items-center  md:text-[14px]">
             <IoLocation />
-            {activityData?.address}
+            {data?.address}
           </p>
         </div>
       </div>
       <div>
-        {activityData?.userId === userData?.id && (
+        {data?.userId === userData?.id && (
           <Select defaultValue="all">
             <SelectTrigger className="w-[100px] flex flex-row-reverse invisible p-0">
               <HiMenu size="24" className="text-black visible" />
             </SelectTrigger>
             <SelectContent>
               <div className="flex flex-col gap-2 items-center text-center">
-                <Link href={`/mypage/activities/${activityData?.id}/edit`}>
+                <Link href={`/mypage/activities/${data?.id}/edit`}>
                   <button className="text-[18px] leading-[22px] font-medium focus:bg-sub">
                     수정하기
                   </button>

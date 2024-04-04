@@ -1,5 +1,10 @@
 import { instance } from "@/lib/axios";
-
+import {
+  Activity,
+  GetAvailableDateParams,
+  GetReviewsParams,
+  PostReservationParams
+} from "@/types/activities";
 export const getActivitiesList = async (
   method: string,
   sort: string,
@@ -58,4 +63,37 @@ export const postCreateImageUrl = async (value: any) => {
     }
   });
   return res.data;
+};
+
+export const getReviews = async ({
+  activityId,
+  page = 1,
+  size = 3
+}: GetReviewsParams) => {
+  const res = await instance.get(
+    `/activities/${activityId}/reviews?page=${page}&size=${size}`
+  );
+  return res.data;
+};
+
+export const getAvailableDate = async ({
+  activityId,
+  year,
+  month
+}: GetAvailableDateParams) => {
+  const res = await instance.get(
+    `/activities/${activityId}/available-schedule?year=${year}&month=${month}`
+  );
+  return res.data;
+};
+export const postReservation = async ({
+  activityId,
+  scheduleId,
+  headCount
+}: PostReservationParams) => {
+  const res = await instance.post(`/activities/${activityId}/reservations`, {
+    scheduleId,
+    headCount
+  });
+  return res;
 };
