@@ -4,7 +4,6 @@ export interface Modal {
   show: boolean;
   modal: React.RefObject<HTMLDivElement>;
   date: string;
-  destination: HTMLElement | null;
 }
 
 export interface DateType {
