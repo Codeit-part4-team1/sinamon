@@ -79,7 +79,10 @@ const ReservationStatus: NextPageWithLayout = () => {
       >
         <ReservationInfoModal
           onCancel={() => {
-            setReservationInfoModal((prev: Modal) => ({ ...prev, show: false }));
+            setReservationInfoModal((prev: Modal) => ({
+              ...prev,
+              show: false
+            }));
           }}
           ref={reservationInfoModal.modal}
           ACTIVITYID={activitesId}
@@ -142,7 +145,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#FFF",
                     fontSize: "13px",
                     backgroundColor: "#0085FF",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else if (event.title.includes("승인")) {
@@ -151,7 +154,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#FF7C1D",
                     fontSize: "13px",
                     backgroundColor: "#FFF4E8",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else if (event.title.includes("완료")) {
@@ -160,7 +163,7 @@ const ReservationStatus: NextPageWithLayout = () => {
                     color: "#4B4B4B",
                     fontSize: "13px",
                     backgroundColor: "#DDD",
-                    paddingLeft: "10px"
+                    paddingLeft: "5px"
                   }
                 };
               } else {
