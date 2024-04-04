@@ -57,10 +57,10 @@ const NotificationModal = () => {
                   <div className="flex flex-row justify-between h-[24px]">
                     <GoDotFill
                       size={10}
-                      color={
+                      className={
                         item.content.includes("승인되었습니다.")
-                          ? "blue"
-                          : "red"
+                          ? "text-blue-0085ff"
+                          : "text-red-ff472e"
                       }
                     />
                     <div

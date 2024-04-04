@@ -39,10 +39,10 @@ const AddressField = () => {
   };
 
   const dark = {
-    bgColor: "#040202",
-    searchBgColor: "#0c0a09",
-    contentBgColor: "#0c0a09",
-    pageBgColor: "#0c0a09",
+    bgColor: "#090705",
+    searchBgColor: "#14110F",
+    contentBgColor: "#14110F",
+    pageBgColor: "#14110F",
     textColor: "#ccc",
     queryTextColor: "#ccc",
     outlineColor: "#444444"
