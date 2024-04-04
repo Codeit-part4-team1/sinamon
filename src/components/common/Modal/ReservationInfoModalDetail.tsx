@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "@/components/common/Button/Button";
 import { useMyActivities } from "@/hooks/useMyActivites";
 import AlertModal from "./AlertModal";
@@ -22,19 +22,12 @@ const ReservationInfoModalDetail: React.FC<{
   );
   const { reservations } = data?.data || [];
 
-  const [isApproveModalVisible, setIsApproveModalVisible] = useState(false);
-  const [isDeclineModalVisible, setIsDeclineModalVisible] = useState(false);
-
-  const handleToggleApproveModal = () => {
-    setIsApproveModalVisible((prev) => !prev);
-  };
-
-  const handleToggleDeclineModal = () => {
-    setIsDeclineModalVisible((prev) => !prev);
-  };
+  const [alertModal, setAlertModal] = useState({
+    approveAlertModal: useRef<any>(null),
+    desclineAlertModal: useRef<any>(null)
+  });
 
   const handleApprove = (reservationId: number) => {
-    setIsApproveModalVisible((prev) => !prev);
     ApporveReservation.mutate({
       activityId: activityId,
       reservationId: reservationId
@@ -43,7 +36,6 @@ const ReservationInfoModalDetail: React.FC<{
   };
 
   const handleDecline = (reservationId: number) => {
-    setIsDeclineModalVisible((prev) => !prev);
     DeclineReservation.mutate({
       activityId: activityId,
       reservationId: reservationId
@@ -70,10 +62,10 @@ const ReservationInfoModalDetail: React.FC<{
           </div>
           {status === "pending" && (
             <div className="flex flex-row gap-[8px] justify-end">
-              <div onClick={handleToggleApproveModal}>
+              <div onClick={() => alertModal.approveAlertModal.current?.showModal()}>
                 <Button text="승인하기" size="sm" type="submit" />
               </div>
-              <div onClick={handleToggleDeclineModal}>
+              <div onClick={() => alertModal.desclineAlertModal.current?.showModal()}>
                 <Button
                   text="거절하기"
                   size="sm"
@@ -97,38 +89,28 @@ const ReservationInfoModalDetail: React.FC<{
               </div>
             </div>
           )}
-          {isApproveModalVisible && (
-            <div className="absolute flex align-middle justify-center">
-              <div className="fixed inset-0 z-10 flex items-center justify-center">
-                <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
-                <div className="z-30">
-                  <AlertModal
-                    type="decide"
-                    size="decide"
-                    text="예약을 승인하시겠습니까??"
-                    handlerDicideNo={handleToggleApproveModal}
-                    handelerDicideYes={() => handleApprove(reservations.id)}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-          {isDeclineModalVisible && (
-            <div className="absolute flex align-middle justify-center">
-              <div className="fixed inset-0 z-10 flex items-center justify-center">
-                <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
-                <div className="z-30">
-                  <AlertModal
-                    type="decide"
-                    size="decide"
-                    text="예약을 거절하시겠습니까?"
-                    handlerDicideNo={handleToggleDeclineModal}
-                    handelerDicideYes={() => handleDecline(reservations.id)}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+          <dialog ref={alertModal.approveAlertModal}>
+            <AlertModal
+              type="decide"
+              size="decide"
+              text="예약을 승인하시겠습니까??"
+              handlerDicideNo={() =>
+                alertModal.approveAlertModal.current.close()
+              }
+              handelerDicideYes={() => handleApprove(reservations.id)}
+            />
+          </dialog>
+          <dialog ref={alertModal.desclineAlertModal}>
+            <AlertModal
+              type="decide"
+              size="decide"
+              text="예약을 거절하시겠습니까?"
+              handlerDicideNo={() =>
+                alertModal.desclineAlertModal.current.close()
+              }
+              handelerDicideYes={() => handleDecline(reservations.id)}
+            />
+          </dialog>
         </div>
       ))}
     </div>
