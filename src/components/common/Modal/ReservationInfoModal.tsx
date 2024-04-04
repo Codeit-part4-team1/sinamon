@@ -36,7 +36,6 @@ type dateReservations = Schedule[];
 
 const ReservationInfoModal = ({
   onCancel,
-  destination,
   ACTIVITYID,
   ACTIVITYDATE
 }: any) => {
@@ -55,8 +54,6 @@ const ReservationInfoModal = ({
       { declined: 0, confirmed: 0, pending: 0 }
     );
   };
-
-  const firstTime = `${dateReservations[0]?.startTime} - ${dateReservations[0]?.endTime}`;
 
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -85,9 +82,7 @@ const ReservationInfoModal = ({
     (dateReservations: any) => dateReservations.count[view] > 0
   );
 
-  return ReactDOM.createPortal(
-    <>
-      <div className="absolute top-0 bg-gray-400 opacity-40 w-full h-full z-10"></div>
+  return (
       <div className="absolute top-0 w-full h-full z-20">
         <div className="bg-white-ffffff w-full h-full px-[12px] pt-[35px] pb-[30px] md:border-2 md:border-main md:w-[480px] md:h-[697px] md:px-[24px] md:pt-[28px] md:mx-auto md:my-[100px] md:rounded-lg">
           <div className="flex flex-col gap-[55px] md:gap-[25px]">
@@ -171,8 +166,6 @@ const ReservationInfoModal = ({
           </div>
         </div>
       </div>
-    </>,
-    destination
   );
 };
 
