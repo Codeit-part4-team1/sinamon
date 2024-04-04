@@ -67,8 +67,8 @@ export const postCreateImageUrl = async (value: any) => {
 
 export const getReviews = async ({
   activityId,
-  page,
-  size
+  page = 1,
+  size = 3
 }: GetReviewsParams) => {
   const res = await instance.get(
     `/activities/${activityId}/reviews?page=${page}&size=${size}`

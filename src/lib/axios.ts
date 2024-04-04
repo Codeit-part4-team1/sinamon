@@ -5,7 +5,7 @@ import { postToken } from "@/api/auth";
 
 export const instance = axios.create({
   baseURL: "https://sp-globalnomad-api.vercel.app/2-1",
-  // timeout: 5000,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json"
   }

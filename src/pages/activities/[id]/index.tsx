@@ -8,7 +8,6 @@ import { queryKey } from "@/constants/queryKeys";
 import { Activity } from "@/types/activities";
 import ReviewList from "@/components/Activities/ReviewList/ReviewList";
 import { ReservationDatePicker } from "@/components/Activities/ReservationPicker/ReservationDatePicker";
-import Header from "@/components/layout/Header";
 import BaseLayout from "@/components/layout/BaseLayout";
 
 export const getServerSideProps = async (
@@ -49,7 +48,6 @@ const Activity: any = ({
 
   return (
     <>
-      <Header />
       <div className="flex justify-center bg-gray-[#f9f9f9] pt-[26px] md:pt-[34px] lg:pt-[68px]">
         <div className="flex flex-col md:px-6 ">
           <DetailHeader data={activityData} />

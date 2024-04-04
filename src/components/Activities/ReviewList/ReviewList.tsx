@@ -1,7 +1,7 @@
 import { FaStar } from "react-icons/fa";
 import Pagination from "@/components/common/Pagination/Pagination";
 import { getReviews } from "@/api/activities";
-import { GetReviewsParams, ReviewsData } from "@/types/activities";
+import { GetReviewsParams, Review, ReviewsData } from "@/types/activities";
 import { queryKey } from "@/constants/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -15,7 +15,8 @@ const ReviewList = ({
   activityId: number;
   activityRating: number;
 }) => {
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [currentPageNumber, setCurrentPageNumber] = useState(3);
+  const [selectedPage, setSelectedPage] = useState(1);
 
   // const useGetReviewPageQeury = ({
   //   activityId,
@@ -33,18 +34,18 @@ const ReviewList = ({
 
   const useGetReviewListQeury = ({
     activityId,
-    page: currentPageNumber
+    page: selectedPage
   }: GetReviewsParams) => {
-    return useQuery({
-      queryKey: queryKey.getReviewList(activityId, currentPageNumber),
-      queryFn: () => getReviews({ activityId, page: 1, size: 3 })
+    return useQuery<ReviewsData>({
+      queryKey: queryKey.getReviewList(activityId, selectedPage),
+      queryFn: () => getReviews({ activityId, page: selectedPage, size: 3 })
     });
   };
   const { data: reviewData } = useGetReviewListQeury({
     activityId,
-    page: currentPageNumber
+    page: selectedPage
   });
-  const { reviews, totalCount }: ReviewsData = reviewData;
+
   console.log(reviewData);
 
   const transRating = (rating: number) => {
@@ -61,18 +62,21 @@ const ReviewList = ({
       return "매우 불만족";
     }
   };
-  // const { data, hasNextPage, fetchNextPage } = useGetReviewPageQeury({
-  //   activityId,
-  //   page: 1,
-  //   size: 3
-  // });
 
-  console.log(reviews);
+  const totalPages = Math.ceil(
+    (reviewData?.totalCount ?? 0) / currentPageNumber
+  );
+  const hasNextPage =
+    selectedPage * currentPageNumber < (reviewData?.totalCount ?? 0);
+  const hasPreviousPage = selectedPage !== 1;
+
+  const goNext = () => setSelectedPage((prev) => prev + 1);
+  const goPrev = () => setSelectedPage((prev) => prev - 1);
 
   return (
     <section className="flex flex-col gap-6">
       <h2 className="md:font-bold md:text-[20px]">후기</h2>
-      {totalCount !== 0 && (
+      {reviewData?.totalCount !== 0 && (
         <div className="flex items-center gap-4">
           <h3 className="font-semibold text-[50px]">{activityRating}</h3>
           <div className="flex flex-col gap-2">
@@ -81,16 +85,16 @@ const ReviewList = ({
             </p>
             <p className="flex font-normal text-[14px] gap-[6px] items-center">
               <FaStar className="text-yellow-300" />
-              {totalCount.toLocaleString("ko-KR")}개 후기
+              {reviewData?.totalCount?.toLocaleString("ko-KR")}개 후기
             </p>
           </div>
         </div>
       )}
       {/* 후기 */}
-      {totalCount !== 0 && (
+      {reviewData?.totalCount !== 0 && (
         <>
           <div className="flex flex-col gap-6 mb-10 md:mb-12">
-            {reviews.map((review, index) => (
+            {reviewData?.reviews.map((review, index) => (
               <Fragment key={review.id}>
                 <div className="flex gap-4">
                   <Avatar user={review.user} size="sm" />
@@ -103,7 +107,7 @@ const ReviewList = ({
                         {dayjs(review.createdAt).format("YYYY.MM.DD")}
                       </p>
                     </div>
-                    <p className="text-[16px] leading-[26px]">
+                    <p className=" text-[16px] leading-[26px] w-[266px] md:w-[368px] lg:w-[729px]">
                       {review.content}
                     </p>
                   </div>
@@ -112,7 +116,15 @@ const ReviewList = ({
               </Fragment>
             ))}
           </div>
-          <Pagination />
+          <Pagination
+            totalPages={totalPages}
+            selectPage={selectedPage}
+            setSelectPage={setSelectedPage}
+            canGoNext={hasNextPage}
+            canGoPrev={hasPreviousPage}
+            goNext={goNext}
+            goPrev={goPrev}
+          />
         </>
       )}
     </section>
