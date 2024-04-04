@@ -100,7 +100,7 @@ const ReservationInfoModalDetail: React.FC<{
           {isApproveModalVisible && (
             <div className="absolute flex align-middle justify-center">
               <div className="fixed inset-0 z-10 flex items-center justify-center">
-                <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
+                <div className="z-20 bg-black opacity-50 w-full h-full absolute rounded-l-[70px]"></div>
                 <div className="z-30">
                   <AlertModal
                     type="decide"
@@ -114,9 +114,9 @@ const ReservationInfoModalDetail: React.FC<{
             </div>
           )}
           {isDeclineModalVisible && (
-            <div className="absolute flex align-middle justify-center">
+            <div className="absolute flex align-middle justify-center rounded-l-[70px]">
               <div className="fixed inset-0 z-10 flex items-center justify-center">
-                <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
+                <div className="z-20 bg-black opacity-50 w-full h-full absolute rounded-l-[70px]"></div>
                 <div className="z-30">
                   <AlertModal
                     type="decide"
