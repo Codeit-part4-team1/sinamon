@@ -27,8 +27,19 @@ const NotificationModal = () => {
     }
   };
 
+  const notificationText = (text: string) => {
+    let result;
+    text.length > 44
+      ? (result = text.substring(0, 44) + "..")
+      : (result = text);
+    console.log(result);
+    console.log(result.length);
+    return result;
+  };
+
+  // notifications?.data.notifications.content: "4월 모임..";
   return (
-    <div className="flex flex-col border border-gray-dddddd rounded-lg bg-sub w-[330px] h-[350px] px-[20px] py-[24px]">
+    <div className="flex flex-col border border-gray-dddddd rounded-lg bg-sub w-[300px] h-[350px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
         <h1 className="text-[20px] w-[100px] font-bold">
           알림 {notifications?.data.totalCount}개
@@ -39,7 +50,7 @@ const NotificationModal = () => {
           notifications?.data.notifications.map((item: any) => {
             return (
               <div
-                className="flex flex-col gap-[4px] bg-white-ffffff rounded-md w-[289px] h-[120px] px-[12px] py-[16px]"
+                className="flex flex-col gap-[4px] bg-zinc-50 rounded-md w-[258px] h-[120px] px-[12px] py-[16px]"
                 key={item.id}
               >
                 <div>
@@ -58,24 +69,24 @@ const NotificationModal = () => {
                         mutate(item.id);
                       }}
                     >
-                      <RxCross2 size={15} />
+                      <RxCross2 size={15} color={"gray"} />
                     </div>
                   </div>
-                  <div className="h-[44px]">
-                    {item.content.includes("거절") ? (
+                  <div className="h-[44px] text-sm font-medium text-gray-79747e">
+                    {notificationText(item.content).includes("거절") ? (
                       <span>
-                        {item.content.split("거절")[0]}{" "}
+                        {notificationText(item.content).split("거절")[0]}{" "}
                         <span className="text-red-500">거절</span>
-                        {item.content.split("거절")[1]}{" "}
+                        {notificationText(item.content).split("거절")[1]}{" "}
                       </span>
-                    ) : item.content.includes("승인") ? (
+                    ) : notificationText(item.content).includes("승인") ? (
                       <span>
-                        {item.content.split("승인")[0]}{" "}
+                        {notificationText(item.content).split("승인")[0]}{" "}
                         <span className="text-blue-500">승인</span>
-                        {item.content.split("승인")[1]}{" "}
+                        {notificationText(item.content).split("승인")[1]}{" "}
                       </span>
                     ) : (
-                      item.content
+                      <span>{notificationText(item.content)}</span>
                     )}
                   </div>
                 </div>
