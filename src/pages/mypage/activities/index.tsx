@@ -1,18 +1,32 @@
-import { ReactNode, useContext } from "react";
-import type { NextPageWithLayout } from "@/pages/_app";
+import { ReactNode } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
+import type { NextPageWithLayout } from "@/pages/_app";
+import type { MyActivitiesType } from "@/types/MyActivitiesType";
+import { getCookie } from "@/utils/cookie";
+import { useGetMyActivities } from "@/hooks/useMyActivites";
 import MyActivitiesCard from "@/components/myActivity/myActivitiesCard";
 import Button from "@/components/common/Button/Button";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
-import { useMyActivities } from "@/hooks/useMyActivites";
-import type { MyActivitiesType } from "@/types/MyActivitiesType";
-import Link from "next/link";
+
+import { MdOutlineFindInPage } from "react-icons/md";
+import { PiFileMagnifyingGlass } from "react-icons/pi";
 
 const myActivity: NextPageWithLayout = () => {
-  const { getMyActivities } = useMyActivities();
-  const { data } = getMyActivities();
-  const { activities } = data?.data || [];
+  const router = useRouter();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
+  const { data } = useGetMyActivities();
+  const { activities } = data || [];
 
   return (
     <>
@@ -27,6 +41,14 @@ const myActivity: NextPageWithLayout = () => {
           <MyActivitiesCard key={groups.id} {...groups} />
         ))}
       </ul>
+      {activities?.length === 0 && (
+        <div className="h-52 flex flex-col justify-center items-center gap-8">
+          <PiFileMagnifyingGlass className="font-light text-8xl text-gray-4b4b4b dark:text-zinc-300" />
+          <p className="flex text-xl font-bold justify-center">
+            아직 등록한 모임이 없어요
+          </p>
+        </div>
+      )}
     </>
   );
 };

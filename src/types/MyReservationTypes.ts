@@ -1,16 +1,18 @@
+import { Status } from "@/types/common";
+
 export interface Activity {
   bannerImageUrl: string;
   title: string;
   id: number;
 }
 
-export interface Reservation {
+export interface ReservationType {
+  activity: Activity;
+  scheduleId: number;
   id: number;
   teamId: string;
   userId: number;
-  activity: Activity;
-  scheduleId: number;
-  status: string;
+  status: Status;
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;
@@ -19,4 +21,9 @@ export interface Reservation {
   endTime: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReservationReviewBodyType {
+  rating: number;
+  content: string;
 }

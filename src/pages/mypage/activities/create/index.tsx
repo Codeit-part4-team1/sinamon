@@ -1,11 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
+import { useRouter } from "next/router";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createPageSchema } from "@/constants/schema";
+import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
-import { useActivities } from "@/hooks/useActivities";
+import { getCookie } from "@/utils/cookie";
+import { usePostActivities } from "@/hooks/activities";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
 import Button from "@/components/common/Button/Button";
@@ -17,6 +21,7 @@ import AddressField from "@/components/create/AddressField";
 import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
+import AlertModal from "@/components/common/Modal/AlertModal";
 
 const CreatePage: NextPageWithLayout = () => {
   const form = useForm<z.infer<typeof createPageSchema>>({
@@ -37,7 +42,26 @@ const CreatePage: NextPageWithLayout = () => {
     }
   });
 
-  const { mutate } = useActivities.postActivities();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin");
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
+  const handleSuccess = () => {
+    dialogRef.current.showModal();
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
+  };
+
+  const { mutate } = usePostActivities(handleSuccess);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.price = Number(form.watch("price"));
@@ -59,9 +83,21 @@ const CreatePage: NextPageWithLayout = () => {
     mutate(newCreateData);
   }
 
+  const dialogRef = useRef<any>();
+
   return (
     <>
       <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 등록</p>
+      <dialog ref={dialogRef} className="rounded-lg">
+        <AlertModal
+          type="alert"
+          size="sm"
+          text="모임이 생성되었습니다"
+          handlerAlertModal={() => {
+            router.push(`/mypage/activities`);
+          }}
+        />
+      </dialog>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"

@@ -46,7 +46,7 @@ const AlertModal = ({
     <div className={`${sizeClass[size]}`}>
       <div className="flex flex-col justify-center gap-1 text-center">
         <div className="flex justify-center h-[30px]">
-          {type === "decide" && <MdCheckCircle size={25} color="#531" />}
+          {type === "decide" && <MdCheckCircle size={25} className="text-main" />}
         </div>
         <div className="pt-[10px] h-[25px]">{text}</div>
       </div>
@@ -64,11 +64,11 @@ const AlertModal = ({
       )}
       {size === "decide" && (
         <div className="flex felx-row gap-2 justify-center pt-[5px]">
+          <div onClick={execute}>
+            <Button text="예" size="md" type="button" />
+          </div>
           <div onClick={cancel}>
             <Button text="아니오" size="md" type="button" status="inactive" />
-          </div>
-          <div onClick={execute}>
-            <Button text="취소하기" size="md" type="button" />
           </div>
         </div>
       )}

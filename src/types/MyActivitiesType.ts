@@ -14,3 +14,7 @@ export interface MyActivitiesType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ReservationStatusBodyType {
+  status: "pending" | "confirmed" | "declined";
+}

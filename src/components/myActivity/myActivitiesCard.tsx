@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+
 import { useMyActivities } from "@/hooks/useMyActivites";
 import type { MyActivitiesType } from "@/types/MyActivitiesType";
+import AlertModal from "@/components/common/Modal/AlertModal";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +12,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown";
+
 import { HiMenu } from "react-icons/hi";
-import AlertModal from "../common/Modal/AlertModal";
 
 const MyActivitiesCard: React.FC<MyActivitiesType> = ({
   bannerImageUrl,
@@ -48,6 +50,8 @@ const MyActivitiesCard: React.FC<MyActivitiesType> = ({
           src={bannerImageUrl}
           alt="Activity"
           fill
+          sizes="100%"
+          priority
         />
       </div>
       <div className="flex-1 flex flex-col justify-between">
@@ -61,7 +65,7 @@ const MyActivitiesCard: React.FC<MyActivitiesType> = ({
             <div className="font-bold text-lg leading-6">{title}</div>
           </div>
           <div className="py-[1px] flex justify-between">
-            <span className="text-base font-medium flex justify-center items-center text-gray-4b4b4b">
+            <span className="text-base font-medium flex justify-center items-center text-gray-4b4b4b dark:text-zinc-300">
               ￦{price.toLocaleString()}
             </span>
             <DropdownMenu>
@@ -71,14 +75,14 @@ const MyActivitiesCard: React.FC<MyActivitiesType> = ({
               <DropdownMenuContent>
                 <DropdownMenuRadioGroup>
                   <DropdownMenuRadioItem
-                    className="text-sm h-9 md:text-base font-medium focus:bg-sub"
+                    className="text-sm h-9 md:text-base font-medium focus:bg-sub cursor-pointer"
                     value="edit"
                     onSelect={handleEdit}
                   >
                     수정하기
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem
-                    className="text-sm h-9 md:text-base font-medium focus:bg-sub"
+                    className="text-sm h-9 md:text-base font-medium focus:bg-sub cursor-pointer"
                     value="delete"
                     onSelect={handleToggleModal}
                   >

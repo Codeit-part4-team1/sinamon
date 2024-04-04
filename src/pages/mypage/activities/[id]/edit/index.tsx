@@ -3,10 +3,13 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createPageSchema } from "@/constants/schema";
+import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
-import { useActivities } from "@/hooks/useActivities";
+import { getCookie } from "@/utils/cookie";
+import { useGetActivityDetail } from "@/hooks/activities";
 import { patchMyActivityEdit } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
 import MenuLayout from "@/components/layout/MenuLayout";
@@ -19,14 +22,41 @@ import AddressField from "@/components/create/AddressField";
 import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
-import AlertModal from "@/components/common/Modal/AlertModal";
+import ConfirmModal from "@/components/common/Modal/ConfirmModal";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 const EditPage: NextPageWithLayout = () => {
   const router = useRouter();
+
+  if (!getCookie("accessToken") && !getCookie("refreshToken")) {
+    try {
+      router.push("/signin", undefined, { shallow: true });
+    } catch (err) {
+      console.error("Error occurred while redirecting to /signin:", err);
+    }
+  }
+
+  const [dialogopen, setDialogOpen] = useState({
+    successDialog: false,
+    errorDialog: false
+  });
   const { id: stringId } = router.query;
   const id = Number(stringId);
 
-  const { data } = useActivities.getActivitiesDetail(id);
+  const queryClient = useQueryClient();
+
+  const { data, isSuccess } = useGetActivityDetail(id);
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
+    queryClient.invalidateQueries({
+      queryKey: queryKey.activity,
+      refetchType: "inactive"
+    });
+  }
 
   const form = useForm<z.infer<typeof createPageSchema>>({
     resolver: zodResolver(createPageSchema),
@@ -44,31 +74,44 @@ const EditPage: NextPageWithLayout = () => {
       bannerImageUrl: "",
       bannerImagePreview: "",
       subImageUrlList: [{ subImagePreview: "", subImageUrl: "" }],
-
       subImageUrls: [],
       subImageIdsToRemove: []
     }
   });
 
   useEffect(() => {
-    if (data?.data) {
-      form.setValue("title", data.data.title);
-      form.setValue("category", data.data.category);
-      form.setValue("price", data.data.price);
-      form.setValue("description", data.data.description);
-      form.setValue("address", data.data.address);
-      form.setValue("bannerImageUrl", data.data.bannerImageUrl);
-      form.setValue("bannerImagePreview", data.data.bannerImageUrl);
+    if (data) {
+      form.setValue("title", data.title);
+      form.setValue("category", data.category);
+      form.setValue("price", data.price);
+      form.setValue("description", data.description);
+      form.setValue("address", data.address);
+      form.setValue("bannerImageUrl", data.bannerImageUrl);
+      form.setValue("bannerImagePreview", data.bannerImageUrl);
     }
-  }, [data?.data.title]);
+  }, [data?.title]);
 
   const handleError = (status: number) => {
     if (status === 409) {
-      dialogRef.current.showModal();
+      setDialogOpen((prev) => ({
+        ...prev,
+        errorDialog: !prev.errorDialog
+      }));
     }
   };
 
-  const { mutate } = patchMyActivityEdit(id, handleError);
+  const handleSuccess = () => {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.myActivities,
+      refetchType: "inactive"
+    });
+    setDialogOpen((prev) => ({
+      ...prev,
+      successDialog: !prev.successDialog
+    }));
+  };
+
+  const { mutate } = patchMyActivityEdit(id, handleSuccess, handleError);
 
   function onSubmit(values: z.infer<typeof createPageSchema>) {
     values.schedulesToAdd = values.schedules.filter(
@@ -127,16 +170,29 @@ const EditPage: NextPageWithLayout = () => {
   return (
     <>
       <p className="text-2xl md:text-3xl font-bold mb-5 md:mb-8">모임 수정</p>
-      <dialog ref={dialogRef} className="rounded-lg">
-        <AlertModal
-          type="alert"
-          size="sm"
-          text="겹치는 시간대가 존재합니다"
-          handlerAlertModal={() => {
-            dialogRef.current.close();
-          }}
-        />
-      </dialog>
+      <Dialog
+        open={dialogopen.errorDialog}
+        onOpenChange={(value) =>
+          setDialogOpen({ ...dialogopen, errorDialog: value })
+        }
+      >
+        <DialogContent className="w-[360px] md:w-[500px]">
+          <ConfirmModal text="겹치는 시간대가 존재합니다" status="error" />
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={dialogopen.successDialog}
+        onOpenChange={(value) =>
+          setDialogOpen({ ...dialogopen, successDialog: value })
+        }
+      >
+        <DialogContent
+          className="w-[360px] md:w-[500px]"
+          onClick={() => router.push("/mypage/activities")}
+        >
+          <ConfirmModal text="모임이 수정되었습니다" status="success" />
+        </DialogContent>
+      </Dialog>
       <FormProvider {...form}>
         <form
           className="flex flex-col gap-y-5 md:gap-y-6"
@@ -151,9 +207,9 @@ const EditPage: NextPageWithLayout = () => {
           </div>
           <DescriptionField />
           <AddressField />
-          <SchedulesField data={data?.data.schedules} />
+          <SchedulesField data={data?.schedules} />
           <BannerImageUrlField />
-          <SubImageUrlsField edit={"edit"} data={data?.data.subImages} />
+          <SubImageUrlsField edit={"edit"} data={data?.subImages} />
           <Button
             text="수정하기"
             className="w-full md:w-96 h-12 mx-auto mt-8"

@@ -1,8 +1,14 @@
-import React, { useContext } from "react";
-import { AuthContext } from "@/contexts/AuthProvider";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
-const EmailInput = ({ whatFor, errors, watch, register }: any) => {
-  const { userCookie } = useContext(AuthContext);
+import { WhatFor } from "@/types/auth";
+
+const EmailInput = ({ whatFor }: WhatFor) => {
+  const {
+    formState: { errors },
+    register,
+    watch
+  } = useFormContext();
 
   return (
     <div className="relative flex flex-col gap-1">
@@ -13,7 +19,6 @@ const EmailInput = ({ whatFor, errors, watch, register }: any) => {
         id="email"
         placeholder="이메일을 입력해 주세요"
         autoComplete="off"
-        defaultValue={whatFor === "edit" ? userCookie.email : undefined}
         readOnly={whatFor === "edit" ? true : false}
         {...register("email", {
           required: "이메일을 입력해 주세요",
@@ -23,14 +28,16 @@ const EmailInput = ({ whatFor, errors, watch, register }: any) => {
           }
         })}
         className={`border rounded-md h-[48px] p-5 w-full focus:outline-none ${
-          watch("email")?.length === 0 || !errors.email
+          (whatFor !== "edit" && watch("email")?.length === 0) || !errors.email
             ? "border-input"
             : "border-red-500"
-        } ${whatFor === "edit" ? "bg-gray-200" : undefined}`}
+        } ${whatFor === "edit" ? "bg-gray-200 cursor-default text-gray-79747e dark:bg-zinc-900 dark:text-zinc-500" : undefined}`}
       />
       <div className="h-4">
         {errors.email && (
-          <small className="pl-3 text-red-500">{errors.email.message}</small>
+          <small className="pl-3 text-red-500">
+            {errors.email.message?.toString()}
+          </small>
         )}
       </div>
     </div>

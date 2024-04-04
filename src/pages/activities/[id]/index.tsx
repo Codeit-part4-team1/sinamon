@@ -1,13 +1,15 @@
+import { ReactNode } from "react";
 import DetailHeader from "@/components/Activities/DetailHeader/DetailHeader";
 import Map from "@/components/Activities/Map/Map";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { useQuery } from "@tanstack/react-query";
-import { getAcitivity } from "@/api/activities";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getActivityDetail } from "@/api/activities";
 import { queryKey } from "@/constants/queryKeys";
 import { Activity } from "@/types/activities";
 import ReviewList from "@/components/Activities/ReviewList/ReviewList";
 import { ReservationDatePicker } from "@/components/Activities/ReservationPicker/ReservationDatePicker";
 import Header from "@/components/layout/Header";
+import BaseLayout from "@/components/layout/BaseLayout";
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -26,13 +28,23 @@ export const getServerSideProps = async (
   // }
 };
 
-const Activity = ({
+const Activity: any = ({
   activityId
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data: activityData } = useQuery<Activity>({
-    queryKey: [queryKey.activity],
-    queryFn: () => getAcitivity(activityId)
+  const { data: activityData, isSuccess } = useQuery<Activity>({
+    queryKey: queryKey.activity,
+    queryFn: () => getActivityDetail(activityId)
   });
+
+  const queryClient = useQueryClient();
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: queryKey.activity,
+      refetchType: "inactive"
+    });
+  }
+
   if (!activityData) return;
 
   return (
@@ -66,6 +78,10 @@ const Activity = ({
       </div>
     </>
   );
+};
+
+Activity.getLayout = function getLayout(page: ReactNode) {
+  return <BaseLayout>{page}</BaseLayout>;
 };
 
 export default Activity;

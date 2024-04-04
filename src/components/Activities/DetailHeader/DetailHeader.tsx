@@ -10,7 +10,6 @@ import { FaStar } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 
-import { getAcitivity } from "@/api/activities";
 import { getUser } from "@/api/users";
 import { deleteActivity } from "@/api/myActivities";
 import { Activity } from "@/types/activities";

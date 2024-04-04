@@ -29,7 +29,6 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface GetReviewsParams {
   activityId: number;
   page?: number;
@@ -65,4 +64,12 @@ export interface ReviewsData {
   reviews: Review[];
   aveerageRating: number;
   totalCount: number;
+}
+export interface ActivityList {
+  id: number;
+  bannerImageUrl: string;
+  reviewCount: number;
+  rating: number;
+  title: string;
+  price: number;
 }

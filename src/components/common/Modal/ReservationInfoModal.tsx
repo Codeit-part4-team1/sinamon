@@ -1,5 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
 
 import { FaXmark } from "react-icons/fa6";
 import {
@@ -10,147 +9,156 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-import { AuthContext } from "@/contexts/AuthProvider";
-import Button from "@/components/common/Button/Button";
-import AlertModal from "@/components/common/Modal/AlertModal";
+import { useMyActivities } from "@/hooks/useMyActivites";
+import ReservationInfoModalDetail from "./ReservationInfoModalDetail";
 
 type ViewType = {
-  apply: boolean;
-  approval: boolean;
-  refusal: boolean;
+  pending: boolean;
+  confirmed: boolean;
+  declined: boolean;
 };
 
-const ReservationInfoModal = ({ onCancel, destination }: any) => {
-  const { userCookie } = useContext(AuthContext);
+interface Count {
+  declined: number;
+  confirmed: number;
+  pending: number;
+}
 
-  const [view, setView] = useState<ViewType>({
-    apply: true,
-    approval: false,
-    refusal: false
-  });
+interface Schedule {
+  scheduleId: number;
+  startTime: string;
+  endTime: string;
+  count: Count;
+}
 
-  const submit = {
-    onSubmit: async () => {
-      dialogRef.current.showModal();
-    },
-    onError: async () => {
-      undefined;
-    }
+type dateReservations = Schedule[];
+
+const ReservationInfoModal = ({ onCancel, ACTIVITYID, ACTIVITYDATE }: any) => {
+  const { GetActivityReservedSchedules } = useMyActivities(ACTIVITYDATE);
+  const { data } = GetActivityReservedSchedules(ACTIVITYID, ACTIVITYDATE);
+  const dateReservations = data?.data || [];
+
+  const sumCounts = (dateReservations: dateReservations) => {
+    return dateReservations.reduce<Count>(
+      (acc, { count }) => {
+        acc.declined += count.declined;
+        acc.confirmed += count.confirmed;
+        acc.pending += count.pending;
+        return acc;
+      },
+      { declined: 0, confirmed: 0, pending: 0 }
+    );
   };
+
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    return `${year}년 ${month}월 ${day}일`;
+  }
+
+  const ReservationsCount = sumCounts(dateReservations);
+
+  const [view, setView] = useState("pending");
+  const [scheduleId, setScheduleId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setScheduleId(undefined);
+  }, [view]);
 
   const currentView = (e: any) => {
-    const clicked = e.target.id;
-
-    (clicked === "apply" || clicked === "approval" || clicked === "refusal") &&
-      setView(() => ({
-        apply: clicked === "apply",
-        approval: clicked === "approval",
-        refusal: clicked === "refusal"
-      }));
+    setView(e.target.id);
+    () => GetActivityReservedSchedules(ACTIVITYID, ACTIVITYDATE);
   };
 
-  const dialogRef = useRef<any>();
+  let filteredDateReservations = dateReservations.filter(
+    (dateReservations: any) => dateReservations.count[view] > 0
+  );
 
-  return ReactDOM.createPortal(
-    <>
-      <div className="absolute top-0 bg-gray-400 opacity-40 w-full h-full">
-        <dialog ref={dialogRef}>
-          <AlertModal
-            type="alert"
-            size="sm"
-            text=""
-            handlerAlertModal={() => {
-              dialogRef.current.close();
-            }}
-          />
-        </dialog>
-      </div>
-      <div className="absolute top-0 w-full h-full">
-        <form
-          onSubmit={submit.onSubmit}
-          className="bg-white-ffffff w-full h-full px-[12px] pt-[35px] pb-[30px] md:border-2 md:border-main md:w-[480px] md:h-[697px] md:px-[24px] md:pt-[28px] md:mx-auto md:my-[100px] md:rounded-lg"
-        >
-          <div className="flex flex-col gap-[55px] md:gap-[25px]">
-            <div className="flex flex-row justify-between h-[40px]">
-              <h1 className="font-bold text-[30px]">예약 정보</h1>
-              <div onClick={onCancel} className="hover: cursor-pointer">
-                <FaXmark size={35} />
-              </div>
-            </div>
-            <div className="flex flex-row justify-start gap-[12px] h-[43px] border-b-2 font-semibold">
-              <div
-                onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.apply && "border-b-[3px] border-main text-main"}`}
-              >
-                <p id="apply">신청 2</p>
-              </div>
-              <div
-                onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.approval && "border-b-[3px] border-main text-main"}`}
-              >
-                <p id="approval">승인 1</p>
-              </div>
-              <div
-                onClick={currentView}
-                className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view.refusal && "border-b-[3px] border-main text-main"}`}
-              >
-                <p id="refusal">거절 1</p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-[10px]">
-              <h1 className="font-bold text-[20px]">예약 날짜</h1>
-              <p className="font-semibold">2023년 12월 12일</p>
-              <Select>
-                <SelectTrigger className="border border-gray-500 h-[56px] rounded-md focus:outline-none placeholder:font-bold">
-                  <SelectValue placeholder="14:00 ~ 15:00" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-[16px]">
-              <h1 className="font-bold text-[20px]">예약 내역</h1>
-              <div className="flex flex-col gap-[14px] h-[250px] overflow-auto scrollbar-hide">
-                {[1, 2, 3, 4].map((item, index): any => (
-                  <div
-                    key={index}
-                    className="border-2 rounded-lg h-[116px] p-[16px]"
-                  >
-                    <div className="flex flex-col gap-[6px] w-[97px]">
-                      <div className="flex felx-row gap-[10px] font-bold text-[14px]">
-                        <p>닉네임</p>
-                        <p>정만철</p>
-                      </div>
-                      <div className="flex felx-row gap-[10px] font-bold text-[14px]">
-                        <p>인원</p>
-                        <p>12명</p>
-                      </div>
-                    </div>
-                    <div className="flex flex-row gap-[8px] justify-end">
-                      <Button text="승인하기" size="sm" type="submit" />
-                      <Button
-                        text="거절하기"
-                        size="sm"
-                        type="submit"
-                        status="second"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-row justify-between h-[40px]">
-              <h1 className="font-bold text-[24px]">예약 현황</h1>
-              <h1 className="font-bold text-[24px]">0/10</h1>
-            </div>
+  return (
+    <div className="bg-white-ffffff w-[300px] h-[697px] px-[24px] pt-[28px] pb-[30px] border-t border-l border-b border-main rounded-l-[70px] md:w-[480px] z-50">
+      <div className="flex flex-col gap-[55px] md:gap-[25px]">
+        <div className="flex flex-row justify-between h-[40px]">
+          <h1 className="font-bold text-[30px]">예약 정보</h1>
+          <div onClick={onCancel} className="hover: cursor-pointer">
+            <FaXmark size={35} />
           </div>
-        </form>
+        </div>
+        <div className="flex flex-row justify-start gap-[12px] h-[43px] border-b-2 font-semibold">
+          <div
+            onClick={currentView}
+            className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view === "pending" && "border-b-[3px] border-main text-main"}`}
+          >
+            <p id="pending">신청 {ReservationsCount.pending}</p>
+          </div>
+          <div
+            onClick={currentView}
+            className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view === "confirmed" && "border-b-[3px] border-main text-main"} ${ReservationsCount.confirmed === 0 && "pointer-events-none cursor-not-allowed"}`}
+          >
+            <p id="confirmed">승인 {ReservationsCount.confirmed}</p>
+          </div>
+          <div
+            onClick={currentView}
+            className={`cursor-pointer hover:cursor-pointer text-gray-500 ${view === "declined" && "border-b-[3px] border-main text-main"} ${ReservationsCount.declined === 0 && "pointer-events-none cursor-not-allowed"}`}
+          >
+            <p id="declined">거절 {ReservationsCount.declined}</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-[10px]">
+          <h1 className="font-bold text-[20px]">예약 날짜</h1>
+          <p className="font-semibold">{formatDate(ACTIVITYDATE)}</p>
+          <Select
+            key={view}
+            value={scheduleId}
+            onValueChange={setScheduleId}
+            disabled={filteredDateReservations.length === 0}
+          >
+            <SelectTrigger className="border border-gray-500 h-[56px] rounded-md focus:outline-none placeholder:font-bold">
+              <SelectValue
+                placeholder={
+                  filteredDateReservations.length === 0
+                    ? "예약 요청이 없습니다"
+                    : "시간을 선택해주세요"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {filteredDateReservations.map(
+                (filteredDateReservations: any, index: number) => (
+                  <SelectItem
+                    value={filteredDateReservations.scheduleId}
+                    key={`key-${index}`}
+                  >
+                    {filteredDateReservations.startTime} -
+                    {filteredDateReservations.endTime}
+                  </SelectItem>
+                )
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-[16px]">
+          <h1 className="font-bold text-[20px]">예약 내역</h1>
+          <ReservationInfoModalDetail
+            activityId={ACTIVITYID}
+            status={view}
+            scheduleId={scheduleId}
+            setScheduleId={setScheduleId}
+            ACTIVITYDATE={ACTIVITYDATE}
+          />
+        </div>
+        <div className="flex flex-row justify-between h-[40px]">
+          <h1 className="font-bold text-[24px]">예약 현황</h1>
+          <h1 className="font-bold text-[24px]">
+            {ReservationsCount.pending +
+              ReservationsCount.confirmed +
+              ReservationsCount.declined}
+          </h1>
+        </div>
       </div>
-    </>,
-    destination
+    </div>
   );
 };
 

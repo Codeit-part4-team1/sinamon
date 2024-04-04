@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-import { useActivities } from "@/hooks/useActivities";
+import { usePostCreateImageUrl } from "@/hooks/activities";
 
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
@@ -19,7 +19,7 @@ const SubImageUrlsField = ({ data }: any) => {
     name: "subImageUrlList"
   });
 
-  const { mutate } = useActivities.createImageUrl(
+  const { mutate } = usePostCreateImageUrl(
     setValue,
     "subImageUrl",
     getValues,
@@ -88,11 +88,11 @@ const SubImageUrlsField = ({ data }: any) => {
               )}
             </div>
             <button
-              className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 rounded-md group-hover:flex"
+              className="hidden absolute w-full top-0 aspect-square justify-center items-center bg-black/50 dark:bg-zinc-800/50 rounded-md group-hover:flex"
               type="button"
               onClick={() => subImageUrlListRemove(index)}
             >
-              <FaXmark className="text-white-ffffff text-xl md:text-2xl" />
+              <FaXmark className="text-white-ffffff dark:text-black text-xl md:text-2xl" />
             </button>
           </li>
         ))}

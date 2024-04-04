@@ -1,11 +1,9 @@
 import { FaStar } from "react-icons/fa";
-import Image from "next/image";
-import profileImage from "../../../../public/images/temp-profile.png";
 import Pagination from "@/components/common/Pagination/Pagination";
 import { getReviews } from "@/api/activities";
 import { GetReviewsParams, ReviewsData } from "@/types/activities";
 import { queryKey } from "@/constants/queryKeys";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Fragment, useState } from "react";
 import Avatar from "@/components/common/Avatar/Avatar";
