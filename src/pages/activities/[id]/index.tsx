@@ -55,7 +55,10 @@ const Activity = ({
               <hr />
               <Map ativityAddress={activityData.address} />
               <hr />
-              <ReviewList activityId={activityId} />
+              <ReviewList
+                activityRating={activityData.rating}
+                activityId={activityId}
+              />
             </div>
             <ReservationDatePicker data={activityData} />
           </main>

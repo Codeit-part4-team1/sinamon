@@ -50,7 +50,6 @@ export const ReservationDatePicker = ({ data }: ActivityDataProp) => {
       dateValue: selectedDateValue,
       activityId: data.id
     });
-  console.log(availableDateData);
 
   const router = useRouter();
   const id = data.id;

@@ -46,3 +46,23 @@ export interface PostReservationParams {
   scheduleId: number;
   headCount: number;
 }
+interface UserInfo {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
+}
+
+export interface Review {
+  id: number;
+  user: UserInfo;
+  activityId: number;
+  content: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ReviewsData {
+  reviews: Review[];
+  aveerageRating: number;
+  totalCount: number;
+}

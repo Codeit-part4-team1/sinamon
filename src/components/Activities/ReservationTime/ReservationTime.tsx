@@ -26,7 +26,6 @@ const ReservationTime = ({
   setValue
 }: AvailableSchedulesProps) => {
   const handleClickTimes = (id: number) => {
-    console.log(1);
     if (setValue) {
       setValue("scheduleId", id);
     }
