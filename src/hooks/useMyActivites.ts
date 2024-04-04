@@ -35,7 +35,7 @@ export const useGetMyActivities = () =>
     queryFn: () => getMyActivities()
   });
 
-export const useMyActivities = (date: string) => {
+export const useMyActivities = (date?: string) => {
   const queryClient = useQueryClient();
 
   const getMyActivities = () =>
