@@ -156,11 +156,12 @@ const ReservationInfoModal = ({
               />
             </div>
             <div className="flex flex-row justify-between h-[40px]">
-              <h1 className="font-bold text-[24px]">예약 현황</h1>
+              <h1 className="font-bold text-[24px]">예약 인원</h1>
               <h1 className="font-bold text-[24px]">
                 {ReservationsCount.pending +
                   ReservationsCount.confirmed +
                   ReservationsCount.declined}
+                명
               </h1>
             </div>
           </div>

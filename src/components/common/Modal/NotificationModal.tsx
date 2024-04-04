@@ -39,17 +39,17 @@ const NotificationModal = () => {
           notifications?.data.notifications.map((item: any) => {
             return (
               <div
-                className="flex flex-col gap-[4px] bg-zinc-50 rounded-md w-[289px] h-[120px] px-[12px] py-[16px]"
+                className="flex flex-col gap-[4px] bg-white-ffffff rounded-md w-[289px] h-[120px] px-[12px] py-[16px]"
                 key={item.id}
               >
                 <div>
                   <div className="flex flex-row justify-between h-[24px]">
                     <GoDotFill
                       size={10}
-                      color={
+                      className={
                         item.content.includes("승인되었습니다.")
-                          ? "blue"
-                          : "red"
+                          ? "text-blue-0085ff"
+                          : "text-red-ff472e"
                       }
                     />
                     <div

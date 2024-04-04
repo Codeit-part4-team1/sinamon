@@ -21,7 +21,7 @@ instance.interceptors.request.use(
       removeCookie("accessToken");
       setCookie("accessToken", result.accessToken, {
         path: "/",
-        maxAge: 60 * 30
+        maxAge: 60 * 20
       });
       setCookie("refreshToken", result.refreshToken, {
         path: "/",
