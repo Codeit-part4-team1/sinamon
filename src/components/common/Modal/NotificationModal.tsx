@@ -32,12 +32,9 @@ const NotificationModal = () => {
     text.length > 44
       ? (result = text.substring(0, 44) + "..")
       : (result = text);
-    console.log(result);
-    console.log(result.length);
     return result;
   };
 
-  // notifications?.data.notifications.content: "4월 모임..";
   return (
     <div className="flex flex-col border border-gray-dddddd rounded-lg bg-sub w-[300px] h-[350px] px-[20px] py-[24px]">
       <div className="flex flex-row justify-between pb-[16px]">
