@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { FaXmark } from "react-icons/fa6";
@@ -36,11 +36,10 @@ type dateReservations = Schedule[];
 
 const ReservationInfoModal = ({
   onCancel,
-  destination,
   ACTIVITYID,
   ACTIVITYDATE
 }: any) => {
-  const { GetActivityReservedSchedules } = useMyActivities();
+  const { GetActivityReservedSchedules } = useMyActivities(ACTIVITYDATE);
   const { data } = GetActivityReservedSchedules(ACTIVITYID, ACTIVITYDATE);
   const dateReservations = data?.data || [];
 
@@ -56,8 +55,6 @@ const ReservationInfoModal = ({
     );
   };
 
-  const firstTime = `${dateReservations[0]?.startTime} - ${dateReservations[0]?.endTime}`;
-
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -70,7 +67,11 @@ const ReservationInfoModal = ({
   const ReservationsCount = sumCounts(dateReservations);
 
   const [view, setView] = useState("pending");
-  const [scheduleId, setScheduleId] = useState(dateReservations[0]?.scheduleId);
+  const [scheduleId, setScheduleId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setScheduleId(undefined);
+  }, [view]);
 
   const currentView = (e: any) => {
     setView(e.target.id);
@@ -81,9 +82,7 @@ const ReservationInfoModal = ({
     (dateReservations: any) => dateReservations.count[view] > 0
   );
 
-  return ReactDOM.createPortal(
-    <>
-      <div className="absolute top-0 bg-gray-400 opacity-40 w-full h-full z-10"></div>
+  return (
       <div className="absolute top-0 w-full h-full z-20">
         <div className="bg-white-ffffff w-full h-full px-[12px] pt-[35px] pb-[30px] md:border-2 md:border-main md:w-[480px] md:h-[697px] md:px-[24px] md:pt-[28px] md:mx-auto md:my-[100px] md:rounded-lg">
           <div className="flex flex-col gap-[55px] md:gap-[25px]">
@@ -117,12 +116,19 @@ const ReservationInfoModal = ({
               <h1 className="font-bold text-[20px]">예약 날짜</h1>
               <p className="font-semibold">{formatDate(ACTIVITYDATE)}</p>
               <Select
-                defaultValue={filteredDateReservations[0]?.scheduleId}
+                key={view}
                 value={scheduleId}
                 onValueChange={setScheduleId}
+                disabled={filteredDateReservations.length === 0}
               >
                 <SelectTrigger className="border border-gray-500 h-[56px] rounded-md focus:outline-none placeholder:font-bold">
-                  <SelectValue placeholder="시간을 선택해주세요" />
+                  <SelectValue
+                    placeholder={
+                      filteredDateReservations.length === 0
+                        ? "예약 요청이 없습니다"
+                        : "시간을 선택해주세요"
+                    }
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {filteredDateReservations.map(
@@ -145,7 +151,8 @@ const ReservationInfoModal = ({
                 activityId={ACTIVITYID}
                 status={view}
                 scheduleId={scheduleId}
-                view={view}
+                setScheduleId={setScheduleId}
+                ACTIVITYDATE={ACTIVITYDATE}
               />
             </div>
             <div className="flex flex-row justify-between h-[40px]">
@@ -159,8 +166,6 @@ const ReservationInfoModal = ({
           </div>
         </div>
       </div>
-    </>,
-    destination
   );
 };
 
