@@ -52,7 +52,7 @@ const ReservationModalUi: React.FC<ReservationModalProps> = ({
     <div
       ref={modalRef}
       // onClick={modalOutsideClick}
-      className="flex flex-col w-full content-center h-full fixed top-0 z-[1] bg-white-ffffff rounded-none px-6 pb-10 pt-6 md:block md:px-7 md:pb-9 md:pt-7 gap-[27px] md:rounded-3xl md:w-[480px] md:h-[600px]  "
+      className="flex flex-col w-full content-center h-full fixed top-0 z-[1] bg-white-ffffff rounded-none px-6 pb-10 pt-6  md:px-7 md:pb-9 md:pt-7 gap-[27px]  md:absolute md:right-3 md:top-[600px] md:rounded-3xl md:w-[480px] md:min-h-[600px] md:max-h-[650px] lg:hidden  "
     >
       <div className="flex justify-between ">
         <h1 className="flex text-black font-bold text-[28px] items-center">
@@ -62,13 +62,13 @@ const ReservationModalUi: React.FC<ReservationModalProps> = ({
           <IoMdClose />
         </button>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         <ReservationCalendar
           dateValue={dateValue}
           setDateValue={setDateValue}
         />
       </div>
-      <div className="mb-56  md:mb-0">
+      <div className="mb-56 md:mb-[71px]">
         <ReservationTime
           setValue={setValue}
           control={control}

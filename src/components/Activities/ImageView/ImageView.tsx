@@ -14,7 +14,7 @@ const ImageView = ({ imageUrl, dialogRef }: ImageViewProps) => {
   return (
     <>
       <dialog
-        className="fixed top-1/2 left-1/2 translate-x-1/2 translate-y-1/2 w-4/5 h-4/5"
+        className="fixed -top-1/2 -left-1/2 translate-x-1/2 translate-y-1/2 w-1/2 h-2/3"
         ref={dialogRef}
         onClick={handleCloseClick}
       >
