@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { useState } from "react";
-import DaumPostcode from "react-daum-postcode";
+import DaumPostcode, {Address} from "react-daum-postcode";
 import { useTheme } from "next-themes";
 
 import {
@@ -19,7 +19,8 @@ const AddressField = () => {
 
   const { control, setValue } = useFormContext();
 
-  const handleComplete = (data: any) => {
+  const handleComplete = (data: Address) => {
+    console.log(data)
     setDialogOpen((prev) => !prev);
     setValue("address", data.address);
   };

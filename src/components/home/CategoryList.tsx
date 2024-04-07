@@ -15,7 +15,7 @@ interface CategoryList {
   id: number;
   name: string;
   size: string;
-  icon: any;
+  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 }
 
 const categories = [
@@ -54,7 +54,7 @@ const categories = [
 
 const CategoryList = ({
   selectedCategory,
-  setSelectedCategory,
+  setSelectedCategory
 }: CategoryListProps) => {
   const handleCategoryClick = (category: CategoryList) => {
     setSelectedCategory((prevSelectedCategory: string) =>
@@ -89,4 +89,3 @@ const CategoryList = ({
 };
 
 export default CategoryList;
-// export default CategoryList;

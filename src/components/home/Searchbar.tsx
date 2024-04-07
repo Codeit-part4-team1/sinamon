@@ -6,22 +6,24 @@ interface SearchbarProps {
   setKeyword: (prev: string) => void;
 }
 
+interface SearchFormData {
+  keyword: string;
+}
+
 const Searchbar = ({ setKeyword }: SearchbarProps) => {
   const {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm();
+  } = useForm<SearchFormData>();
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setKeyword("");
     }
   };
 
-  const onSubmit = (value: any) => {
-    setKeyword(value.keyword);
-  };
+  const onSubmit = (value: SearchFormData) => setKeyword(value.keyword);
 
   return (
     <div className="flex flex-col gap-4 md:gap-6 p-5 pb-7 md:p-8 mb-10 md:mb-14 bg-sub rounded-xl border border-gray-adaeb8">

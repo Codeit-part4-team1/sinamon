@@ -98,3 +98,18 @@ export type GetActivityDetail = {
   updatedAt: string;
   userId: number;
 };
+
+export interface CreatePageSubmitData {
+  title: string;
+  category: string;
+  price: string | number;
+  description: string;
+  address: string;
+  schedules: {
+    date: string;
+    startTime: string | Date;
+    endTime: string | Date;
+  }[];
+  bannerImageUrl: string;
+  subImageUrls?: [];
+}
