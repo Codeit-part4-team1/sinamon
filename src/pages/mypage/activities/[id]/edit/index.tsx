@@ -9,7 +9,6 @@ import { createPageSchema } from "@/constants/schema";
 import { queryKey } from "@/constants/queryKeys";
 import type { NextPageWithLayout } from "@/pages/_app";
 import { getCookie } from "@/utils/cookie";
-import { EditPageSchedule, EditPageSubImage } from "@/types/myActivities";
 import { useGetActivityDetail } from "@/hooks/activities";
 import { patchMyActivityEdit } from "@/hooks/useMyActivites";
 import BaseLayout from "@/components/layout/BaseLayout";
