@@ -43,15 +43,32 @@ export const createPageSchema = z.object({
     .nonempty({
       message: "일정을 등록해 주세요"
     }),
-  schedulesToAdd: z.any().optional(),
-  scheduleIdsToRemove: z.array(z.string()).optional(),
-  schedulesInitial: z.any().optional(),
-  bannerImageSelect: z.any(),
+  schedulesToAdd: z
+    .array(
+      z.object({
+        date: z.string(),
+        startTime: z.date().or(z.string()),
+        endTime: z.date().or(z.string())
+      })
+    )
+    .optional(),
+  scheduleIdsToRemove: z.array(z.number()).optional(),
+  schedulesInitial: z
+    .array(
+      z.object({
+        id: z.number(),
+        date: z.string(),
+        startTime: z.date().or(z.string()),
+        endTime: z.date().or(z.string())
+      })
+    )
+    .optional(),
+  bannerImageSelect: z.custom<File>(),
   bannerImageUrl: z.string().min(1, {
     message: "배너 이미지를 등록해 주세요"
   }),
   bannerImagePreview: z.string(),
-  subImageSelect: z.any(),
+  subImageSelect: z.custom<File>(),
   subImageUrlList: z.array(
     z.object({
       subImagePreview: z.string(),
@@ -59,8 +76,17 @@ export const createPageSchema = z.object({
       id: z.number().optional()
     })
   ),
-  subImageUrls: z.any(),
-  subImageUrlsToAdd: z.any().optional(),
-  subImageIdsToRemove: z.array(z.string()).optional(),
-  subImageiInitial: z.any().optional()
+  subImageUrls: z.array(z.string()).or(z.string()),
+  subImageUrlsToAdd: z.array(z.string()).optional(),
+  subImageIdsToRemove: z.array(z.number().optional()).optional(),
+  subImageiInitial: z
+    .array(
+      z.object({
+        id: z.number().optional(),
+        imageUrl: z.string(),
+        subImagePreview: z.string(),
+        subImageUrl: z.string()
+      })
+    )
+    .optional()
 });

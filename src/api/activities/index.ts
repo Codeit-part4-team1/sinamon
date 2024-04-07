@@ -1,9 +1,11 @@
 import { instance } from "@/lib/axios";
 import {
   Activity,
+  CreatePageSubmitData,
   GetAvailableDateParams,
   GetReviewsParams,
-  PostReservationParams
+  PostReservationParams,
+  getActivitiesListParams
 } from "@/types/activities";
 export const getActivitiesList = async (
   method: string,
@@ -13,7 +15,7 @@ export const getActivitiesList = async (
   category: string | null,
   keyword: string
 ) => {
-  const params: any = {
+  const params: getActivitiesListParams = {
     method: method,
     category: category,
     sort: sort,
@@ -40,7 +42,7 @@ export const getCurationActivitiesList = async (
   return res.data;
 };
 
-export const postActivities = async (value: any) => {
+export const postActivities = async (value: CreatePageSubmitData) => {
   const res = instance.post("/activities", value);
   return res;
 };
@@ -50,13 +52,7 @@ export const getActivityDetail = async (id: number) => {
   return res.data;
 };
 
-// 체험 예약 가능일 조회 api
-
-// 체험 리뷰 조회 api
-
-// 체험 예약 신청 api
-
-export const postCreateImageUrl = async (value: any) => {
+export const postCreateImageUrl = async (value: FormData) => {
   const res = await instance.post("/activities/image", value, {
     headers: {
       "Content-Type": "multipart/form-data"

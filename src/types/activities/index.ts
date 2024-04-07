@@ -111,5 +111,14 @@ export interface CreatePageSubmitData {
     endTime: string | Date;
   }[];
   bannerImageUrl: string;
-  subImageUrls?: [];
+  subImageUrls?: string | string[];
+}
+
+export interface getActivitiesListParams {
+  method: string;
+  category: string | null;
+  sort: string;
+  page: number;
+  size: number;
+  keyword?: string;
 }

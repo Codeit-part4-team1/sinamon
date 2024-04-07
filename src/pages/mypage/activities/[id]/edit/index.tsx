@@ -121,12 +121,12 @@ const EditPage: NextPageWithLayout = () => {
 
     const remainSchedules = values.schedules.map((schedule) => schedule.id);
 
-    const InitialSchedules = values.schedulesInitial.map(
-      (schedule: EditPageSchedule) => schedule.id
+    const InitialSchedules = values.schedulesInitial?.map(
+      (schedule) => schedule.id
     );
 
-    values.scheduleIdsToRemove = InitialSchedules.filter(
-      (schedule: undefined) => !remainSchedules.includes(schedule)
+    values.scheduleIdsToRemove = InitialSchedules?.filter(
+      (schedule) => !remainSchedules.includes(schedule)
     );
 
     values.subImageUrlsToAdd = values.subImageUrlList
@@ -137,12 +137,12 @@ const EditPage: NextPageWithLayout = () => {
       (subImageUrl) => subImageUrl.id
     );
 
-    const InitialsubImages = values.subImageiInitial.map(
-      (subImage: EditPageSubImage) => subImage.id
+    const InitialsubImages = values.subImageiInitial?.map(
+      (subImage) => subImage.id
     );
 
-    values.subImageIdsToRemove = InitialsubImages.filter(
-      (subImage: undefined) => !remainSubImages.includes(subImage)
+    values.subImageIdsToRemove = InitialsubImages?.filter(
+      (subImage) => !remainSubImages.includes(subImage)
     );
 
     values.price = Number(form.watch("price"));
