@@ -1,5 +1,8 @@
+import { UseFormReturn } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
+import { CreatePageSubmitData, GetReviewsParams } from "@/types/activities";
+import { queryKey } from "@/constants/queryKeys";
 import {
   getActivitiesList,
   postActivities,
@@ -8,8 +11,6 @@ import {
   postCreateImageUrl,
   getReviews
 } from "@/api/activities";
-import { queryKey } from "@/constants/queryKeys";
-import { GetReviewsParams } from "@/types/activities";
 
 export const useGetActivitiesList = (
   method: string,
@@ -43,7 +44,7 @@ export const useGetCurationActivitiesList = (
 
 export const usePostActivities = (handleSuccess: () => void) =>
   useMutation({
-    mutationFn: (value: any) => postActivities(value),
+    mutationFn: (value: CreatePageSubmitData) => postActivities(value),
     onSuccess() {
       handleSuccess();
     }
@@ -63,13 +64,13 @@ export const useGetActivityDetail = (id: number) =>
 // 체험 예약 신청 hook
 
 export const usePostCreateImageUrl = (
-  setValue: any,
+  setValue: UseFormReturn["setValue"],
   imageName: string,
   getValues?: any,
   subImageUrlListAppend?: any
 ) =>
   useMutation({
-    mutationFn: (value: any) => postCreateImageUrl(value),
+    mutationFn: (value: FormData) => postCreateImageUrl(value),
     onSuccess(data) {
       imageName == "bannerImageUrl"
         ? setValue(imageName, data.activityImageUrl)
