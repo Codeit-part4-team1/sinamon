@@ -18,6 +18,26 @@
 <br>
 
 ## :people_holding_hands: 팀원
-|김현수|노진욱|우준석|유미정
-|:---:|:---:|:---:|:---:|
-|[Hyunsoo-k](https://github.com/Hyunsoo-k)|[Jinuk-develop](https://github.com/Jinuk-develop)|[suk3952111](https://github.com/suk3952111)|[ymj0828](https://github.com/ymj0828)|
+
+### 김현수 [Hyunsoo-k](https://github.com/Hyunsoo-k)
+- 로그인
+- 회원가입
+- 내 정보 수정
+- 예약 현황
+- React-Hook-form, React-Big-Calendar
+
+### 노진욱 [Jinuk-develop](https://github.com/Jinuk-develop)
+- 모임 상세
+- React-Hook-Form, Day Picker, Naver 지도, shadcn
+
+### 우준석 [suk3952111](https://github.com/suk3952111)
+- 참여 내역
+- 내 모임 관리
+- 모집 현황
+- shadcn
+
+### 유미정 [ymj0828](https://github.com/ymj0828)
+- 메인 페이지
+- 모임 등록
+- 모임 수정
+- React-Hook-Form, Zod, Kakao 주소, Date Picker, Next Theme, shadcn
