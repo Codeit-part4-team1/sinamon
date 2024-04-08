@@ -129,7 +129,7 @@ const ReservationCard: React.FC<ReservationType> = ({
       {isCancelModalVisible && (
         <div className="absolute flex align-middle justify-center">
           <div className="fixed inset-0 z-10 flex items-center justify-center">
-            <div className="z-20 bg-black opacity-50 w-full h-full absolute"></div>
+            <div className="z-20 bg-black opacity-50 w-full h-full absolute dark:bg-zinc-950 dark:opacity-70"></div>
             <div className="z-30">
               <AlertModal
                 type="decide"

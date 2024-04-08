@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,7 @@ import SchedulesField from "@/components/create/SchedulesField";
 import BannerImageUrlField from "@/components/create/BannerImageUrlField";
 import SubImageUrlsField from "@/components/create/SubImageUrlsField";
 import ConfirmModal from "@/components/common/Modal/ConfirmModal";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const EditPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -120,12 +120,12 @@ const EditPage: NextPageWithLayout = () => {
 
     const remainSchedules = values.schedules.map((schedule) => schedule.id);
 
-    const InitialSchedules = values.schedulesInitial.map(
-      (schedule: any) => schedule.id
+    const InitialSchedules = values.schedulesInitial?.map(
+      (schedule) => schedule.id
     );
 
-    values.scheduleIdsToRemove = InitialSchedules.filter(
-      (schedule: any) => !remainSchedules.includes(schedule)
+    values.scheduleIdsToRemove = InitialSchedules?.filter(
+      (schedule) => !remainSchedules.includes(schedule)
     );
 
     values.subImageUrlsToAdd = values.subImageUrlList
@@ -136,12 +136,12 @@ const EditPage: NextPageWithLayout = () => {
       (subImageUrl) => subImageUrl.id
     );
 
-    const InitialsubImages = values.subImageiInitial.map(
-      (subImage: any) => subImage.id
+    const InitialsubImages = values.subImageiInitial?.map(
+      (subImage) => subImage.id
     );
 
-    values.subImageIdsToRemove = InitialsubImages.filter(
-      (subImage: any) => !remainSubImages.includes(subImage)
+    values.subImageIdsToRemove = InitialsubImages?.filter(
+      (subImage) => !remainSubImages.includes(subImage)
     );
 
     values.price = Number(form.watch("price"));
@@ -164,8 +164,6 @@ const EditPage: NextPageWithLayout = () => {
 
     mutate(newCreateData);
   }
-
-  const dialogRef = useRef<any>();
 
   return (
     <>
@@ -209,7 +207,7 @@ const EditPage: NextPageWithLayout = () => {
           <AddressField />
           <SchedulesField data={data?.schedules} />
           <BannerImageUrlField />
-          <SubImageUrlsField edit={"edit"} data={data?.subImages} />
+          <SubImageUrlsField data={data?.subImages} />
           <Button
             text="수정하기"
             className="w-full md:w-96 h-12 mx-auto mt-8"

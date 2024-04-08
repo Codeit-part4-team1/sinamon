@@ -54,7 +54,7 @@ const CreatePage: NextPageWithLayout = () => {
   }
 
   const handleSuccess = () => {
-    dialogRef.current.showModal();
+    dialogRef.current?.showModal();
     queryClient.invalidateQueries({
       queryKey: queryKey.myActivities,
       refetchType: "inactive"
@@ -83,7 +83,7 @@ const CreatePage: NextPageWithLayout = () => {
     mutate(newCreateData);
   }
 
-  const dialogRef = useRef<any>();
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   return (
     <>

@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
+import { EditPageSubImageUrls } from "@/types/myActivities";
 import { usePostCreateImageUrl } from "@/hooks/activities";
 
 import { FaPlus, FaXmark } from "react-icons/fa6";
 
-const SubImageUrlsField = ({ data }: any) => {
+const SubImageUrlsField = ({ data }: EditPageSubImageUrls) => {
   const { control, register, watch, getValues, setValue } = useFormContext();
 
   const {
@@ -37,7 +38,7 @@ const SubImageUrlsField = ({ data }: any) => {
   useEffect(() => {
     if (data) {
       subImageUrlListRePlace(data);
-      data.forEach((subImage: any, index: any) => {
+      data.forEach((subImage, index) => {
         setValue(`subImageUrlList.${index}.subImagePreview`, subImage.imageUrl);
         setValue(`subImageUrlList.${index}.subImageUrl`, subImage.imageUrl);
         setValue(`subImageUrls`, subImage.imageUrl);
