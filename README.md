@@ -68,7 +68,7 @@
 ##  주요 기능 시연
 
 메인 페이지
-https://github.com/Codeit-part4-team1/synamon/assets/145626840/163976b8-380e-404f-abce-00c8c84ff38d
+https://github.com/Codeit-part4-team1/synamon/assets/145626840/d0e40f2e-164e-46cc-ada4-2a48eba80005
 
 모임 등록
 https://github.com/Codeit-part4-team1/synamon/assets/145626840/7974da7b-0f9c-45ff-b7a3-c8588d888371
