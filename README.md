@@ -23,7 +23,7 @@
 - 로그인
 - 회원가입
 - 내 정보 수정
-- 예약 현황
+- 모집 현황
 - React-Hook-form, React-Big-Calendar
 
 ### 노진욱 [Jinuk-develop](https://github.com/Jinuk-develop)
