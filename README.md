@@ -65,25 +65,50 @@
 
 <br>
 
-##  주요 기능 시연
+## 🧑‍💻 주요 기능 시연
 
-- 메인 페이지
+### 메인 페이지
   
 https://github.com/Codeit-part4-team1/synamon/assets/145626840/d0e40f2e-164e-46cc-ada4-2a48eba80005
 
-- 모임 등록
+### 모임 등록
   
 https://github.com/Codeit-part4-team1/synamon/assets/145626840/7974da7b-0f9c-45ff-b7a3-c8588d888371
 
-- 모집 현황
+### 모집 현황
   
 https://github.com/Codeit-part4-team1/synamon/assets/145626840/50a0488d-bbb4-40cf-a14d-dcba2f1b72a4
 
-- 다크 테마 변환
+### 다크 테마 변환
   
 https://github.com/Codeit-part4-team1/synamon/assets/145626840/c953e5aa-06d2-4990-aa60-2a119ea08274
 
 <br>
 
-##  폴더 구조
+## 📁 폴더 구조
+```
+Synamon
+├─ public
+│  └─ images                # 이미지, 아이콘 리소스
+├─ src
+│  ├─ apis                  # API 사용을 위한 세팅
+│  ├─ components            # 공용 컴포넌트
+│  ├─ constants             # 재사용 모음
+│  ├─ hooks                 # 커스텀 훅
+│  ├─ lib                   # axios instance 모음
+│  ├─ pages                 # 페이지 모음
+│  ├─ styles                # 스타일 전역 파일
+│  ├─ types                 # 주요 type
+└─ └─ utils                 # 기타 유틸리티
+```
 
+<br>
+
+## 🖥️ 프로젝트 실행 방법
+```bash
+git clone https://github.com/Codeit-part4-team1/synamon.git
+
+npm i
+
+npm run dev
+```
