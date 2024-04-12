@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline } from "@react-icons/all-files/io5/IoSearchOutline";
 
 interface SearchbarProps {
   setKeyword: (prev: string) => void;

@@ -6,7 +6,7 @@ import { queryKey } from "@/constants/queryKeys";
 import { AxiosError } from "axios";
 
 import { HiMenu } from "react-icons/hi";
-import { FaStar } from "react-icons/fa";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { IoLocation } from "react-icons/io5";
 import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 

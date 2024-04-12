@@ -1,4 +1,4 @@
-import { FaStar } from "react-icons/fa";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import Pagination from "@/components/common/Pagination/Pagination";
 import { getReviews } from "@/api/activities";
 import { GetReviewsParams, Review, ReviewsData } from "@/types/activities";
