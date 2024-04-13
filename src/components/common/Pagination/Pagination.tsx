@@ -1,4 +1,5 @@
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
+import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
 import { cn } from "@/lib/utils";
 

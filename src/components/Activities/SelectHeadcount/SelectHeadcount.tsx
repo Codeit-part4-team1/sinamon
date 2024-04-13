@@ -1,7 +1,7 @@
 import { Control, Controller, UseFormSetValue } from "react-hook-form";
 
-import { FaMinus } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "@react-icons/all-files/fa/FaMinus";
+import { FaPlus } from "@react-icons/all-files/fa/FaPlus";
 import { PostReservationData } from "@/components/Activities/ReservationPicker/ReservationDatePicker";
 
 interface SelectHeadcountProp {

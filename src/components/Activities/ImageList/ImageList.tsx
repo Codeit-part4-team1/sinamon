@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { GetActivityDetail } from "@/types/activities";
 import ImageView from "@/components/Activities/ImageView/ImageView";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "@react-icons/all-files/fa/FaArrowLeft";
+import { FaArrowRight } from "@react-icons/all-files/fa/FaArrowRight";
 
 interface ImageFieldProps {
   data: GetActivityDetail;
