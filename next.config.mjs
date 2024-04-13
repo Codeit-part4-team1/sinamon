@@ -11,7 +11,8 @@ const nextConfig = {
         port: "",
         pathname: "/globalnomad/**"
       }
-    ]
+    ],
+    formats: ["image/avif", "image/webp"]
   },
   webpack: (config) => {
     config.module.rules.push({

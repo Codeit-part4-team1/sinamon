@@ -1,12 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { myNotifications } from "@/hooks/useMyNotifications";
 import { useGetUser } from "@/hooks/users";
 import Button from "@/components/common/Button/Button";
 import Avatar from "@/components/common/Avatar/Avatar";
-import NotificationModal from "../common/Modal/NotificationModal";
-import ProfileModal from "@/components/common/Modal/ProfileModal";
 import {
   Popover,
   PopoverContent,
@@ -15,7 +14,16 @@ import {
 } from "@/components/ui/popover";
 
 import { GoDotFill } from "react-icons/go";
-import { IoNotificationsOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "@react-icons/all-files/io5/IoNotificationsOutline";
+
+const NotificationModal = dynamic(
+  () => import("@/components/common/Modal/NotificationModal"),
+  { ssr: false }
+);
+const ProfileModal = dynamic(
+  () => import("@/components/common/Modal/ProfileModal"),
+  { ssr: false }
+);
 
 const Header = () => {
   const { data: user } = useGetUser();

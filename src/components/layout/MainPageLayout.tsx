@@ -30,9 +30,10 @@ const MainPageLayout = ({ children }: MainPageLayoutProps) => {
         </div>
         <Image
           className="object-cover"
-          src={"/images/temp-active-preview.png"}
+          src={"/images/temp-active-preview.avif"}
           alt="temp-active-preview"
           fill
+          priority
         />
       </div>
       <main className="px-4 md:px-6">

@@ -47,7 +47,7 @@ const ReservationCard: React.FC<ReservationType> = ({
     setReviewModalVisible((prev) => !prev);
   };
 
-  const defaultImage = "/images/temp-active-preview.png";
+  const defaultImage = "/images/temp-active-preview.avif";
 
   const handleError = () => {
     setImageSrc(defaultImage);
